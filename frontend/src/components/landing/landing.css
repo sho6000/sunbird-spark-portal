@@ -20,22 +20,22 @@
 
 /* ── DynamicResourceSection ─────────────────────────────────── */
 .resource-section {
-    @apply pt-[1.875rem] pb-[1.875rem] bg-sunbird-beige-light;
+    @apply pt-[1.875rem] pb-[1.875rem] bg-sunbird-theme-tint;
 }
 
 /* Full-bleed variant: overrides home-content-wrapper's horizontal padding */
 .resource-section-home {
-    @apply pt-[1.875rem] pb-[1.875rem] bg-sunbird-beige-light;
+    @apply pt-[1.875rem] pb-[1.875rem] bg-sunbird-theme-tint;
     margin-left: calc(-1 * var(--hcw-pl, 1rem));
     margin-right: calc(-1 * var(--hcw-pr, 1rem));
 }
 
 .resource-section-skeleton {
-    @apply pt-[1.875rem] pb-[1.875rem] bg-sunbird-beige-light animate-pulse;
+    @apply pt-[1.875rem] pb-[1.875rem] bg-sunbird-theme-tint animate-pulse;
 }
 
 .resource-section-skeleton-home {
-    @apply pt-[1.875rem] pb-[1.875rem] bg-sunbird-beige-light animate-pulse;
+    @apply pt-[1.875rem] pb-[1.875rem] bg-sunbird-theme-tint animate-pulse;
     margin-left: calc(-1 * var(--hcw-pl, 1rem));
     margin-right: calc(-1 * var(--hcw-pr, 1rem));
 }
@@ -127,7 +127,7 @@
 }
 
 .category-view-all-circle {
-    @apply rounded-full text-white flex items-center justify-center transition-transform hover:scale-105 w-[3.6875rem] h-[3.6875rem] bg-sunbird-brick;
+    @apply rounded-full text-white flex items-center justify-center transition-transform hover:scale-105 w-[3.6875rem] h-[3.6875rem] bg-sunbird-theme-accent;
 }
 
 .category-view-all-icon {

@@ -113,11 +113,11 @@ const CourseRow = ({ course, downloadCertificate, hasCertificate, downloadingCou
                         onClick={() => { downloadCertificate(course.courseId, course.batchId, title, course.issuedCertificates, course.completedOn); }}
                     >
                         {isDownloading ? (
-                            <div className="w-[1.125rem] h-[1.125rem] border-2 border-sunbird-ginger border-t-transparent rounded-full animate-spin" />
+                            <div className="w-[1.125rem] h-[1.125rem] border-2 border-sunbird-theme-accent-muted border-t-transparent rounded-full animate-spin" />
                         ) : (
-                            <FiDownload className="w-[1.125rem] h-[1.125rem] text-sunbird-ginger" />
+                            <FiDownload className="w-[1.125rem] h-[1.125rem] text-sunbird-theme-accent-muted" />
                         )}
-                        <span className="font-rubik font-medium text-[0.875rem] leading-none tracking-normal text-sunbird-brick text-center whitespace-nowrap">
+                        <span className="font-rubik font-medium text-[0.875rem] leading-none tracking-normal text-sunbird-theme-accent text-center whitespace-nowrap">
                             {isDownloading ? t('profileLearning.downloading') : t('common.downloadCertificate')}
                         </span>
                     </button>
@@ -176,12 +176,12 @@ const ProfileLearningList = () => {
                                                 ? t('status.notStarted')
                                                 : t('status.completed')}
                                 </span>
-                                <FiChevronDown className="w-4 h-4 text-sunbird-brick" />
+                                <FiChevronDown className="w-4 h-4 text-sunbird-theme-accent" />
                             </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-[8.75rem] bg-white z-50">
                             <DropdownMenuItem
-                                className="cursor-pointer hover:bg-sunbird-ginger/10 hover:text-sunbird-ginger"
+                                className="cursor-pointer hover:bg-sunbird-theme-accent-muted/10 hover:text-sunbird-theme-accent-muted"
                                 onClick={() => {
                                     setFilter("all");
                                     setShowAll(false);
@@ -190,7 +190,7 @@ const ProfileLearningList = () => {
                                 {t('tabs.all')}
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                                className="cursor-pointer hover:bg-sunbird-ginger/10 hover:text-sunbird-ginger"
+                                className="cursor-pointer hover:bg-sunbird-theme-accent-muted/10 hover:text-sunbird-theme-accent-muted"
                                 onClick={() => {
                                     setFilter("not-started");
                                     setShowAll(false);
@@ -199,7 +199,7 @@ const ProfileLearningList = () => {
                                 {t('status.notStarted')}
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                                className="cursor-pointer hover:bg-sunbird-ginger/10 hover:text-sunbird-ginger"
+                                className="cursor-pointer hover:bg-sunbird-theme-accent-muted/10 hover:text-sunbird-theme-accent-muted"
                                 onClick={() => {
                                     setFilter("ongoing");
                                     setShowAll(false);
@@ -208,7 +208,7 @@ const ProfileLearningList = () => {
                                 {t('status.ongoing')}
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                                className="cursor-pointer hover:bg-sunbird-ginger/10 hover:text-sunbird-ginger"
+                                className="cursor-pointer hover:bg-sunbird-theme-accent-muted/10 hover:text-sunbird-theme-accent-muted"
                                 onClick={() => {
                                     setFilter("completed");
                                     setShowAll(false);

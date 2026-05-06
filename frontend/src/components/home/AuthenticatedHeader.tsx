@@ -45,7 +45,7 @@ const AuthenticatedHeader = ({ isSidebarOpen, onToggleSidebar }: AuthenticatedHe
                     {isMobile && (
                         <button
                             onClick={onToggleSidebar}
-                            className="text-sunbird-brick hover:text-sunbird-brick/90 transition-colors p-1"
+                            className="text-sunbird-theme-accent hover:text-sunbird-theme-accent/90 transition-colors p-1"
                             aria-label={t("homeComponents.openMenu")}
                             data-edataid="mobile-sidebar-toggle"
                             data-pageid="header"
@@ -79,7 +79,7 @@ const AuthenticatedHeader = ({ isSidebarOpen, onToggleSidebar }: AuthenticatedHe
                         <DropdownMenuTrigger asChild>
                             <button className="profile-lang-btn" data-edataid="language-dropdown-btn" data-edatatype="CLICK">
                                 <img src={translationIcon} alt={t("changeLanguage")} className="profile-action-icon" />
-                                <FiChevronDown className="w-4 h-4 text-sunbird-brick" />
+                                <FiChevronDown className="w-4 h-4 text-sunbird-theme-accent" />
                             </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="profile-dropdown-content w-40">

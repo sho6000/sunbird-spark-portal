@@ -184,7 +184,7 @@ const ExploreGrid = ({ filters, query, sortBy }: ExploreGridProps) => {
             
             <div ref={observerTarget} className="h-10 w-full flex items-center justify-center mt-6">
                  {isFetchingMore && (
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sunbird-brick"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sunbird-theme-accent"></div>
                 )}
                 {!hasMore && !isFetchingMore && displayItems.length > 0 && (
                     <p className="text-muted-foreground text-sm">{t('exploreGrid.noMoreContent')}</p>

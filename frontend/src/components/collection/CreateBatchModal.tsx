@@ -38,7 +38,7 @@ const makeInitialForm = (batch?: Batch): BatchFormState => ({
 });
 
 const labelClass = "block text-sm font-medium text-sunbird-obsidian mb-1 font-rubik";
-const inputClass = "w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-sunbird-brick/40 focus:border-sunbird-brick bg-white font-rubik";
+const inputClass = "w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-sunbird-theme-accent/40 focus:border-sunbird-theme-accent bg-white font-rubik";
 
 const CreateBatchModal = ({ open, onOpenChange, collectionId, initialBatch }: CreateBatchModalProps) => {
   const isEditMode = !!initialBatch;
@@ -123,7 +123,7 @@ const CreateBatchModal = ({ open, onOpenChange, collectionId, initialBatch }: Cr
               <div className="px-4 py-3"><SwitchRow id="issueCertificate" label={t('createBatch.issueCertificate')} checked={form.issueCertificate} onChange={(v) => handleField("issueCertificate", v)} disabled={isOnlyMentor} /></div>
               <div className="px-4 py-3 text-sm flex items-center justify-between gap-4 font-rubik">
                 <span className="font-medium text-foreground">{t('createBatch.batchType')}</span>
-                <span className="font-medium text-sunbird-brick">{t('createBatch.batchTypeOpen')}</span>
+                <span className="font-medium text-sunbird-theme-accent">{t('createBatch.batchTypeOpen')}</span>
               </div>
             </div>
             <MentorSection mentorsLoading={mentorsLoading} allMentors={allMentors} mentorQuery={mentorQuery} setMentorQuery={setMentorQuery} selectedMentorIds={form.selectedMentorIds} toggleMentor={toggleMentor} labelClass={labelClass} inputClass={inputClass} disabled={isOnlyMentor} />
@@ -136,7 +136,7 @@ const CreateBatchModal = ({ open, onOpenChange, collectionId, initialBatch }: Cr
                 {isOnlyMentor ? t('createBatch.close') : t('createBatch.cancel')}
               </button>
               {!isOnlyMentor && (
-                <button type="submit" disabled={isSubmitDisabled} className={cn("inline-flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium text-white transition-colors font-rubik", isSubmitDisabled ? "bg-sunbird-brick/40 cursor-not-allowed" : "bg-sunbird-brick hover:bg-opacity-90")}>
+                <button type="submit" disabled={isSubmitDisabled} className={cn("inline-flex items-center gap-2 rounded-lg px-5 py-2 text-sm font-medium text-white transition-colors font-rubik", isSubmitDisabled ? "bg-sunbird-theme-accent/40 cursor-not-allowed" : "bg-sunbird-theme-accent hover:bg-opacity-90")}>
                   {isPending && <FiLoader className="w-4 h-4 animate-spin" />}
                   {isPending ? (isEditMode ? t('createBatch.saving') : t('createBatch.creating')) : (isEditMode ? t('createBatch.saveChanges') : t('createBatch.create'))}
                 </button>

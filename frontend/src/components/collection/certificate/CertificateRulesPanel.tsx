@@ -4,7 +4,7 @@ import { IssueTo } from "./types";
 import { useAppI18n } from "@/hooks/useAppI18n";
 
 const labelClass = "block text-sm font-medium text-sunbird-obsidian mb-1 font-rubik";
-const inputClass = "w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-sunbird-brick/40 focus:border-sunbird-brick bg-white font-rubik";
+const inputClass = "w-full rounded-lg border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-sunbird-theme-accent/40 focus:border-sunbird-theme-accent bg-white font-rubik";
 
 interface CertificateRulesPanelProps {
   issueTo: IssueTo;
@@ -78,7 +78,7 @@ export function CertificateRulesPanel({
           <button
             type="button"
             onClick={() => setEnableScoreRule(true)}
-            className="flex items-center gap-1 text-sm font-medium text-sunbird-brick hover:underline font-rubik"
+            className="flex items-center gap-1 text-sm font-medium text-sunbird-theme-accent hover:underline font-rubik"
           >
             {t('certificate.addScoreRule')}
           </button>
@@ -137,7 +137,7 @@ export function CertificateRulesPanel({
               type="checkbox"
               checked={issueToAccepted}
               onChange={(e) => setIssueToAccepted(e.target.checked)}
-              className="mt-0.5 h-4 w-4 shrink-0 rounded border-amber-400 accent-sunbird-brick cursor-pointer"
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-amber-400 accent-sunbird-theme-accent cursor-pointer"
             />
             <span className="text-xs text-amber-800 font-rubik leading-relaxed">
               {t('certificate.rulesConsent')}
@@ -151,7 +151,7 @@ export function CertificateRulesPanel({
         <div
           className={cn(
             "rounded-xl border-2 border-dashed overflow-hidden transition-all",
-            selectedTemplate ? "border-sunbird-brick/40 bg-white" : "border-border bg-gray-50"
+            selectedTemplate ? "border-sunbird-theme-accent/40 bg-white" : "border-border bg-gray-50"
           )}
         >
           {selectedTemplate ? (

@@ -20,7 +20,7 @@ const ResourceCenter = () => {
     const { t } = useAppI18n();
 
     return (
-        <section className="pt-[1.875rem] pb-[1.875rem] bg-sunbird-beige-light">
+        <section className="pt-[1.875rem] pb-[1.875rem] bg-sunbird-theme-tint">
             <div className="w-full px-4 lg:pl-[7.9375rem] lg:pr-[7.9375rem]">
 
                 <div className="flex items-center justify-center gap-4 mb-[1.25rem]">

@@ -108,7 +108,7 @@ const HeroStats = () => {
                     className={`absolute bottom-0 right-0 
                         w-[3.5rem] h-[3.5rem] 
                         rounded-full 
-                        bg-sunbird-brick 
+                        bg-sunbird-theme-accent 
                         text-white 
                         flex items-center justify-center 
                         shadow-lg

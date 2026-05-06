@@ -25,7 +25,7 @@ const SidebarCloseButton = ({ onClick, collapsed = false }: SidebarCloseButtonPr
             <button
                 onClick={onClick}
                 aria-label={collapsed ? t("sidebar.expand") : t("sidebar.collapse")}
-                className="w-[1.5rem] h-[1.5rem] bg-sunbird-gray-ef rounded-full flex items-center justify-center shadow-sm text-sunbird-brick hover:opacity-80 transition-opacity"
+                className="w-[1.5rem] h-[1.5rem] bg-sunbird-gray-ef rounded-full flex items-center justify-center shadow-sm text-sunbird-theme-accent hover:opacity-80 transition-opacity"
             >
                 <svg
                     width="6"

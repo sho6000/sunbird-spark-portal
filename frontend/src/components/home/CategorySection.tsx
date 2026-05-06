@@ -73,7 +73,7 @@ const CategorySection = () => {
             style={{ paddingTop: '1.0625rem', paddingBottom: '0rem' }}
           >
             <div
-              className="rounded-full text-white flex items-center justify-center transition-transform hover:scale-105 w-[3.6875rem] h-[3.6875rem] bg-sunbird-brick"
+              className="rounded-full text-white flex items-center justify-center transition-transform hover:scale-105 w-[3.6875rem] h-[3.6875rem] bg-sunbird-theme-accent"
             >
               <FiArrowRight className="w-6 h-6" />
             </div>

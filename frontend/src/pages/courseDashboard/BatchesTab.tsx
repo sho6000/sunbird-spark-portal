@@ -82,7 +82,7 @@ const BatchesTab: React.FC<BatchesTabProps> = ({ collectionId }) => {
         ) : (
           <Select onValueChange={handleBatchSelect}>
             <SelectTrigger
-              className="w-full max-w-md bg-white border-border focus:ring-sunbird-brick"
+              className="w-full max-w-md bg-white border-border focus:ring-sunbird-theme-accent"
               data-testid="batch-select-trigger"
             >
               <SelectValue placeholder={t('batchesTab.chooseToViewReport')} />

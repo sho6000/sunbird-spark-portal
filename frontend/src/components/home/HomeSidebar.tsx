@@ -105,7 +105,7 @@ const HomeSidebar = ({ activeNav, onNavChange, collapsed = false, onToggle }: Ho
                                 w-full flex items-center transition-all
                                 ${collapsed ? 'justify-center px-2 py-4' : 'gap-3 px-6 py-4'}
                                 ${isActive
-                                    ? "text-sunbird-brick font-normal shadow-sunbird-sm"
+                                    ? "text-sunbird-theme-accent font-normal shadow-sunbird-sm"
                                     : "text-sunbird-obsidian font-normal hover:bg-gray-50 hover:shadow-sunbird-sm"
                                 }
                             `}
@@ -113,7 +113,7 @@ const HomeSidebar = ({ activeNav, onNavChange, collapsed = false, onToggle }: Ho
                             data-edataid={`nav-${item.id}`}
                             data-pageid="sidebar"
                         >
-                            <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? "text-sunbird-brick" : "text-sunbird-ginger"}`} />
+                            <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? "text-sunbird-theme-accent" : "text-sunbird-theme-accent-muted"}`} />
                             {!collapsed && <span className="text-[1.125rem] whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>}
                         </button>
                     </li>

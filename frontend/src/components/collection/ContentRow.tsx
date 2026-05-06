@@ -65,7 +65,7 @@ export default function ContentRow({
     : isDisabledByAttempts
       ? "flex items-center gap-3 rounded-[0.625rem] px-4 py-3 w-full h-[4.375rem] border border-transparent bg-white shadow-sunbird-sm cursor-not-allowed select-none"
       : `flex items-center gap-3 rounded-[0.625rem] px-4 py-3 w-full h-[4.375rem] ${isActive
-        ? "border border-sunbird-brick bg-white shadow-sunbird-sm opacity-100"
+        ? "border border-sunbird-theme-accent bg-white shadow-sunbird-sm opacity-100"
         : "border border-transparent bg-white shadow-sunbird-sm opacity-90"
       }`;
   const interactiveClass = contentBlocked ? "" : (isDisabledByAttempts ? "" : "hover:bg-gray-200 transition-colors cursor-pointer");

@@ -37,7 +37,7 @@ export const CONTENT_TYPE_CARD_COLORS: Record<
   { bg: string; text: string }
 > = {
   course: { bg: 'bg-sunbird-wave/10', text: 'text-sunbird-ink' },
-  content: { bg: 'bg-sunbird-ginger/10', text: 'text-sunbird-brick' },
+  content: { bg: 'bg-sunbird-theme-accent-muted/10', text: 'text-sunbird-theme-accent' },
   quiz: { bg: 'bg-sunbird-lavender/10', text: 'text-sunbird-lavender' },
   collection: { bg: 'bg-sunbird-moss/10', text: 'text-sunbird-forest' },
 };
@@ -65,8 +65,8 @@ export const getStatusConfig = (t: (key: string) => string): Record<
   review: {
     label: t('status.inReview'),
     bg: 'bg-sunbird-sunflower/20',
-    text: 'text-sunbird-brick',
-    dot: 'bg-sunbird-ginger',
+    text: 'text-sunbird-theme-accent',
+    dot: 'bg-sunbird-theme-accent-muted',
   },
   published: {
     label: t('status.published'),
@@ -77,8 +77,8 @@ export const getStatusConfig = (t: (key: string) => string): Record<
   processing: {
     label: t('status.processing'),
     bg: 'bg-sunbird-sunflower/20',
-    text: 'text-sunbird-brick',
-    dot: 'bg-sunbird-ginger',
+    text: 'text-sunbird-theme-accent',
+    dot: 'bg-sunbird-theme-accent-muted',
   },
 });
 
@@ -96,8 +96,8 @@ export const STATUS_CONFIG: Record<
   review: {
     label: 'In Review',
     bg: 'bg-sunbird-sunflower/20',
-    text: 'text-sunbird-brick',
-    dot: 'bg-sunbird-ginger',
+    text: 'text-sunbird-theme-accent',
+    dot: 'bg-sunbird-theme-accent-muted',
   },
   published: {
     label: 'Published',
@@ -108,8 +108,8 @@ export const STATUS_CONFIG: Record<
    processing: {
     label: "Processing",
     bg: 'bg-sunbird-sunflower/20',
-    text: 'text-sunbird-brick',
-    dot: 'bg-sunbird-ginger',
+    text: 'text-sunbird-theme-accent',
+    dot: 'bg-sunbird-theme-accent-muted',
   },
 };
 
@@ -122,12 +122,12 @@ export const EMPTY_STATE_VARIANT_STYLES: Record<
   default: {
     iconBg: 'bg-muted',
     iconColor: 'text-muted-foreground',
-    buttonBg: 'bg-sunbird-ginger hover:bg-sunbird-brick',
+    buttonBg: 'bg-sunbird-theme-accent-muted hover:bg-sunbird-theme-accent',
   },
   uploads: {
-    iconBg: 'bg-sunbird-ginger/10',
-    iconColor: 'text-sunbird-ginger',
-    buttonBg: 'bg-sunbird-ginger hover:bg-sunbird-brick',
+    iconBg: 'bg-sunbird-theme-accent-muted/10',
+    iconColor: 'text-sunbird-theme-accent-muted',
+    buttonBg: 'bg-sunbird-theme-accent-muted hover:bg-sunbird-theme-accent',
   },
   collaborations: {
     iconBg: 'bg-sunbird-wave/10',
@@ -137,7 +137,7 @@ export const EMPTY_STATE_VARIANT_STYLES: Record<
   search: {
     iconBg: 'bg-sunbird-lavender/10',
     iconColor: 'text-sunbird-lavender',
-    buttonBg: 'bg-sunbird-ginger hover:bg-sunbird-brick',
+    buttonBg: 'bg-sunbird-theme-accent-muted hover:bg-sunbird-theme-accent',
   },
 };
 

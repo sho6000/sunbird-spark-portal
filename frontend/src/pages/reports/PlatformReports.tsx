@@ -19,7 +19,7 @@ import { useUserCreationCount } from "@/hooks/useUserCreationCount";
 
 const PIE_COLORS = [
   "hsl(var(--sunbird-ink))",
-  "hsl(var(--sunbird-ginger))",
+  "hsl(var(--sunbird-theme-accent-muted))",
   "hsl(var(--sunbird-moss))",
   "hsl(var(--sunbird-lavender))",
 ];
@@ -112,7 +112,7 @@ const PlatformReports = () => {
                   <XAxis type="number" tick={{ fontSize: 11 }} />
                   <YAxis dataKey="name" type="category" tick={{ fontSize: 11 }} width={100} />
                   <Tooltip />
-                  <Bar dataKey="count" fill="hsl(var(--sunbird-ginger))" radius={[0, 6, 6, 0]} barSize={20} />
+                  <Bar dataKey="count" fill="hsl(var(--sunbird-theme-accent-muted))" radius={[0, 6, 6, 0]} barSize={20} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -141,7 +141,7 @@ const PlatformReports = () => {
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip />
-                <Line type="monotone" dataKey="userCount" stroke="hsl(var(--sunbird-ginger))" strokeWidth={2.5} dot={{ r: 3 }} name={t("platformReport.users")} />
+                <Line type="monotone" dataKey="userCount" stroke="hsl(var(--sunbird-theme-accent-muted))" strokeWidth={2.5} dot={{ r: 3 }} name={t("platformReport.users")} />
               </LineChart>
             </ResponsiveContainer>
           </div>

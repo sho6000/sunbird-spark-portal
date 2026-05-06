@@ -142,13 +142,13 @@ describe('Header', () => {
     it('opens the search modal when the desktop search icon button is clicked', () => {
       renderHeader();
       // The desktop search button is the one with aria-label-less FiSearch inside .hidden.md:flex section
-      // It is the first button that contains an SVG and has the sunbird-brick class
+      // It is the first button that contains an SVG and has the sunbird-theme-accent class
       const allButtons = screen.getAllByRole('button');
-      // Find the desktop search button by its class (p-2.5 text-sunbird-brick)
+      // Find the desktop search button by its class (p-2.5 text-sunbird-theme-accent)
       const searchButton = allButtons.find(
         (btn) =>
           btn.className.includes('p-2.5') &&
-          btn.className.includes('sunbird-brick') &&
+          btn.className.includes('sunbird-theme-accent') &&
           !btn.className.includes('md:hidden')
       );
       expect(searchButton).toBeDefined();
@@ -162,7 +162,7 @@ describe('Header', () => {
       const searchButton = allButtons.find(
         (btn) =>
           btn.className.includes('p-2.5') &&
-          btn.className.includes('sunbird-brick') &&
+          btn.className.includes('sunbird-theme-accent') &&
           !btn.className.includes('md:hidden')
       );
       fireEvent.click(searchButton!);

@@ -28,7 +28,7 @@ const CertificateCard = ({
       >
         <div className="flex items-center gap-2">
           <span
-            className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-sunbird-brick/10 text-sunbird-brick"
+            className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-sunbird-theme-accent/10 text-sunbird-theme-accent"
             aria-hidden
           >
             <TbCertificate className="h-5 w-5" />
@@ -44,7 +44,7 @@ const CertificateCard = ({
           type="button"
           onClick={handlePreviewCertificate}
           disabled={!previewUrl}
-          className="font-rubik font-medium text-[1rem] leading-normal w-fit h-[2.25rem] px-5 rounded-[0.375rem] bg-sunbird-brick text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity flex items-center justify-center self-start"
+          className="font-rubik font-medium text-[1rem] leading-normal w-fit h-[2.25rem] px-5 rounded-[0.375rem] bg-sunbird-theme-accent text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity flex items-center justify-center self-start"
           data-edataid="collection-cert-preview-open"
           data-pageid="collection-detail"
         >
@@ -61,7 +61,7 @@ const CertificateCard = ({
     >
       <div className="flex items-center gap-2">
         <span
-          className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-sunbird-brick/10 text-sunbird-brick"
+          className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-sunbird-theme-accent/10 text-sunbird-theme-accent"
           aria-hidden
         >
           <TbCertificate className="h-5 w-5" />

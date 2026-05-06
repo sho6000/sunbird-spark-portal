@@ -122,7 +122,7 @@ const WorkspaceContentList = ({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground hover:text-sunbird-wave opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="h-8 w-8 text-muted-foreground hover:text-sunbird-wave hover:bg-muted opacity-0 group-hover:opacity-100 transition-opacity"
                         onClick={() => onView(item.id)}
                       >
                         <FiEye className="w-4 h-4" />
@@ -132,7 +132,7 @@ const WorkspaceContentList = ({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground hover:text-sunbird-ginger opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="h-8 w-8 text-muted-foreground hover:text-sunbird-theme-accent-muted hover:bg-muted opacity-0 group-hover:opacity-100 transition-opacity"
                         onClick={() => onEdit(item.id)}
                       >
                         <FiEdit className="w-4 h-4" />
