@@ -88,8 +88,8 @@ export function ImageUploadTab({
         <label className={labelClass}>
           {t('imageUpload.copyrightsAndLicense')} <span className="text-red-500">*</span>
         </label>
-        <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-3">
-          <p className="text-xs text-amber-800 font-rubik leading-relaxed">
+        <div className="rounded-lg bg-[hsl(var(--sunbird-status-ongoing-bg))] border border-[hsl(var(--sunbird-status-ongoing-border))] px-4 py-3">
+          <p className="text-xs text-[hsl(var(--sunbird-theme-accent))] font-rubik leading-relaxed">
             {t('imageUpload.licenseStatement')}
           </p>
         </div>

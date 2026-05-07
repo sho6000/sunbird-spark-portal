@@ -131,15 +131,15 @@ export function CertificateRulesPanel({
           {t('certificate.condition')}
           <span className="text-red-500">*</span>
         </label>
-        <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-3">
+        <div className="rounded-lg bg-[hsl(var(--sunbird-status-ongoing-bg))] border border-[hsl(var(--sunbird-status-ongoing-border))] px-4 py-3">
           <label className="flex items-start gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={issueToAccepted}
               onChange={(e) => setIssueToAccepted(e.target.checked)}
-              className="mt-0.5 h-4 w-4 shrink-0 rounded border-amber-400 accent-sunbird-theme-accent cursor-pointer"
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-[hsl(var(--sunbird-status-ongoing-border))] accent-sunbird-theme-accent cursor-pointer"
             />
-            <span className="text-xs text-amber-800 font-rubik leading-relaxed">
+            <span className="text-xs text-[hsl(var(--sunbird-theme-accent))] font-rubik leading-relaxed">
               {t('certificate.rulesConsent')}
             </span>
           </label>
