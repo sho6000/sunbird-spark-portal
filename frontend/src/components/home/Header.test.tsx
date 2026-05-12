@@ -61,6 +61,10 @@ vi.mock('./AuthenticatedHeader', () => ({
   default: () => <div data-testid="authenticated-header">Authenticated Header</div>,
 }));
 
+vi.mock('@/components/common/ThemeSelector', () => ({
+  ThemeSelector: () => <button aria-label="Change theme" />,
+}));
+
 // SearchModal mock — renders visibly only when isOpen=true so we can assert on it
 vi.mock('@/components/common/SearchModal', () => ({
   default: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>

@@ -333,7 +333,7 @@ describe('BatchRow', () => {
       } as unknown as Batch;
       render(<BatchRow batch={batch} onEditClick={onEditClick} onCertificateClick={onCertificateClick} />);
       const statusBadge = screen.getByText('Upcoming');
-      expect(statusBadge).toHaveClass('bg-yellow-100');
+      expect(statusBadge).toHaveClass('bg-[hsl(var(--sunbird-status-ongoing-bg))]');
     });
 
     it('applies correct styling for Ongoing status', () => {

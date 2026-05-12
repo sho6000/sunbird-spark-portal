@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap');
 @import './fonts.css';
 
 /* Sunbird Joyful Design System - Professional Training LMS */
@@ -22,12 +23,13 @@
     --surface: 0 0% 100%;
     /* White surface */
 
-    --card: 60 24% 93%;
-    /* #F3F3E5 - Card background */
+    --card: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 97%;
+    /* Card background — chip-seed tinted (warm cream on terracotta, light blue on blue) */
     --card-foreground: 0 0% 20%;
     /* #333333 */
 
-    --popover: 60 24% 93%;
+    --popover: 0 0% 100%;
+    /* White — popover/dropdown panels stay neutral white across all themes */
     --popover-foreground: 0 0% 20%;
 
     --primary: var(--sunbird-spark-theme-primary-h) var(--sunbird-spark-theme-primary-s) var(--sunbird-spark-theme-primary-l);
@@ -38,8 +40,8 @@
     /* chip/secondary tint — derived from chip seed */
     --secondary-foreground: 0 0% 20%;
 
-    --muted: 205 47% 95%;
-    /* #EDF4F9 - Light Blue */
+    --muted: 210 20% 96%;
+    /* Neutral light gray — muted surfaces stay neutral so status badges and table rows don't tint */
     --muted-foreground: 210 11% 45%;
 
     --accent: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 66%;

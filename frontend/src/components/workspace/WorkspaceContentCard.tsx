@@ -54,7 +54,7 @@ const WorkspaceContentCard = ({
       {/* Thumbnail wrapper — no overflow-hidden so the lock tooltip can escape */}
       <div className="relative aspect-video rounded-t-2xl">
         {/* Image container — overflow-hidden here to clip the hover zoom */}
-        <div className="absolute inset-0 bg-muted overflow-hidden rounded-t-2xl">
+        <div className="absolute inset-0 bg-gray-100 overflow-hidden rounded-t-2xl">
           {item.thumbnail ? (
             <img
               src={item.thumbnail}
@@ -73,7 +73,7 @@ const WorkspaceContentCard = ({
                   size="sm"
                   variant="secondary"
                   onClick={() => onView(item.id)}
-                  className="pointer-events-auto bg-surface hover:bg-muted text-foreground rounded-lg shadow-md"
+                  className="pointer-events-auto bg-surface hover:bg-gray-100 text-foreground rounded-lg shadow-md"
                 >
                   <FiEye className="w-4 h-4 mr-1.5" />
                   {t('workspaceCard.view')}
@@ -84,7 +84,7 @@ const WorkspaceContentCard = ({
                   size="sm"
                   variant="secondary"
                   onClick={() => onEdit(item.id)}
-                  className="pointer-events-auto bg-surface hover:bg-muted text-foreground rounded-lg shadow-md"
+                  className="pointer-events-auto bg-surface hover:bg-gray-100 text-foreground rounded-lg shadow-md"
                 >
                   <FiEdit className="w-4 h-4 mr-1.5" />
                   {t('workspaceCard.edit')}
@@ -137,7 +137,7 @@ const WorkspaceContentCard = ({
                   <FiMoreVertical className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-44 bg-card rounded-xl shadow-lg border border-border">
+              <DropdownMenuContent align="end" className="w-44 rounded-xl shadow-lg border border-border">
                 {showView && (
                   <DropdownMenuItem onClick={() => onView(item.id)} className="font-rubik cursor-pointer gap-2">
                     <FiEye className="w-4 h-4" /> {t('workspaceCard.view')}

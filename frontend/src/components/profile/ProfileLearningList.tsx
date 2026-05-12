@@ -90,7 +90,7 @@ const CourseRow = ({ course, downloadCertificate, hasCertificate, downloadingCou
                             status === "completed"
                                 ? "bg-sunbird-status-completed-bg border-sunbird-status-completed-border text-sunbird-status-completed-text"
                                 : status === "ongoing"
-                                    ? "bg-sunbird-status-ongoing-bg border-sunbird-status-ongoing-border text-sunbird-status-ongoing-text"
+                                    ? "bg-[hsl(var(--sunbird-status-ongoing-bg))] border-[hsl(var(--sunbird-status-ongoing-border))] text-[hsl(var(--sunbird-brown-dark))]"
                                     : "bg-gray-100 border-gray-300 text-gray-500"
                         }`}
                     >
