@@ -1,0 +1,73 @@
+@layer base {
+  /* Radius tokens — initialized to Classic values so existing CSS is unaffected. */
+  :root {
+    --r-sm: 0.5rem;
+    --r-md: 0.875rem;
+    --r-lg: 1.25rem;
+    --r-xl: 1.75rem;
+    --r-xs: 0.625rem;
+    --r-xxs: 0.25rem;
+    --r-pill: 9999px;
+  }
+
+  /* Modern template — applied when <html data-template="modern"> */
+  html[data-template="modern"] {
+    /* Form — sharp corners */
+    --r-sm: 2px;
+    --r-md: 4px;
+    --r-lg: 4px;
+    --r-xl: 8px;
+    --r-xs: 0.25rem;
+    --r-xxs: 0.125rem;
+    --r-pill: 0.5rem;
+    --radius: 0.25rem;
+
+    /* Surfaces — neutralize chip tint, pure white cards */
+    --background: 0 0% 98%;
+    --card: 0 0% 100%;
+    --sunbird-status-ongoing-bg: 0 0% 100%;
+    --sunbird-beige-light: 0 0% 96%;
+    --sunbird-theme-tint: var(--sunbird-spark-theme-primary-h) 20% 95%;
+
+    /* Tighter borders */
+    --border: 215 20% 88%;
+
+    /* Flattened shadows */
+    --sunbird-shadow-sm: 0 0 0 1px hsl(var(--border));
+    --sunbird-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 0 1px hsl(var(--border));
+    --sunbird-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Classic template — explicit restore of every property Modern overrides */
+  html[data-template="classic"] {
+    --r-sm: 0.5rem;
+    --r-md: 0.875rem;
+    --r-lg: 1.25rem;
+    --r-xl: 1.75rem;
+    --r-xs: 0.625rem;
+    --r-xxs: 0.25rem;
+    --r-pill: 9999px;
+    --radius: 1rem;
+
+    --background: 48 23% 91%;
+    --card: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 97%;
+    --sunbird-status-ongoing-bg: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 93%;
+    --sunbird-beige-light: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 89%;
+    --sunbird-theme-tint: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 93%;
+
+    --border: 210 25% 80%;
+
+    --sunbird-shadow-sm: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.05);
+    --sunbird-shadow-md: 0 0.875rem 0.875rem rgba(0, 0, 0, 0.05);
+    --sunbird-shadow-lg: 0 0.25rem 1.25rem 0 rgba(0, 0, 0, 0.1);
+  }
+
+  /* Typographic confidence in Modern */
+  html[data-template="modern"] h1,
+  html[data-template="modern"] h2,
+  html[data-template="modern"] h3,
+  html[data-template="modern"] h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}

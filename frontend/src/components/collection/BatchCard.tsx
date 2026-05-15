@@ -114,7 +114,7 @@ const BatchCard = ({ collectionId, collectionName }: BatchCardProps) => {
               title="Refresh batch list"
               data-edataid="batch-list-refresh"
               data-pageid="course-consumption"
-              className="w-8 h-8 flex items-center justify-center rounded-full border-2 border-sunbird-theme-accent text-sunbird-theme-accent hover:bg-sunbird-theme-accent hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-8 h-8 flex items-center justify-center rounded-pill border-2 border-sunbird-theme-accent text-sunbird-theme-accent hover:bg-sunbird-theme-accent hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FiRefreshCw className={cn("w-4 h-4", isFetching && "animate-spin")} />
             </button>
@@ -125,7 +125,7 @@ const BatchCard = ({ collectionId, collectionName }: BatchCardProps) => {
                 title="Create batch"
                 data-edataid="batch-create-open"
                 data-pageid="course-consumption"
-                className="w-8 h-8 flex items-center justify-center rounded-full border-2 border-sunbird-theme-accent text-sunbird-theme-accent hover:bg-sunbird-theme-accent hover:text-white transition-colors"
+                className="w-8 h-8 flex items-center justify-center rounded-pill border-2 border-sunbird-theme-accent text-sunbird-theme-accent hover:bg-sunbird-theme-accent hover:text-white transition-colors"
               >
                 <FiPlus className="w-4 h-4" />
               </button>

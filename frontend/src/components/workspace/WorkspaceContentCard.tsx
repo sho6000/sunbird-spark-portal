@@ -96,7 +96,7 @@ const WorkspaceContentCard = ({
 
         {/* Status Badge */}
         <div className="absolute top-3 left-3 z-20">
-          <div className={cn("flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium font-rubik", status.bg, status.text)}>
+          <div className={cn("flex items-center gap-1.5 px-2.5 py-1 rounded-pill text-xs font-medium font-rubik", status.bg, status.text)}>
             {status.dot ? <span className={cn("w-1.5 h-1.5 rounded-full", status.dot)} /> : null}
             {status.label}
           </div>
@@ -104,7 +104,7 @@ const WorkspaceContentCard = ({
 
         {/* Type Badge */}
         <div className="absolute top-3 right-3 z-20">
-          <div className={cn("flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium font-rubik bg-surface/90 backdrop-blur-sm shadow-sm whitespace-nowrap", colors.text)}>
+          <div className={cn("flex items-center gap-1.5 px-2.5 py-1 rounded-pill text-xs font-medium font-rubik bg-surface/90 backdrop-blur-sm shadow-sm whitespace-nowrap", colors.text)}>
             <TypeIcon className="w-3 h-3 flex-shrink-0" />
             <span className="truncate max-w-[8rem]">{categoryLabel}</span>
           </div>
@@ -113,7 +113,7 @@ const WorkspaceContentCard = ({
         {/* Lock Badge — outside overflow-hidden so tooltip is not clipped */}
         {isLocked && (
           <div className="absolute bottom-3 left-3 z-20 group/lock cursor-pointer">
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium font-rubik bg-amber-100 text-amber-700">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-pill text-xs font-medium font-rubik bg-amber-100 text-amber-700">
               <FiLock className="w-3 h-3" />
               <span>{t('workspaceCard.locked')}</span>
             </div>

@@ -53,7 +53,7 @@
 }
 
 .resource-section-skeleton-card {
-    @apply h-[48rem] bg-gray-100 rounded-[1.25rem];
+    @apply h-[48rem] bg-gray-100 rounded-xl;
 }
 
 .resource-section-label-row {
@@ -107,7 +107,7 @@
 }
 
 .category-card {
-    @apply flex flex-col justify-between transition-transform hover:scale-[1.02] p-7 w-[14rem] h-[12.125rem] rounded-[1.25rem];
+    @apply flex flex-col justify-between transition-transform hover:scale-[1.02] p-7 w-[14rem] h-[12.125rem] rounded-xl;
 }
 
 .category-card-bar {
@@ -156,5 +156,5 @@
 }
 
 .content-section-skeleton-card {
-    @apply h-64 bg-gray-100 animate-pulse rounded-[1.25rem];
+    @apply h-64 bg-gray-100 animate-pulse rounded-xl;
 }

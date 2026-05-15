@@ -153,7 +153,7 @@ const CertificateVerificationPage: React.FC = () => {
             {/* Status header */}
             <div className="bg-green-50 px-6 py-3 flex items-center justify-between">
               <span className={LABEL_CLS}>{t('certificate.status')}</span>
-              <span className="inline-flex items-center gap-1.5 bg-sunbird-moss text-white text-xs font-semibold px-3 py-1.5 rounded-full tracking-wide">
+              <span className="inline-flex items-center gap-1.5 bg-sunbird-moss text-white text-xs font-semibold px-3 py-1.5 rounded-pill tracking-wide">
                 <SmallCheckIcon />
                 {t('certificate.activeAndValid')}
               </span>
@@ -212,7 +212,7 @@ const CertificateVerificationPage: React.FC = () => {
           {/* Status header */}
           <div className="bg-red-50 px-6 py-3 flex items-center justify-between">
             <span className={LABEL_CLS}>{t('certificate.status')}</span>
-            <span className="inline-flex items-center gap-1.5 bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full tracking-wide">
+            <span className="inline-flex items-center gap-1.5 bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-pill tracking-wide">
               <XIcon />
               {t('certificate.invalid')}
             </span>

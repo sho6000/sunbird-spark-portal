@@ -73,7 +73,7 @@ export const TncAcceptancePopup: React.FC<TncAcceptancePopupProps> = ({
             </div>
 
             {/* Acceptance Footer */}
-            <div className="flex items-center justify-between gap-4 px-4 py-3 border-t border-border bg-gray-50/60 rounded-b-[1.875rem]">
+            <div className="flex items-center justify-between gap-4 px-4 py-3 border-t border-border bg-gray-50/60 rounded-b-2xl">
               <div className="flex items-center gap-3 select-none">
                 <Checkbox.Root
                   id={checkboxId}

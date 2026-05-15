@@ -99,6 +99,23 @@ vi.mock('@/hooks/useAppI18n', () => ({
   useAppI18n: () => ({ t: (key: string) => key }),
 }));
 
+vi.mock('@/providers/ThemeProvider', () => ({
+  useTheme: () => ({
+    activeLayout: { id: 'sidebar-left', name: 'Left Sidebar' },
+    setLayout: vi.fn(),
+    layouts: [],
+    activeTemplate: { id: 'classic', name: 'Classic', description: 'Warm, rounded' },
+    setTemplate: vi.fn(),
+    templates: [],
+    activeTheme: { id: 'terracotta', name: 'Sunbird Spark', seeds: {} },
+    setTheme: vi.fn(),
+    themes: [],
+    activeFont: { id: 'poppins', name: 'Poppins', value: "'Poppins', sans-serif" },
+    setFont: vi.fn(),
+    fonts: [],
+  }),
+}));
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 /**

@@ -39,6 +39,12 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
     ...(data?.data?.QuestionSet ?? []),
   ];
 
+  // Hide TopNavBar while search is open (Top Layout)
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-search-open', isOpen);
+    return () => document.documentElement.removeAttribute('data-search-open');
+  }, [isOpen]);
+
   // Store the previously focused element and restore focus on close
   useEffect(() => {
     if (isOpen) {

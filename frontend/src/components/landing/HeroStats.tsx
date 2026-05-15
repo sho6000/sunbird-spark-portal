@@ -69,7 +69,7 @@ const HeroStats = () => {
                     </p>
                 </div>
                 <div>
-                    <span className="flex items-center justify-center w-[5rem] h-[2.125rem] rounded-[1.375rem] border border-sunbird-gray-d0 font-rubik font-normal text-[0.875rem] leading-[1.25rem] tracking-[0rem] text-center opacity-[0.99] text-foreground">
+                    <span className="flex items-center justify-center w-[5rem] h-[2.125rem] rounded-xl border border-sunbird-gray-d0 font-rubik font-normal text-[0.875rem] leading-[1.25rem] tracking-[0rem] text-center opacity-[0.99] text-foreground">
                         {t("hero.online")}
                     </span>
                 </div>

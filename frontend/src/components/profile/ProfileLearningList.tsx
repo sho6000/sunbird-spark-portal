@@ -86,7 +86,7 @@ const CourseRow = ({ course, downloadCertificate, hasCertificate, downloadingCou
                 {/* Status Badge */}
                 <div className="profile-learning-status">
                     <div
-                        className={`px-4 md:px-5 py-1.5 rounded-full border ${
+                        className={`px-4 md:px-5 py-1.5 rounded-pill border ${
                             status === "completed"
                                 ? "bg-sunbird-status-completed-bg border-sunbird-status-completed-border text-sunbird-status-completed-text"
                                 : status === "ongoing"

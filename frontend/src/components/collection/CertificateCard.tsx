@@ -23,7 +23,7 @@ const CertificateCard = ({
   if (hasCertificate) {
     return (
       <div
-        className="font-rubik w-full rounded-[1.25rem] border border-sunbird-status-ongoing-border bg-sunbird-status-ongoing-bg p-5 flex flex-col gap-3"
+        className="font-rubik w-full rounded-xl border border-sunbird-status-ongoing-border bg-sunbird-status-ongoing-bg p-5 flex flex-col gap-3"
         data-testid="certificate-card"
       >
         <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ const CertificateCard = ({
 
   return (
     <div
-      className="font-rubik w-full rounded-[1.25rem] border border-sunbird-status-ongoing-border bg-white p-5 flex flex-col gap-4 shadow-sunbird-sm"
+      className="font-rubik w-full rounded-xl border border-sunbird-status-ongoing-border bg-white p-5 flex flex-col gap-4 shadow-sunbird-sm"
       data-testid="certificate-card"
     >
       <div className="flex items-center gap-2">

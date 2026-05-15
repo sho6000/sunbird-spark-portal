@@ -1,4 +1,5 @@
 @import './fonts.css';
+@import './styles/template-overrides.css';
 
 /* Sunbird Joyful Design System - Professional Training LMS */
 
@@ -7,6 +8,9 @@
 @tailwind utilities;
 
 @layer base {
+  /* Hide TopNavBar while search overlay is open (Top Layout only) */
+  html[data-search-open] nav[aria-label="Primary navigation"] { display: none; }
+
   :root {
     --app-font-family: 'Rubik', sans-serif;
 
@@ -644,11 +648,11 @@
   }
 
   .content-player-video-container {
-    @apply w-full max-w-[74.125rem] p-5 rounded-[1.25rem] bg-white overflow-hidden;
+    @apply w-full max-w-[74.125rem] p-5 rounded-xl bg-white overflow-hidden;
   }
 
   .content-player-wrapper {
-    @apply w-full overflow-hidden rounded-[1.25rem] relative shadow-sm;
+    @apply w-full overflow-hidden rounded-xl relative shadow-sm;
   }
 
   .content-player-embed {
@@ -720,7 +724,7 @@
   }
 
   .related-resource-card-container {
-    @apply bg-white rounded-[1.25rem] overflow-hidden transition-all duration-300 hover:shadow-lg w-[23.125rem] h-[22.5rem] flex flex-col;
+    @apply bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg w-[23.125rem] h-[22.5rem] flex flex-col;
     box-shadow: var(--sunbird-shadow-md);
   }
 
@@ -729,11 +733,11 @@
   }
 
   .related-resource-card-image-inner {
-    @apply relative overflow-hidden rounded-[1.25rem] h-[10.125rem] w-full;
+    @apply relative overflow-hidden rounded-xl h-[10.125rem] w-full;
   }
 
   .related-resource-card-image {
-    @apply absolute inset-0 w-full h-full rounded-[1.25rem];
+    @apply absolute inset-0 w-full h-full rounded-xl;
     object-fit: cover;
     -o-object-fit: cover;
     transition-property: transform;
@@ -751,7 +755,8 @@
   }
 
   .related-resource-card-badge {
-    @apply inline-flex items-center justify-center px-3 rounded-[2.25rem] mb-[1.25rem] h-[1.875rem] bg-sunbird-theme-tint text-foreground font-rubik font-medium text-[0.875rem] leading-[1.125rem] border-sunbird-theme-accent-muted border-[0.0625rem] w-fit;
+    @apply inline-flex items-center justify-center px-3 mb-[1.25rem] h-[1.875rem] bg-sunbird-theme-tint text-foreground font-rubik font-medium text-[0.875rem] leading-[1.125rem] border-sunbird-theme-accent-muted border-[0.0625rem] w-fit;
+    border-radius: var(--r-pill);
   }
 
   .related-resource-card-title {
@@ -780,7 +785,7 @@
   }
 
   .resource-card-container {
-    @apply relative w-full h-[22.5rem] rounded-[1.25rem] overflow-hidden;
+    @apply relative w-full h-[22.5rem] rounded-xl overflow-hidden;
   }
 
   .resource-card-image-wrapper {
@@ -788,7 +793,7 @@
   }
 
   .resource-card-image {
-    @apply w-full h-full object-cover transition-transform duration-700 ease-out rounded-[1.25rem];
+    @apply w-full h-full object-cover transition-transform duration-700 ease-out rounded-xl;
   }
 
   .group:hover .resource-card-image {

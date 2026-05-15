@@ -112,7 +112,8 @@
 
 /* ─── Status Badge ───────────────────────────────────────────────────── */
 .um-status-badge {
-  @apply inline-flex items-center px-2 py-0.5 rounded-full text-[0.75rem] font-rubik font-medium;
+  @apply inline-flex items-center px-2 py-0.5 text-[0.75rem] font-rubik font-medium;
+  border-radius: var(--r-pill);
 }
 
 .um-status-active {

@@ -96,7 +96,7 @@ const WorkspaceContentList = ({
 
               {/* Status */}
               <div className="col-span-2">
-                <span className={cn("inline-flex px-2.5 py-1 rounded-full text-xs font-medium font-rubik", status.bg, status.text)}>
+                <span className={cn("inline-flex px-2.5 py-1 rounded-pill text-xs font-medium font-rubik", status.bg, status.text)}>
                   {status.label}
                 </span>
               </div>

@@ -130,7 +130,7 @@ const HelpCategoryDetail = () => {
                     </button>
                     <button
                         onClick={() => setIsReportIssueOpen(true)}
-                        className="w-[9.375rem] h-[2.25rem] bg-sunbird-theme-accent text-sunbird-base-white text-sm font-medium font-rubik rounded-[0.625rem] hover:opacity-90 transition-opacity flex items-center justify-center"
+                        className="w-[9.375rem] h-[2.25rem] bg-sunbird-theme-accent text-sunbird-base-white text-sm font-medium font-rubik rounded-xs hover:opacity-90 transition-opacity flex items-center justify-center"
                         aria-label={t('help.reportContentIssue')}
                         data-edataid="help-report-issue-open"
                         data-pageid="help-category-detail"
@@ -168,7 +168,7 @@ const HelpCategoryDetail = () => {
 
                         <Accordion type="single" collapsible value={openValue} onValueChange={handleAccordionChange} className="space-y-[0.75rem]">
                             {sanitizedFaqs.map((faq, index) => (
-                                <AccordionItem key={index} value={`item-${index}`} className="rounded-[0.625rem] bg-sunbird-base-white border-b-0">
+                                <AccordionItem key={index} value={`item-${index}`} className="rounded-xs bg-sunbird-base-white border-b-0">
                                     <AccordionTrigger
                                         className="text-left font-rubik font-medium text-[1.125rem] leading-[100%] tracking-[0%] hover:no-underline py-[1rem] px-[1.25rem] text-foreground [&>svg]:text-sunbird-theme-accent"
                                     >
@@ -207,7 +207,7 @@ const HelpCategoryDetail = () => {
                                                             disabled={!feedbackText[index]?.trim()}
                                                             data-edataid="faq-feedback-submit"
                                                             data-pageid="help-category-detail"
-                                                            className={`text-sunbird-base-white text-sm font-medium font-rubik px-[1.25rem] py-[0.5rem] rounded-[0.625rem] transition-all ${!feedbackText[index]?.trim()
+                                                            className={`text-sunbird-base-white text-sm font-medium font-rubik px-[1.25rem] py-[0.5rem] rounded-xs transition-all ${!feedbackText[index]?.trim()
                                                                 ? "bg-sunbird-gray-75 opacity-50 cursor-not-allowed"
                                                                 : "bg-sunbird-theme-accent hover:opacity-90"
                                                                 }`}

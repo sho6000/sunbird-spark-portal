@@ -120,13 +120,13 @@ const ResourceCardComponent = ({
           state={{ from: location.pathname + location.search }}
           className="block group w-full max-w-[22.5rem] mx-auto md:mx-0"
         >
-            <div className={`relative w-full ${heightClass} rounded-[1.25rem] overflow-hidden`}>
+            <div className={`relative w-full ${heightClass} rounded-xl overflow-hidden`}>
                 {/* Background Image Container */}
                 <div className="absolute inset-0">
                     <img
                         src={image}
                         alt={title}
-                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 rounded-[1.25rem]"
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 rounded-xl"
                     />
                 </div>
 

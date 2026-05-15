@@ -154,7 +154,7 @@ const ExploreFilters = ({ filters, setFilters }: ExploreFiltersProps) => {
 
     if (isLoading) {
         return (
-            <div className="bg-sunbird-gray-f3 rounded-[1.375rem] p-5">
+            <div className="bg-sunbird-gray-f3 rounded-xl p-5">
                 <div className="animate-pulse space-y-3">
                     <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
                     <div className="h-28 bg-gray-200 rounded-xl"></div>
@@ -171,7 +171,7 @@ const ExploreFilters = ({ filters, setFilters }: ExploreFiltersProps) => {
     }
 
     return (
-        <div data-testid="explore-filters" className="bg-sunbird-gray-f3 rounded-[1.375rem] p-5">
+        <div data-testid="explore-filters" className="bg-sunbird-gray-f3 rounded-xl p-5">
             {/* Filters Title */}
             <h2 className="text-lg font-bold text-foreground mb-4 px-1">{t("filters")}</h2>
 

@@ -58,7 +58,7 @@ const HelpSupport = () => {
                         aria-label={t('help.reportAppIssue')}
                         data-edataid="help-report-issue-open"
                         data-pageid="help-support"
-                        className="w-[9.375rem] h-[2.25rem] bg-sunbird-theme-accent text-sunbird-base-white text-sm font-medium font-rubik rounded-[0.625rem] hover:opacity-90 transition-opacity flex items-center justify-center">
+                        className="w-[9.375rem] h-[2.25rem] bg-sunbird-theme-accent text-sunbird-base-white text-sm font-medium font-rubik rounded-xs hover:opacity-90 transition-opacity flex items-center justify-center">
                         {t('help.reportIssueBtn')}
                     </button>
                 </div>
@@ -85,7 +85,7 @@ const HelpSupport = () => {
                             <div
                                 key={cat.slug}
                                 onClick={() => navigate(`/help-support/${cat.slug}`)}
-                                className="bg-sunbird-base-white rounded-[0.625rem] overflow-hidden flex flex-col shadow-sunbird-md hover:shadow-md transition-shadow cursor-pointer"
+                                className="bg-sunbird-base-white rounded-xs overflow-hidden flex flex-col shadow-sunbird-md hover:shadow-md transition-shadow cursor-pointer"
                                 data-edataid="help-category-click"
                                 data-pageid="help-support"
                                 data-objectid={cat.slug}

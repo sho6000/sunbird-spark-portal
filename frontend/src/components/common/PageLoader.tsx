@@ -21,7 +21,7 @@ const PageLoader = ({
 
   const wrapperClass = fullPage
     ? "fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-background to-sunbird-ivory/50 backdrop-blur-sm"
-    : "flex flex-1 self-stretch w-full items-center justify-center rounded-[1.25rem] border border-border";
+    : "flex flex-1 self-stretch w-full items-center justify-center rounded-xl border border-border";
 
   return (
     <div className={wrapperClass} data-testid="page-loader" aria-busy={!error} aria-live="polite">
@@ -43,7 +43,7 @@ const PageLoader = ({
               <button
                 type="button"
                 onClick={onRetry}
-                className="mt-1 flex items-center gap-2 px-6 py-2.5 bg-sunbird-theme-accent hover:bg-sunbird-theme-accent/90 text-white font-medium rounded-full shadow-md hover:shadow-lg transition-all"
+                className="mt-1 flex items-center gap-2 px-6 py-2.5 bg-sunbird-theme-accent hover:bg-sunbird-theme-accent/90 text-white font-medium rounded-pill shadow-md hover:shadow-lg transition-all"
               >
                 <FiRefreshCw className="w-4 h-4" />
                 {t("retry")}

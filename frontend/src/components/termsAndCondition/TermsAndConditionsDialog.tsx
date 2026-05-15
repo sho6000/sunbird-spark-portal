@@ -77,7 +77,7 @@ export const TermsAndConditionsDialog: React.FC<TermsAndConditionsDialogProps> =
 
             {/* Acceptance Footer — only rendered when onAccept is provided */}
             {onAccept && (
-              <div className="flex items-center justify-between gap-4 px-4 py-3 border-t border-border bg-gray-50/60 rounded-b-[1.875rem]">
+              <div className="flex items-center justify-between gap-4 px-4 py-3 border-t border-border bg-gray-50/60 rounded-b-2xl">
                 <label
                   htmlFor="tnc-accept-check"
                   className="flex items-center gap-2.5 cursor-pointer select-none"

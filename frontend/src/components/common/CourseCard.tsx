@@ -35,15 +35,15 @@ export const CourseCard = ({ course }: CourseCardProps) => {
           data-objecttype="Content"
         >
             <div
-                className="group bg-white rounded-[1.25rem] overflow-hidden transition-all duration-300 hover:shadow-lg shadow-sunbird-md w-full max-w-[23.125rem] h-[24.5rem] flex flex-col mx-auto"
+                className="group bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg shadow-sunbird-md w-full max-w-[23.125rem] h-[24.5rem] flex flex-col mx-auto"
             >
                 {/* Image with padding */}
                 <div className="px-[1.25rem] pt-[1.25rem] w-full">
-                    <div className="relative overflow-hidden rounded-[1.25rem] h-[10.125rem] w-full">
+                    <div className="relative overflow-hidden rounded-xl h-[10.125rem] w-full">
                         <img
                             src={course.image}
                             alt={course.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-[1.25rem]"
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-xl"
                         />
                     </div>
                 </div>
@@ -52,7 +52,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
                 <div className="px-[1.25rem] pt-[1.25rem] pb-5 flex flex-col flex-grow">
                     {/* Badge below image */}
                     <Badge
-                        className={`inline-flex items-center justify-center p-0 rounded-[2.25rem] mb-[1.25rem] min-w-[4.875rem] max-w-[10rem] h-[1.875rem] px-3 ${getBadgeStyle()}`}
+                        className={`inline-flex items-center justify-center p-0 rounded-pill mb-[1.25rem] min-w-[4.875rem] max-w-[10rem] h-[1.875rem] px-3 ${getBadgeStyle()}`}
                     >
                         <span className="truncate">{t(`contentTypes.${course.type.toLowerCase()}`, { defaultValue: course.type })}</span>
                     </Badge>
