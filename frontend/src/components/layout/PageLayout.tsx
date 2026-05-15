@@ -134,6 +134,7 @@ const PageLayout = () => {
             onNavChange={() => {}}
             collapsed={!isSidebarOpen}
             onToggle={toggleSidebar}
+            isRight={isRight}
           />
         </div>
         <Outlet />
