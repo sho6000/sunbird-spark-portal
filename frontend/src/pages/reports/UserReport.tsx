@@ -113,7 +113,7 @@ const UserReport = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
         <SummaryCard label={t('userReport.totalCourses')} value={summaryTotalCourses} colorClass="bg-sunbird-wave" />
         <SummaryCard label={t('userReport.coursesCompleted')} value={summaryCoursesCompleted} colorClass="bg-sunbird-moss" />
-        <SummaryCard label={t('userReport.coursesPending')} value={summaryCoursesPending} colorClass="bg-sunbird-ginger" />
+        <SummaryCard label={t('userReport.coursesPending')} value={summaryCoursesPending} colorClass="bg-sunbird-theme-accent-muted" />
         <SummaryCard label={t('userReport.certificatesIssued')} value={summaryCertsIssued} colorClass="bg-sunbird-ink" />
         <SummaryCard label={t('userReport.assessmentsCompleted')} value={summaryAssessmentsCompleted} colorClass="bg-sunbird-lavender" />
       </div>

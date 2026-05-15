@@ -172,7 +172,7 @@ const CertificateVerificationPage: React.FC = () => {
 
               <div className="py-5">
                 <p className={LABEL_CLS}>{t('certificate.certificationProgram')}</p>
-                <p className="font-rubik text-lg font-semibold text-sunbird-brick leading-tight">
+                <p className="font-rubik text-lg font-semibold text-sunbird-theme-accent leading-tight">
                   {certificate.trainingName}
                 </p>
               </div>
@@ -188,7 +188,7 @@ const CertificateVerificationPage: React.FC = () => {
             </div>
 
             {/* Bottom accent */}
-            <div className="h-1 bg-sunbird-brick" />
+            <div className="h-1 bg-sunbird-theme-accent" />
           </div>
             </div>
           );
@@ -228,14 +228,14 @@ const CertificateVerificationPage: React.FC = () => {
           <div className="px-6 pb-6">
             <Link
               to="/"
-              className="block w-full text-center font-rubik bg-sunbird-brick hover:bg-sunbird-brick/90 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+              className="block w-full text-center font-rubik bg-sunbird-theme-accent hover:bg-sunbird-theme-accent/90 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
             >
               {t('certificate.backToHome')}
             </Link>
           </div>
 
           {/* Bottom accent */}
-          <div className="h-1 bg-sunbird-brick" />
+          <div className="h-1 bg-sunbird-theme-accent" />
         </div>
           </div>
         )}

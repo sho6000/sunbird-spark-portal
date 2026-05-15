@@ -160,6 +160,244 @@ In development, the following paths are proxied from Vite (port 5173) to the bac
 | SonarQube | Code quality analysis |
 | GitHub Actions | CI/CD pipeline |
 
+## Theming System
+
+The portal is themed by a single block of CSS variables in `frontend/src/index.css`. Change them, save the file, the whole app retints — without touching any component.
+
+Two layers:
+
+1. **Colour theme** — 6 seed variables drive every colour in the app.
+2. **Font family** — 1 variable drives the font used everywhere.
+
+---
+
+### Part 1 — Colour Theme (the 6 Seed Variables)
+
+Open `frontend/src/index.css` and find the seed block at the top:
+
+```css
+:root {
+  --sunbird-spark-theme-primary-h: 12;   --sunbird-spark-theme-primary-s: 50%;   --sunbird-spark-theme-primary-l: 45%;
+  --sunbird-spark-theme-chip-h:    45;   --sunbird-spark-theme-chip-s:    100%;
+  --sunbird-spark-theme-icon-h:    28;
+}
+```
+
+Every other colour token in the app is **derived** from these 6 values. Change them → whole app retints.
+
+#### What each variable means
+
+Colours are written in **HSL** format — Hue, Saturation, Lightness.
+
+- **Hue (h)** — `0–360`. Position on the colour wheel. `0` = red, `120` = green, `240` = blue, `360` = red again.
+- **Saturation (s)** — `0%–100%`. How vivid. `0%` = gray, `100%` = full colour.
+- **Lightness (l)** — `0%–100%`. How light/dark. `0%` = black, `50%` = pure, `100%` = white.
+
+| # | Variable | Meaning | What it controls |
+|---|---|---|---|
+| 1 | `--sunbird-spark-theme-primary-h` | Hue of the **primary brand colour** | Primary CTAs, active states, links, progress fills, focus rings, active indicators |
+| 2 | `--sunbird-spark-theme-primary-s` | Saturation of the primary | How vivid the primary is. Higher = more vibrant |
+| 3 | `--sunbird-spark-theme-primary-l` | Lightness of the primary | How light/dark the primary is. Lower = deeper, higher = paler |
+| 4 | `--sunbird-spark-theme-chip-h` | Hue of **chips/badges/secondary surfaces** | Badge backgrounds, card backgrounds, tag tints, section accent surfaces |
+| 5 | `--sunbird-spark-theme-chip-s` | Saturation of chip surfaces | How vivid the chip surfaces are |
+| 6 | `--sunbird-spark-theme-icon-h` | Hue of **muted icons and chart accents** | Muted icons, chart strokes, secondary accents. Lightness locked at `54%` for readability |
+
+The primary uses 3 values (hue + saturation + lightness) because the primary CTA needs a specific shade to read correctly. Chip and icon only need a hue — their lightness scale is fixed across themes (see "Lightness Scale" below).
+
+#### Examples — change the theme to anything
+
+**Royal purple**
+```css
+--sunbird-spark-theme-primary-h: 270;  --sunbird-spark-theme-primary-s: 55%;  --sunbird-spark-theme-primary-l: 45%;
+--sunbird-spark-theme-chip-h:    270;  --sunbird-spark-theme-chip-s:    55%;
+--sunbird-spark-theme-icon-h:    280;
+```
+
+**Forest green**
+```css
+--sunbird-spark-theme-primary-h: 140;  --sunbird-spark-theme-primary-s: 40%;  --sunbird-spark-theme-primary-l: 32%;
+--sunbird-spark-theme-chip-h:    140;  --sunbird-spark-theme-chip-s:    40%;
+--sunbird-spark-theme-icon-h:    130;
+```
+
+**Energetic orange**
+```css
+--sunbird-spark-theme-primary-h: 24;   --sunbird-spark-theme-primary-s: 95%;  --sunbird-spark-theme-primary-l: 53%;
+--sunbird-spark-theme-chip-h:    35;   --sunbird-spark-theme-chip-s:    100%;
+--sunbird-spark-theme-icon-h:    20;
+```
+
+**Cool teal**
+```css
+--sunbird-spark-theme-primary-h: 180; --sunbird-spark-theme-primary-s: 38%;  --sunbird-spark-theme-primary-l: 38%;
+--sunbird-spark-theme-chip-h:    180; --sunbird-spark-theme-chip-s:    38%;
+--sunbird-spark-theme-icon-h:    170;
+```
+
+Save the file → browser auto-reloads with the new theme. No restart needed.
+
+#### How the derivation works
+
+Each derived token in the app references the seeds. Example:
+
+```css
+--primary: var(--sunbird-spark-theme-primary-h) var(--sunbird-spark-theme-primary-s) var(--sunbird-spark-theme-primary-l);
+--card: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 97%;
+--sunbird-theme-tint: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 93%;
+```
+
+Saturation is locked to the chip seed. Only lightness varies per token:
+
+| Lightness | Usage |
+|---|---|
+| 97% | Card bodies — barely tinted |
+| 93% | Badge backgrounds, consent boxes |
+| 89% | Section/tag tints |
+| 73% | Medium chip accents |
+| 66% | Ghost button hovers, secondary accents |
+| 54% | Badge borders |
+| 42% | Dark text on chip-coloured surfaces |
+
+---
+
+### Part 2 — Font Family
+
+The global font is controlled by one variable in `frontend/src/index.css`:
+
+```css
+--app-font-family: 'Poppins', sans-serif;
+```
+
+This variable is read by:
+- The `body` rule in `frontend/src/styles/global.css` → every text element on the page.
+- Tailwind's `font-rubik` utility class → maps to `var(--app-font-family)` in `tailwind.config.ts`.
+
+So **changing this one variable retypes the entire app** — every page, every component, every heading.
+
+But changing the variable alone is not enough — the browser also needs the **actual font file** to render. The variable is only the name; the file is what the browser draws with. Two ways to provide the file:
+
+---
+
+#### Option 1 — Self-host (download woff2, define `@font-face`)
+
+This is what the project does today for Poppins, Rubik, and Satisfy.
+
+**Pros:**
+- Works offline / in air-gapped deployments
+- No third-party privacy concerns (no external CDN sees user IPs)
+- Faster — same origin as the app
+- Stricter Content-Security-Policy (`font-src 'self'`)
+
+**Cons:**
+- Manual setup (download files, write `@font-face`)
+- Font files live in the repo (`public/fonts/`)
+
+**Steps:**
+
+1. **Download the woff2 file** from Google Fonts CDN (or another woff2 source). The real woff2 URL is hidden inside the Google Fonts CSS — fetch the CSS with a Chrome user-agent to see it:
+
+```bash
+# Step 1a: get the real woff2 URL
+curl -s -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36" \
+  "https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"
+# → look for src: url(https://fonts.gstatic.com/s/inter/...woff2)
+
+# Step 1b: download the woff2 file
+curl -L "https://fonts.gstatic.com/s/inter/v18/<hash>.woff2" \
+  -o frontend/public/fonts/inter-400.woff2
+```
+
+2. **Declare `@font-face`** in `frontend/src/fonts.css`. This tells the browser what file to download when CSS requests this font:
+
+```css
+@font-face {
+  font-family: 'Inter';                /* the name to use in --app-font-family */
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;                  /* show fallback while loading, then swap */
+  src: url('/fonts/inter-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+```
+
+3. **Use it** in `frontend/src/index.css`:
+
+```css
+--app-font-family: 'Inter', sans-serif;
+```
+
+Save → whole app retypes.
+
+**For multiple weights (e.g. Poppins 300/400/500/600/700):**
+Download one woff2 per weight, add **one `@font-face` block per weight file**. All blocks share the same `font-family` name — the browser picks the right file based on the `font-weight` of the element.
+
+---
+
+#### Option 2 — CDN (Google Fonts `@import`)
+
+No download needed. Browser fetches the font from Google's CDN at runtime.
+
+**Pros:**
+- One-line setup
+- No font files in the repo
+- Always latest version
+
+**Cons:**
+- Requires internet (broken if offline / air-gapped)
+- Privacy/GDPR — Google CDN sees user IPs (litigation risk in EU)
+- Slower first paint (extra DNS lookup + TLS handshake to `fonts.googleapis.com` + `fonts.gstatic.com`)
+- Backend CSP must allow Google domains in `font-src` and `style-src`
+
+**Steps:**
+
+1. **Add `@import`** at the very top of `frontend/src/index.css` (must come before `@tailwind` directives):
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap');
+@import './fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+URL breakdown:
+- `family=Inter` — which font family
+- `wght@300..700` — which weight range (variable font: 300 to 700). Can also pin specific weights like `wght@400;700`.
+- `display=swap` — show fallback first, swap in when loaded (prevents invisible text flash)
+
+2. **Use it** in the variable:
+
+```css
+--app-font-family: 'Inter', sans-serif;
+```
+
+Browser fetches the font and applies it everywhere.
+
+**More CDN examples:**
+
+```css
+/* Serif */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+--app-font-family: 'Merriweather', serif;
+
+/* Cursive */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+--app-font-family: 'Dancing Script', cursive;
+
+/* Multi-word family — `+` in URL, quoted with space in CSS */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..700&display=swap');
+--app-font-family: '"Plus Jakarta Sans"', sans-serif;
+```
+
+---
+
+#### Why isn't just editing the variable enough?
+
+`--app-font-family: 'X', sans-serif;` only tells CSS the **name** to look up. The browser needs to know **where to find** a font called `'X'`. Without a matching source — either a `@font-face` block (Option 1) or a CDN `@import` (Option 2) — the browser silently falls back to the system default.
+
+---
+
 ## Prerequisites
 
 - **Node.js**: 24.12.0

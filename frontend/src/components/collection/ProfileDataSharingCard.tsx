@@ -68,7 +68,7 @@ export default function ProfileDataSharingCard({
           <button
             type="button"
             onClick={handleUpdateClick}
-            className="font-rubik font-medium text-[0.8125rem] text-sunbird-brick hover:underline ml-auto"
+            className="font-rubik font-medium text-[0.8125rem] text-sunbird-theme-accent hover:underline ml-auto"
           >
             {t("profileDataSharing.update")}
           </button>

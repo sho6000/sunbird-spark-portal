@@ -38,6 +38,11 @@ vi.mock("./rbac/OnboardingGuard", () => ({
   default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
+vi.mock("./providers/ThemeProvider", () => ({
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  useTheme: () => ({ activeTheme: { id: 'terracotta', name: 'Sunbird Spark', seeds: {} }, setTheme: vi.fn(), themes: [], activeFont: { id: 'poppins', name: 'Poppins', value: "'Poppins', sans-serif" }, setFont: vi.fn(), fonts: [] }),
+}));
+
 // --------------------
 // Mock AuthContext
 // --------------------

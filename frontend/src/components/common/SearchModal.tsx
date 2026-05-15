@@ -112,7 +112,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           {/* Search bar row */}
           <div className="flex items-center gap-4">
             <div className="flex-1 flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
-              <FiSearch className="w-5 h-5 text-sunbird-brick flex-shrink-0" />
+              <FiSearch className="w-5 h-5 text-sunbird-theme-accent flex-shrink-0" />
               <div className="w-px h-5 bg-gray-300" />
               <input
                 ref={inputRef}
@@ -137,7 +137,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
             </div>
             <button
               onClick={onClose}
-              className="text-sunbird-brick font-rubik font-medium text-base hover:text-sunbird-brick/80 transition-colors whitespace-nowrap"
+              className="text-sunbird-theme-accent font-rubik font-medium text-base hover:text-sunbird-theme-accent/80 transition-colors whitespace-nowrap"
             >
               {t("cancel")}
             </button>
@@ -179,7 +179,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               <div className="mt-6 flex justify-center">
                 <button
                   onClick={handleViewMore}
-                  className="flex items-center gap-2 font-rubik font-medium text-sunbird-brick hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-2 font-rubik font-medium text-sunbird-theme-accent hover:opacity-80 transition-opacity"
                 >
                   {t("view_all_results")}
                   <span aria-hidden="true">→</span>

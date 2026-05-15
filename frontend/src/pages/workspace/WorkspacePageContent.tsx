@@ -206,7 +206,7 @@ function InfiniteScrollSentinel({
     <div ref={sentinelRef} className="flex justify-center py-8">
       {isLoadingMore && (
         <div className="flex items-center gap-2">
-          <FiLoader className="w-5 h-5 animate-spin text-sunbird-brick" />
+          <FiLoader className="w-5 h-5 animate-spin text-sunbird-theme-accent" />
           <span className="text-sm text-muted-foreground font-rubik">{t('loadingMore')}</span>
         </div>
       )}

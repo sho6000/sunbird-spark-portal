@@ -44,7 +44,7 @@
 }
 
 .um-search-btn {
-  @apply bg-sunbird-brick hover:bg-sunbird-brick/90 text-white font-rubik font-medium shrink-0 px-6;
+  @apply bg-sunbird-theme-accent hover:bg-sunbird-theme-accent/90 text-white font-rubik font-medium shrink-0 px-6;
 }
 
 /* ─── Results Card ───────────────────────────────────────────────────── */
@@ -146,7 +146,7 @@
 
 /* ─── Add Role Button ────────────────────────────────────────────────── */
 .um-add-role-btn {
-  @apply bg-sunbird-brick hover:bg-sunbird-brick/90 text-white font-rubik font-medium text-[0.8125rem] gap-1 px-3;
+  @apply bg-sunbird-theme-accent hover:bg-sunbird-theme-accent/90 text-white font-rubik font-medium text-[0.8125rem] gap-1 px-3;
 }
 
 /* ─── No Roles ───────────────────────────────────────────────────────── */
@@ -223,5 +223,5 @@
 }
 
 .um-save-btn {
-  @apply bg-sunbird-brick hover:bg-sunbird-brick/90 text-white font-rubik font-medium min-w-[4.5rem];
+  @apply bg-sunbird-theme-accent hover:bg-sunbird-theme-accent/90 text-white font-rubik font-medium min-w-[4.5rem];
 }

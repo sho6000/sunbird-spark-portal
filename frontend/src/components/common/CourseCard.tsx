@@ -22,7 +22,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
     const location = useLocation();
 
     const getBadgeStyle = () => {
-        return "bg-sunbird-beige-light text-foreground font-rubik font-medium text-[0.875rem] leading-[1.125rem] border-sunbird-status-ongoing-border border-[0.0625rem]";
+        return "bg-sunbird-theme-tint text-foreground font-rubik font-medium text-[0.875rem] leading-[1.125rem] border-sunbird-theme-accent-muted border-[0.0625rem]";
     };
 
     return (
@@ -67,7 +67,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
                     {/* Stats - Pushed to bottom */}
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground pt-[0.125rem] mt-auto">
                         <div className="flex items-center gap-1">
-                            <FiUser className="w-3 h-3 text-sunbird-brick -translate-y-0.5" />
+                            <FiUser className="w-3 h-3 text-sunbird-theme-accent -translate-y-0.5" />
                             <span className="text-xs text-muted-foreground">{course.creator}</span>
                         </div>
                         <span className="mx-0.5">•</span>
