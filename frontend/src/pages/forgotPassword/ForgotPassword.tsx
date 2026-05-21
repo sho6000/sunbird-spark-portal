@@ -13,6 +13,8 @@ import useImpression from '@/hooks/useImpression';
 import { useTelemetry } from '@/hooks/useTelemetry';
 import { LANGUAGE_STORAGE_KEY, LANGUAGE_MAP, type SupportedLanguage } from '@/configs/languages';
 import i18n from '@/configs/i18n';
+import { useTheme } from '@/providers/ThemeProvider';
+import type { TemplateOption } from '@/theme/themes';
 
 const ForgotPassword: React.FC = () => {
   const { mutateAsync: searchUser } = useLearnerFuzzySearch();
@@ -20,21 +22,27 @@ const ForgotPassword: React.FC = () => {
   const { mutateAsync: verifyOtp } = useVerifyOtp();
   const { mutateAsync: resetPassword } = useResetPassword();
   const telemetry = useTelemetry();
+  const { setTheme, setFont, setTemplate } = useTheme();
 
   useImpression({ type: 'view', pageid: 'forgot-password' });
 
-  // Persist mobile context and language on mount
+  // Persist mobile context, language, and theme prefs on mount
   useEffect(() => {
     if (isMobileApp()) {
       persistMobileContext();
     }
-    // Read lang from URL param (passed by mobile app) and persist to localStorage
     const params = new URLSearchParams(window.location.search);
     const lang = params.get('lang');
     if (lang && LANGUAGE_MAP[lang as SupportedLanguage]) {
       try { localStorage.setItem(LANGUAGE_STORAGE_KEY, lang); } catch { /* storage unavailable */ }
       void i18n.changeLanguage(lang).catch((err) => { console.error('Failed to change language to', lang, err); });
     }
+    const theme = params.get('theme');
+    if (theme) setTheme(theme);
+    const font = params.get('font');
+    if (font) setFont(font);
+    const template = params.get('template');
+    if (template) setTemplate(template as TemplateOption['id']);
   }, []);
 
   const [step, setStep] = useState<Step>(1);
