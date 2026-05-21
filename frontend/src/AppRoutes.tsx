@@ -23,6 +23,7 @@ import PageLayout from './components/layout/PageLayout';
 
 import Home from './pages/home/Home';
 import Profile from './pages/profile/Profile';
+import DeleteAccount from './pages/profile/DeleteAccount';
 import WorkspacePage from './pages/workspace/WorkspacePage';
 import ReportsPage from './pages/reports/ReportsPage';
 import CreateContentPage from './pages/content/CreateContentPage';
@@ -135,6 +136,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/explore" element={<Explore />} />
           <Route path="/my-learning" element={<MyLearning />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/delete-account" element={<DeleteAccount />} />
           <Route path="/help-support" element={<HelpSupport />} />
           <Route path="/help-support/:categoryId" element={<HelpCategoryDetail />} />
           <Route path="/reports" element={<ReportsPage />} />
