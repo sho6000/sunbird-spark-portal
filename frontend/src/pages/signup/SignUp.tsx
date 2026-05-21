@@ -50,7 +50,6 @@ const SignUp: React.FC = () => {
         if (font) setFont(font);
         const template = params.get('template');
         if (template) setTemplate(template as TemplateOption['id']);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const [step, setStep] = useState<1 | 2 | 3>(1);
