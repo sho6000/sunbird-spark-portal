@@ -15,27 +15,34 @@
     /* Form — sharp corners */
     --r-sm: 2px;
     --r-md: 4px;
-    --r-lg: 4px;
+    --r-lg: 6px;
     --r-xl: 8px;
     --r-xs: 0.25rem;
     --r-xxs: 0.125rem;
     --r-pill: 0.5rem;
-    --radius: 0.25rem;
+    --radius: 0.375rem;
 
-    /* Surfaces — neutralize chip tint, pure white cards */
-    --background: 0 0% 98%;
+    /* Surfaces — neutral page background (NOT theme-tinted, so workspace
+       category thumbnails keep their own colours). Cards remain white and
+       lift off the page via shadows + border. */
+    --background: 210 16% 96%;
     --card: 0 0% 100%;
     --sunbird-status-ongoing-bg: 0 0% 100%;
-    --sunbird-beige-light: 0 0% 96%;
-    --sunbird-theme-tint: var(--sunbird-spark-theme-primary-h) 20% 95%;
+    --sunbird-beige-light: 210 14% 95%;
+    --sunbird-theme-tint: var(--sunbird-spark-theme-primary-h) 28% 94%;
 
     /* Tighter borders */
-    --border: 215 20% 88%;
+    --border: 215 18% 86%;
 
-    /* Flattened shadows */
-    --sunbird-shadow-sm: 0 0 0 1px hsl(var(--border));
-    --sunbird-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 0 1px hsl(var(--border));
-    --sunbird-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* Real layered shadows — match the visual weight of Classic shadows. */
+    --sunbird-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 1px rgba(15, 23, 42, 0.04);
+    --sunbird-shadow-md: 0 4px 10px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.05);
+    --sunbird-shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.12), 0 4px 8px rgba(15, 23, 42, 0.06);
+
+    /* Soft primary-tinted nav — light shade with just enough hue to feel
+       theme-aware. Theme switch drives the hue. */
+    --nav-bg: var(--sunbird-spark-theme-primary-h) 30% 96%;
+    --nav-fg: var(--sunbird-spark-theme-primary-h) var(--sunbird-spark-theme-primary-s) 22%;
   }
 
   /* Classic template — explicit restore of every property Modern overrides */
@@ -60,6 +67,11 @@
     --sunbird-shadow-sm: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.05);
     --sunbird-shadow-md: 0 0.875rem 0.875rem rgba(0, 0, 0, 0.05);
     --sunbird-shadow-lg: 0 0.25rem 1.25rem 0 rgba(0, 0, 0, 0.1);
+
+    /* Chip-tinted nav — light shade so it blends with the warm cream page
+       but still reads as theme-reactive. */
+    --nav-bg: var(--sunbird-spark-theme-chip-h) 50% 95%;
+    --nav-fg: var(--sunbird-spark-theme-primary-h) var(--sunbird-spark-theme-primary-s) 22%;
   }
 
   /* Typographic confidence in Modern */
@@ -70,4 +82,21 @@
     font-weight: 700;
     letter-spacing: -0.02em;
   }
+}
+
+/* Modern: route Tailwind's default shadow-sm/md/lg utilities through the
+   Sunbird shadow tokens so depth is visible portal-wide. Outside @layer so
+   the increased specificity (html[data-template="modern"] .shadow-*) wins
+   over Tailwind's utility output, with no need for !important. */
+html[data-template="modern"] .shadow-sm {
+  box-shadow: var(--sunbird-shadow-sm);
+}
+html[data-template="modern"] .shadow,
+html[data-template="modern"] .shadow-md {
+  box-shadow: var(--sunbird-shadow-md);
+}
+html[data-template="modern"] .shadow-lg,
+html[data-template="modern"] .shadow-xl,
+html[data-template="modern"] .shadow-2xl {
+  box-shadow: var(--sunbird-shadow-lg);
 }

@@ -150,7 +150,7 @@ const Header = ({ isSidebarOpen = false, onToggleSidebar = defaultToggleSidebar,
                   const returnTo = encodeURIComponent(targetPath);
                   window.location.href = `/portal/login?prompt=none&returnTo=${returnTo}`;
                 }}
-                className="font-rubik font-medium text-[1rem] leading-[1rem] tracking-normal min-w-[4.5rem] h-[1.875rem] rounded-[0.375rem] bg-sunbird-theme-accent text-white hover:bg-opacity-90 flex items-center justify-center px-4 py-0"
+                className="font-rubik font-medium text-[1rem] leading-[1rem] tracking-normal min-w-[4.5rem] h-[1.875rem] rounded-xs bg-sunbird-theme-accent text-white hover:bg-opacity-90 flex items-center justify-center px-4 py-0"
               >
                 {t("login")}
               </Button>

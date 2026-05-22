@@ -64,6 +64,30 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
 
+        // Navbar surface (Top/Bottom nav) — theme-reactive per template
+        nav: {
+          DEFAULT: "hsl(var(--nav-bg))",
+          foreground: "hsl(var(--nav-fg))",
+        },
+
+        // Workspace content-card type badges — theme-reactive (hue-rotated)
+        "ws-course": {
+          bg: "hsl(var(--ws-card-course-bg))",
+          fg: "hsl(var(--ws-card-course-text))",
+        },
+        "ws-content": {
+          bg: "hsl(var(--ws-card-content-bg))",
+          fg: "hsl(var(--ws-card-content-text))",
+        },
+        "ws-quiz": {
+          bg: "hsl(var(--ws-card-quiz-bg))",
+          fg: "hsl(var(--ws-card-quiz-text))",
+        },
+        "ws-collection": {
+          bg: "hsl(var(--ws-card-collection-bg))",
+          fg: "hsl(var(--ws-card-collection-text))",
+        },
+
         // Sunbird custom colors
         sunbird: {
           "dark-blue": "hsl(var(--sunbird-dark-blue))",

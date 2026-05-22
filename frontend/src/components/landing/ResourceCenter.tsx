@@ -132,7 +132,7 @@ const ResourceCardComponent = ({
 
                 {/* Top-left Badge - Exact 44x38 dimensions */}
                 <div className="absolute top-[2.75rem] left-[2.125rem] z-[5]">
-                    <span className="flex items-center justify-center bg-white text-black font-medium text-[1rem] px-3 w-[4.875rem] h-[2.25rem] rounded-[0.25rem] shadow-sm tracking-wide">
+                    <span className="flex items-center justify-center bg-white text-black font-medium text-[1rem] px-3 w-[4.875rem] h-[2.25rem] rounded-xxs shadow-sm tracking-wide">
                         {type}
                     </span>
                 </div>

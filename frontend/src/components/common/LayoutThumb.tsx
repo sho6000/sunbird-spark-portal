@@ -25,33 +25,33 @@ export function LayoutThumb({ id, label, active, onClick }: LayoutThumbProps) {
       case 'sidebar-left':
         return (
           <div className="grid grid-cols-[30%_1fr] grid-rows-[18%_1fr] gap-0.5 h-full">
-            <div className={`col-span-2 ${tint} rounded-[1px]`} />
-            <div className={`${accent} rounded-[1px]`} />
-            <div className={`${muted} rounded-[1px]`} />
+            <div className={`col-span-2 ${tint} rounded-xxs`} />
+            <div className={`${accent} rounded-xxs`} />
+            <div className={`${muted} rounded-xxs`} />
           </div>
         );
       case 'sidebar-right':
         return (
           <div className="grid grid-cols-[1fr_30%] grid-rows-[18%_1fr] gap-0.5 h-full">
-            <div className={`col-span-2 ${tint} rounded-[1px]`} />
-            <div className={`${muted} rounded-[1px]`} />
-            <div className={`${accent} rounded-[1px]`} />
+            <div className={`col-span-2 ${tint} rounded-xxs`} />
+            <div className={`${muted} rounded-xxs`} />
+            <div className={`${accent} rounded-xxs`} />
           </div>
         );
       case 'top':
         return (
           <div className="grid grid-rows-[18%_16%_1fr] gap-0.5 h-full">
-            <div className={`${tint} rounded-[1px]`} />
-            <div className={`${accent} rounded-[1px]`} />
-            <div className={`${muted} rounded-[1px]`} />
+            <div className={`${tint} rounded-xxs`} />
+            <div className={`${accent} rounded-xxs`} />
+            <div className={`${muted} rounded-xxs`} />
           </div>
         );
       case 'bottom':
         return (
           <div className="grid grid-rows-[18%_1fr_22%] gap-0.5 h-full">
-            <div className={`${tint} rounded-[1px]`} />
-            <div className={`${muted} rounded-[1px]`} />
-            <div className={`${accent} rounded-[1px]`} />
+            <div className={`${tint} rounded-xxs`} />
+            <div className={`${muted} rounded-xxs`} />
+            <div className={`${accent} rounded-xxs`} />
           </div>
         );
       default:
