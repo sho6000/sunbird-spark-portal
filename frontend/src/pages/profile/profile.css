@@ -518,3 +518,31 @@ body .notification-popover-arrow {
 .delete-account-warning {
     @apply text-base text-red-700 bg-red-50 border border-red-200 rounded-md p-3 mb-6 font-rubik;
 }
+
+.delete-account-container {
+    @apply flex flex-col items-center w-full max-w-2xl;
+}
+
+.delete-account-logo {
+    @apply h-20 w-auto block object-contain mb-6;
+}
+
+.delete-account-icon-wrapper {
+    @apply flex justify-center mb-4;
+}
+
+.delete-account-icon-badge {
+    @apply flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600;
+}
+
+.delete-account-icon {
+    @apply h-6 w-6;
+}
+
+.delete-account-message {
+    @apply text-base font-rubik text-sunbird-gray-4a mb-6;
+}
+
+.delete-account-login-btn {
+    @apply font-rubik font-medium text-base leading-normal h-10 px-6 rounded-md bg-sunbird-brick text-white hover:opacity-90 transition-opacity inline-flex items-center justify-center;
+}
