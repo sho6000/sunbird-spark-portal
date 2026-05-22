@@ -496,10 +496,19 @@
   "deleteAccount": {
     "entryLink": "Delete my account",
     "title": "Delete your account",
+    "subtitle": "Please review what will happen to your data, access, and contributions before continuing.",
+    "acknowledged": "Acknowledged",
     "warning": "This action is permanent and cannot be undone.",
     "consentIntro": "Before proceeding, please note:",
     "emailLabel": "OTP will be sent to",
-    "sendOtp": "Delete Account",
+    "otpDelivery": "OTP will be sent to",
+    "sections": {
+      "data": "Your Data & Privacy",
+      "access": "Access & Sign-In",
+      "content": "Content You Created",
+      "proceed": "Before You Proceed"
+    },
+    "sendOtp": "Delete account",
     "sending": "Sending OTP",
     "otpPrompt": "An OTP has been sent to your registered email. Enter it below to confirm deletion.",
     "otpTitle": "Verify it's you",

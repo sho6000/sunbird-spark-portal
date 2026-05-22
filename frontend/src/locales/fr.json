@@ -496,9 +496,18 @@
   "deleteAccount": {
     "entryLink": "Supprimer mon compte",
     "title": "Supprimer votre compte",
+    "subtitle": "Veuillez examiner ce qui adviendra de vos données, de votre accès et de vos contributions avant de continuer.",
+    "acknowledged": "Confirmé",
     "warning": "Cette action est définitive et ne peut pas être annulée.",
     "consentIntro": "Avant de continuer, veuillez noter :",
     "emailLabel": "Le code OTP sera envoyé à",
+    "otpDelivery": "Le code OTP sera envoyé à",
+    "sections": {
+      "data": "Vos données et votre vie privée",
+      "access": "Accès et connexion",
+      "content": "Contenus que vous avez créés",
+      "proceed": "Avant de continuer"
+    },
     "sendOtp": "Supprimer le compte",
     "sending": "Envoi du code OTP",
     "otpPrompt": "Un code OTP a été envoyé à votre adresse e-mail enregistrée. Saisissez-le ci-dessous pour confirmer la suppression.",

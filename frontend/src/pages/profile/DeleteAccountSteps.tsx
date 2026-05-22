@@ -5,87 +5,7 @@ import { useAppI18n } from "@/hooks/useAppI18n";
 import { OTP_REGEX } from "@/utils/ValidationUtils";
 import { formatTime } from "@/utils/profileUtils";
 
-export const CONDITION_KEYS = [
-    "deleteAccount.conditions.permanent",
-    "deleteAccount.conditions.featureLoss",
-    "deleteAccount.conditions.ssoNoRecreate",
-    "deleteAccount.conditions.contentLoss",
-    "deleteAccount.conditions.dataRetention",
-    "deleteAccount.conditions.noRestore",
-    "deleteAccount.conditions.understand",
-] as const;
-
-interface ConsentStepProps {
-    email: string | undefined;
-    checkedConditions: Record<string, boolean>;
-    toggleCondition: (key: string) => void;
-    allConditionsAccepted: boolean;
-    isSending: boolean;
-    errorMessage: string;
-    onSendOtp: () => void;
-    onCancel: () => void;
-}
-
-export const ConsentStep = ({
-    email,
-    checkedConditions,
-    toggleCondition,
-    allConditionsAccepted,
-    isSending,
-    errorMessage,
-    onSendOtp,
-    onCancel,
-}: ConsentStepProps) => {
-    const { t } = useAppI18n();
-    return (
-        <div className="space-y-4">
-            <p className="text-base font-semibold text-sunbird-obsidian font-rubik">
-                {t("deleteAccount.consentIntro")}
-            </p>
-            <ul className="space-y-2">
-                {CONDITION_KEYS.map((key) => (
-                    <li key={key} className="flex items-start gap-2">
-                        <input
-                            type="checkbox"
-                            id={key}
-                            checked={!!checkedConditions[key]}
-                            onChange={() => toggleCondition(key)}
-                            className="mt-1 accent-sunbird-brick"
-                        />
-                        <label htmlFor={key} className="text-base font-rubik">
-                            {t(key)}
-                        </label>
-                    </li>
-                ))}
-            </ul>
-
-            <div className="text-base text-sunbird-gray-4a font-rubik">
-                {t("deleteAccount.emailLabel")}: <strong>{email || "—"}</strong>
-            </div>
-
-            {errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-
-            <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 pt-2">
-                <Button
-                    variant="outline"
-                    onClick={onCancel}
-                    className="w-full sm:w-auto"
-                    data-edataid="delete-account-cancel"
-                >
-                    {t("cancel")}
-                </Button>
-                <Button
-                    onClick={onSendOtp}
-                    disabled={!allConditionsAccepted || !email || isSending}
-                    className="w-full sm:w-auto bg-sunbird-brick hover:bg-sunbird-brick/90 text-white"
-                    data-edataid="delete-account-send-otp"
-                >
-                    {isSending ? t("deleteAccount.sending") : t("deleteAccount.sendOtp")}
-                </Button>
-            </div>
-        </div>
-    );
-};
+export { CONDITION_KEYS, ConsentStep } from "./ConsentStep";
 
 interface OtpStepProps {
     email: string | undefined;
@@ -120,10 +40,10 @@ export const OtpStep = ({
                     <FiMail className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                    <h2 className="font-rubik font-medium text-[1.5rem] text-foreground leading-tight">
+                    <h2 className="font-rubik font-medium text-lg text-foreground leading-tight">
                         {t("deleteAccount.otpTitle")}
                     </h2>
-                    <p className="font-rubik text-base text-sunbird-gray-4a mt-1 break-words">
+                    <p className="font-rubik text-sm text-sunbird-gray-4a mt-1 break-words">
                         {t("deleteAccount.otpSubtitle", { email: email || "" })}
                     </p>
                 </div>
@@ -133,7 +53,7 @@ export const OtpStep = ({
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-red-600">
                     <FiAlertTriangle className="h-4 w-4" aria-hidden="true" />
                 </span>
-                <p className="font-rubik text-base text-red-600">
+                <p className="font-rubik text-sm text-red-600">
                     {t("deleteAccount.warning")}
                 </p>
             </div>
