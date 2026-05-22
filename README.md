@@ -162,16 +162,21 @@ In development, the following paths are proxied from Vite (port 5173) to the bac
 
 ## Theming System
 
-The portal is themed by a single block of CSS variables in `frontend/src/index.css`. Change them, save the file, the whole app retints — without touching any component.
+The portal retints from a single block of CSS variables in `frontend/src/index.css` driven by 6 seed values per palette. Palettes, fonts, themes, templates and layouts are defined in **one file** (`frontend/src/theme/themes.ts`) and applied at runtime via `ThemeProvider`. The user picks colour / font / template / layout from the brush icon in the header — selection persists in `localStorage`.
 
-Two layers:
+Five concepts:
 
-1. **Colour theme** — 6 seed variables drive every colour in the app.
-2. **Font family** — 1 variable drives the font used everywhere.
+1. **Colour palette** — 6 seed HSL values drive every brand colour.
+2. **Font family** — one CSS var (`--app-font-family`) drives the font used everywhere.
+3. **Theme** — pairs a `colorId` (palette) with a `fontId` (font). Switching theme applies both.
+4. **Template** — `data-template` attribute on `<html>` swaps radius scale + shadow scale. Picking a template also auto-applies its preset theme + preset font.
+5. **Layout** — `data-layout` attribute on `<html>` controls navigation chrome (left sidebar / right sidebar / top nav / bottom nav). Portal-only (mobile app has no layout option).
+
+> **Mobile parity:** the portal follows the same recipe as `sunbird-spark-mobile-app`. The main difference is the **theme = colour + font** indirection (mobile inlines seeds into theme entries; portal references `colorId`/`fontId`) and the **layout** axis (portal-only).
 
 ---
 
-### Part 1 — Colour Theme (the 6 Seed Variables)
+### Part 1 — Colour Palette (the 6 Seed Variables)
 
 Open `frontend/src/index.css` and find the seed block at the top:
 
@@ -395,6 +400,361 @@ Browser fetches the font and applies it everywhere.
 #### Why isn't just editing the variable enough?
 
 `--app-font-family: 'X', sans-serif;` only tells CSS the **name** to look up. The browser needs to know **where to find** a font called `'X'`. Without a matching source — either a `@font-face` block (Option 1) or a CDN `@import` (Option 2) — the browser silently falls back to the system default.
+
+---
+
+### Part 3 — Adding a New Colour Palette
+
+Open `frontend/src/theme/themes.ts` and append an entry to `COLOR_PALETTES`:
+
+```ts
+export const COLOR_PALETTES: ColorPalette[] = [
+  { id: 'terracotta', name: 'Terracotta',
+    seeds: { primaryH: 12, primaryS: '50%', primaryL: '45%', chipH: 45, chipS: '100%', iconH: 28 } },
+  // ... existing palettes ...
+
+  // NEW:
+  { id: 'sunrise', name: 'Sunrise',
+    seeds: { primaryH: 24, primaryS: '95%', primaryL: '53%', chipH: 35, chipS: '100%', iconH: 20 } },
+];
+```
+
+That's it. The swatch in the ThemeSelector is auto-derived from `primaryH/S/L` (no swatch field needed).
+
+**You do NOT need to touch:**
+- `index.css` — seeds applied via JS by `applyTheme()`
+- `ThemeProvider.tsx`, `ThemeSelector.tsx` — read from `COLOR_PALETTES` / `THEMES`
+- Any component — they all reference derived CSS variables
+
+A palette only becomes user-selectable once a `Theme` references it (Part 4).
+
+---
+
+### Part 4 — Adding a New Theme
+
+A **Theme** binds a colour palette + font into one selectable option. Append to `THEMES`:
+
+```ts
+export const THEMES: Theme[] = [
+  { id: 'terracotta', name: 'Sunbird Spark', colorId: 'terracotta', fontId: 'rubik' },
+  // ... existing themes ...
+
+  // NEW (references the palette added in Part 3):
+  { id: 'sunrise', name: 'Sunrise', colorId: 'sunrise', fontId: 'poppins' },
+];
+```
+
+Selecting the theme via the ThemeSelector calls `applyTheme()` (seeds → CSS vars) **and** `applyFont()` (font value → `--app-font-family`).
+
+> **Multiple themes can reuse the same palette** with different fonts (e.g. `{colorId: 'blue', fontId: 'inter'}` and `{colorId: 'blue', fontId: 'satisfy'}`).
+
+The user can still override the font afterward via the font picker — only the colour stays locked to the theme.
+
+---
+
+### Part 5 — Adding a New Font
+
+Two-step recipe — same as the mobile app.
+
+**Step 1** — `frontend/src/index.css` or `frontend/src/fonts.css`: add the font source (CDN `@import` or self-hosted `@font-face`). Same options as in **Part 2** above.
+
+**Step 2** — `frontend/src/theme/themes.ts`: append to `FONTS`:
+
+```ts
+export const FONTS: FontOption[] = [
+  { id: 'poppins', name: 'Poppins', value: "'Poppins', sans-serif" },
+  // ... existing fonts ...
+
+  // NEW:
+  { id: 'inter', name: 'Inter', value: "'Inter', sans-serif" },
+];
+```
+
+That's it. Inter shows up in the ThemeSelector font list automatically and is referenceable by `fontId: 'inter'` from any `Theme` or `Template`.
+
+---
+
+### Part 6 — Template (Classic / Modern / Custom)
+
+A template = `data-template` attribute on `<html>` + radius/shadow token scale + preset theme + preset font.
+
+Existing templates (`frontend/src/theme/themes.ts`):
+
+```ts
+export const TEMPLATES: TemplateOption[] = [
+  { id: 'classic', name: 'Classic', description: 'Warm, rounded',
+    presetThemeId: 'terracotta', presetFontId: 'rubik' },
+  { id: 'modern',  name: 'Modern',  description: 'Sharp, bold',
+    presetThemeId: 'blue',       presetFontId: 'inter' },
+];
+```
+
+When the user picks a template:
+1. `data-template="<id>"` is set on `<html>` — CSS picks up token values from `frontend/src/styles/template-overrides.css`.
+2. The `presetThemeId` theme is auto-applied (which in turn applies the theme's `colorId` palette).
+3. The `presetFontId` font is auto-applied (overriding the theme's `fontId`).
+4. User can still override theme/font afterward — template attribute stays, theme/font drift.
+
+#### How Radius (and Shadows) Work — Token-Driven
+
+Every surface uses CSS variable tokens, not literal values:
+
+```css
+.compact-course-card { border-radius: var(--r-md); box-shadow: var(--sunbird-shadow-md); }
+.hero-cta-button     { border-radius: var(--r-sm); }
+.profile-avatar      { border-radius: 50%; }   /* circles stay 50%, never tokens */
+```
+
+`frontend/src/styles/template-overrides.css` defines two token families used everywhere:
+
+| Token family | Tokens | Controls |
+|---|---|---|
+| **Radius** | `--r-xxs`, `--r-xs`, `--r-sm`, `--r-md`, `--r-lg`, `--r-xl`, `--r-pill`, `--radius` | `border-radius` on cards, buttons, inputs, modals. Bigger token = bigger corner. `--r-pill` = fully round capsule. |
+| **Shadow** | `--sunbird-shadow-sm`, `--sunbird-shadow-md`, `--sunbird-shadow-lg` | `box-shadow` on cards/popovers. `sm` = subtle, `md` = standard card, `lg` = elevated modal. |
+
+The `:root` block (in `template-overrides.css`) sets first-paint defaults (Classic values). Per-template blocks redefine the same tokens — that's the entire template system.
+
+```css
+/* :root — first-paint default (Classic values) */
+:root {
+  --r-xxs: 0.25rem;   /* 4px  — small chip, tiny dot */
+  --r-xs:  0.625rem;  /* 10px — compact badge */
+  --r-sm:  0.5rem;    /* 8px  — buttons, inputs */
+  --r-md:  0.875rem;  /* 14px — cards, modals */
+  --r-lg:  1.25rem;   /* 20px — large cards, tiles */
+  --r-xl:  1.75rem;   /* 28px — feature surfaces */
+  --r-pill: 9999px;   /* fully round pills */
+}
+
+/* Per-template — only the tokens change, no selector lists */
+html[data-template="modern"] {
+  --r-sm: 2px; --r-md: 4px; --r-lg: 6px; --r-xl: 8px; --r-pill: 0.5rem;
+  --sunbird-shadow-sm: 0 1px 2px rgba(15,23,42,0.06), 0 1px 1px rgba(15,23,42,0.04);
+  --sunbird-shadow-md: 0 4px 10px rgba(15,23,42,0.08), 0 1px 2px rgba(15,23,42,0.05);
+  --sunbird-shadow-lg: 0 12px 28px rgba(15,23,42,0.12), 0 4px 8px rgba(15,23,42,0.06);
+}
+```
+
+**Mental model:** components ask for `var(--r-md)` — the value at lookup time depends on which template is active.
+
+Because all components read tokens, redefining the tokens for a template **automatically retunes every card, button, modal, badge, input, etc.** — no per-component selectors needed.
+
+A template **without** an override block inherits the `:root` (Classic) values.
+
+#### Tailwind Default Shadow Override (Portal-Specific)
+
+Portal Modern also routes Tailwind's default `.shadow-sm` / `.shadow-md` / `.shadow-lg` utilities through the sunbird shadow tokens (so workspace, dialogs, dropdowns keep their lift):
+
+```css
+html[data-template="modern"] .shadow-sm { box-shadow: var(--sunbird-shadow-sm); }
+html[data-template="modern"] .shadow-md { box-shadow: var(--sunbird-shadow-md); }
+html[data-template="modern"] .shadow-lg { box-shadow: var(--sunbird-shadow-lg); }
+```
+
+If a new template wants Tailwind utilities to track its custom shadows, copy this pattern.
+
+---
+
+### Part 7 — Adding a New Template
+
+Two questions decide the workflow:
+
+| Question | Answer | What you edit |
+|---|---|---|
+| Reuses existing theme + font + radius? | Yes | `themes.ts` only |
+| Needs new theme or new font? | Yes | Add to `COLOR_PALETTES` / `THEMES` / `FONTS` first (Parts 3 + 4 + 5), then `themes.ts` |
+| Needs custom radius / shadow? | Yes | Add a token block in `template-overrides.css` |
+| Skip the radius block | — | Template **automatically inherits Classic radii** |
+
+> ⚠️ The `TemplateOption['id']` union in `themes.ts` is currently typed as `'classic' \| 'modern'`. To add a third template id, widen the union:
+> ```ts
+> export interface TemplateOption {
+>   id: 'classic' | 'modern' | 'royal'; // ← add new id here
+>   ...
+> }
+> ```
+
+**Case A — Keep Classic radius (no custom radius needed):**
+
+One entry in `frontend/src/theme/themes.ts`:
+
+```ts
+{ id: 'royal', name: 'Royal', description: 'Mint serif',
+  presetThemeId: 'green', presetFontId: 'satisfy' }
+```
+
+No `template-overrides.css` change. The new template uses the same rounded radius as Classic.
+
+**Case B — Want sharp/different radius for this template:**
+
+Step 1: Add the template entry to `TEMPLATES` (same as Case A).
+
+Step 2: Add a token block in `frontend/src/styles/template-overrides.css`:
+
+```css
+html[data-template="royal"] {
+  --r-xxs: 0.125rem;
+  --r-xs:  0.25rem;
+  --r-sm:  0.25rem;
+  --r-md:  0.5rem;
+  --r-lg:  0.75rem;
+  --r-xl:  1rem;
+  --r-pill: 0.5rem;
+  --radius: 0.5rem;
+
+  /* Optional — shadows. If omitted, falls back to :root defaults. */
+  --sunbird-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --sunbird-shadow-md: 0 1px 3px rgba(0,0,0,0.06);
+  --sunbird-shadow-lg: 0 2px 8px rgba(0,0,0,0.08);
+}
+```
+
+That's the **only** thing needed. Every card, button, modal in the app reads these tokens and auto-applies the new scale.
+
+> **Are shadows mandatory?** No. A template that omits the shadow override inherits the `:root` shadow defaults. Only define `--sunbird-shadow-*` if you want a different elevation style.
+
+**Case C — New theme or font:**
+
+1. Add to `COLOR_PALETTES` (Part 3), `THEMES` (Part 4) and/or `FONTS` (Part 5) first.
+2. Then add the template entry referencing the new ids.
+3. Optionally add a radius/shadow token block (Case B).
+
+**Why no per-component selectors:** Component CSS already uses `var(--r-md)` etc. New components added later only need to use tokens — they become template-aware automatically.
+
+---
+
+### Part 8 — Layout (Portal-Only)
+
+Layout controls navigation chrome — sidebar position or top/bottom nav. Selected via the same brush-icon picker.
+
+```ts
+export const LAYOUTS: LayoutOption[] = [
+  { id: 'sidebar-left',  name: 'Left Sidebar' },
+  { id: 'sidebar-right', name: 'Right Sidebar' },
+  { id: 'top',           name: 'Top Nav' },
+  { id: 'bottom',        name: 'Bottom Nav' },
+];
+```
+
+`applyLayout(id)` writes `data-layout="<id>"` on `<html>`. `PageLayout.tsx` reads `activeLayout.id` and renders `HomeSidebar` / `TopNavBar` / `BottomNavBar` accordingly. Mobile viewport forces the sidebar into a drawer regardless of layout choice.
+
+> Anonymous (unauthenticated) users always get a minimal `Header + Outlet + Footer` layout — the layout attribute is ignored for them.
+
+To add a new layout id:
+1. Append entry to `LAYOUTS` in `themes.ts`.
+2. Widen the `LayoutId` union: `export type LayoutId = 'sidebar-left' | 'sidebar-right' | 'top' | 'bottom' | 'my-new-id';`
+3. Handle the new id in `frontend/src/components/layout/PageLayout.tsx`.
+
+---
+
+### Part 9 — Default Look on First Launch
+
+On app start, `ThemeProvider` reads `localStorage`:
+
+| Key | Falls back to |
+|---|---|
+| `sunbird-theme` | `terracotta` (`DEFAULT_THEME_ID`) |
+| `sunbird-font` | `poppins` (`DEFAULT_FONT_ID`) |
+| `sunbird-template` | `classic` (`DEFAULT_TEMPLATE_ID`) |
+| `sunbird-layout` | `sidebar-left` (`DEFAULT_LAYOUT_ID`) |
+
+To change defaults app-wide, edit these constants in `frontend/src/theme/themes.ts`:
+
+```ts
+export const DEFAULT_THEME_ID = 'terracotta';
+export const DEFAULT_FONT_ID = 'poppins';
+export const DEFAULT_TEMPLATE_ID: TemplateOption['id'] = 'classic';
+export const DEFAULT_LAYOUT_ID: LayoutId = 'sidebar-left';
+```
+
+---
+
+### Part 10 — How It Works at Runtime
+
+`frontend/src/providers/ThemeProvider.tsx` owns the state:
+
+```ts
+{ activeTheme, activeFont, activeTemplate, activeLayout,
+  setTheme, setFont, setTemplate, setLayout }
+```
+
+On any state change, the matching `apply*()` function from `themes.ts` writes the appropriate CSS variable or HTML attribute:
+
+- `applyTheme(theme)` → resolves `colorId` to seeds, writes `--sunbird-spark-theme-*` on `<html>`
+- `applyFont(font)` → sets `--app-font-family`
+- `applyTemplate(id)` → sets `data-template="<id>"` on `<html>`
+- `applyLayout(id)` → sets `data-layout="<id>"` on `<html>`
+
+Cascade rules (mobile parity):
+
+- `setTheme(id)` → applies theme palette **and** the theme's `fontId`. User can override font after.
+- `setTemplate(id)` → applies template radius/shadows, **and** cascades `setActiveTheme(template.presetThemeId)` + `setActiveFont(template.presetFontId)`.
+
+---
+
+### Quick Reference — Where to Edit What
+
+| To do this | Edit |
+|---|---|
+| Change default look (first launch) | `DEFAULT_*_ID` constants in `frontend/src/theme/themes.ts` |
+| Add colour palette | `COLOR_PALETTES` array in `frontend/src/theme/themes.ts` |
+| Add font | `frontend/src/index.css` or `fonts.css` (`@import` / `@font-face`) + `FONTS` array in `themes.ts` |
+| Add theme (colour + font pairing) | `THEMES` array in `themes.ts` (references existing `colorId` + `fontId`) |
+| Add template (Classic radius) | `TEMPLATES` array in `themes.ts` only |
+| Add template (custom radius) | `TEMPLATES` array + token block `html[data-template="<id>"] { --r-*: ...; --sunbird-shadow-*: ...; }` in `frontend/src/styles/template-overrides.css` |
+| Tweak global radius scale for a template | Edit the matching `html[data-template="<id>"]` token block in `template-overrides.css` |
+| Add layout | `LAYOUTS` array + widen `LayoutId` union + branch in `components/layout/PageLayout.tsx` |
+| New component should be template-aware | Use `border-radius: var(--r-md)` and `box-shadow: var(--sunbird-shadow-md)` — no other changes needed |
+
+---
+
+### Behavior Notes
+
+- **Original look preserved** when all defaults are kept (Terracotta + Poppins + Classic + Left Sidebar).
+- **Workspace card badges + thumbnail patterns** are theme-reactive — hue-derived from `--sunbird-spark-theme-primary-h` via `--ws-pat-{1..6}-h` tokens, so a theme switch rotates every workspace card colour together.
+- **Top / Bottom navbar** background is theme-reactive — driven by `--nav-bg` (chip-tinted in Classic, primary-tinted in Modern).
+- **Category gradients on landing page** are FIXED (decorative, not brand identity).
+- **Sunbird brand logo, dissolveParticles** stay static (brand identity).
+- **All sunbird-* Tailwind utilities, CSS-var-driven components** retint automatically with theme change.
+
+---
+
+### Adding a New Theme — End-to-End Example
+
+Goal: add a **"Sunrise"** colour palette, a **"Sunrise Modern"** theme (uses Sunrise + Inter), and a **"Sky"** template that bundles Sunrise + Poppins + Modern radius:
+
+**1. Add colour palette** — `frontend/src/theme/themes.ts`:
+
+```ts
+{ id: 'sunrise', name: 'Sunrise',
+  seeds: { primaryH: 24, primaryS: '95%', primaryL: '53%', chipH: 35, chipS: '100%', iconH: 20 } },
+```
+
+**2. Add theme** — same file:
+
+```ts
+{ id: 'sunrise', name: 'Sunrise Modern', colorId: 'sunrise', fontId: 'inter' },
+```
+
+**3. Add template** — same file (widen the `TemplateOption['id']` union first):
+
+```ts
+{ id: 'sky', name: 'Sky', description: 'Modern sunrise',
+  presetThemeId: 'sunrise', presetFontId: 'poppins' },
+```
+
+**4. (Optional) Sky needs custom radius.** Add to `frontend/src/styles/template-overrides.css`:
+
+```css
+html[data-template="sky"] {
+  --r-sm: 0.125rem;
+  --r-md: 0.25rem;
+  --r-lg: 0.5rem;
+  --r-pill: 0.5rem;
+}
+```
+
+Restart dev server. Both **Sunrise** swatch and **Sky** template appear in the ThemeSelector. Tap Sky → Sunrise colours + Poppins font + Sky radius applied atomically. User can still override theme or font afterward.
 
 ---
 

@@ -15,7 +15,7 @@ const STATUS_MAP: Record<string, BatchStatus> = {
 const STATUS_STYLES: Record<BatchStatus, string> = {
   Upcoming: "bg-[hsl(var(--sunbird-status-ongoing-bg))] text-[hsl(var(--sunbird-brown-dark))]",
   Ongoing:  "bg-green-100 text-green-700",
-  Expired:  "bg-gray-100  text-gray-500",
+  Expired:  "bg-muted  text-muted-foreground",
 };
 
 export function getBatchStatus(status: string): BatchStatus {

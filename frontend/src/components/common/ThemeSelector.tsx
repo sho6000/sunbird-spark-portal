@@ -1,10 +1,25 @@
 import {
   FiCheck,
-  FiSun,
   FiType,
   FiLayout,
   FiGrid,
 } from 'react-icons/fi';
+
+/** Color palette glyph — theme selector trigger icon (parity with mobile app). */
+const ThemeBrushIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    className={className}
+  >
+    <path
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.96-4.04-9-9-9zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 8 6.5 8 8 8.67 8 9.5 7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 8 17.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+      fill="currentColor"
+    />
+  </svg>
+);
 import { useTheme } from '@/providers/ThemeProvider';
 import { themePreviewColor } from '@/theme/themes';
 import {
@@ -40,7 +55,7 @@ export function ThemeSelector({
           data-edatatype="CLICK"
           title="Change theme"
         >
-          <FiSun className={iconClassName} aria-hidden="true" />
+          <ThemeBrushIcon className={iconClassName} />
         </button>
       </DropdownMenuTrigger>
 
@@ -106,15 +121,15 @@ export function ThemeSelector({
                 >
                   <div
                     className={`h-10 rounded-md mb-2 grid grid-cols-[18px_1fr] grid-rows-[10px_1fr] gap-0.5 p-0.5 ${
-                      tpl.id === 'modern' ? 'bg-gray-100' : 'bg-muted'
+                      tpl.id === 'modern' ? 'bg-muted' : 'bg-muted'
                     }`}
                   >
-                    <div className={`col-span-2 bg-sunbird-theme-accent ${tpl.id === 'modern' ? 'rounded-[1px]' : 'rounded'}`} />
-                    <div className={`bg-sunbird-theme-accent/20 ${tpl.id === 'modern' ? 'rounded-[1px]' : 'rounded'}`} />
+                    <div className={`col-span-2 bg-sunbird-theme-accent ${tpl.id === 'modern' ? 'rounded-xxs' : 'rounded'}`} />
+                    <div className={`bg-sunbird-theme-accent/20 ${tpl.id === 'modern' ? 'rounded-xxs' : 'rounded'}`} />
                     <div
                       className={
                         tpl.id === 'modern'
-                          ? 'bg-white border border-border rounded-[1px]'
+                          ? 'bg-white border border-border rounded-xxs'
                           : 'bg-card rounded'
                       }
                     />

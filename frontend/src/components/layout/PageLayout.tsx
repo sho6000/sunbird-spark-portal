@@ -10,6 +10,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useAppI18n } from '@/hooks/useAppI18n';
 import { useSidebarState } from '@/hooks/useSidebarState';
 import { useTheme } from '@/providers/ThemeProvider';
+import { usePermissions } from '@/hooks/usePermission';
 
 // Order matters: more specific prefixes must come before shorter ones
 const PATH_TO_NAV: { prefix: string; navId: string }[] = [
@@ -37,6 +38,7 @@ const PageLayout = () => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const { activeLayout } = useTheme();
+  const { isAuthenticated } = usePermissions();
 
   const isExplorePage = location.pathname.startsWith('/explore');
   const defaultState = isExplorePage ? false : !isMobile;
@@ -68,6 +70,19 @@ const PageLayout = () => {
 
   const activeNav = getActiveNav(location.pathname);
   const layoutId = activeLayout.id;
+
+  // ---- ANONYMOUS: minimal layout, skip Top/Bottom nav and sidebar ----
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col min-h-screen bg-background">
+        <Header isSidebarOpen={false} onToggleSidebar={() => {}} forcePublic />
+        <div className="flex flex-1 relative">
+          <Outlet />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   // ---- MOBILE: all layouts collapse to drawer ----
   if (isMobile) {

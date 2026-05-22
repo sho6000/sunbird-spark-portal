@@ -130,7 +130,7 @@ const FAQSection = () => {
                     </Accordion>
 
                     <div className="hidden lg:block">
-                        <div className="w-[23.125rem] h-[28rem] overflow-hidden rounded-[1.125rem]">
+                        <div className="w-[23.125rem] h-[28rem] overflow-hidden rounded-xl">
                             <img
                                 src={faqImage}
                                 alt={t("faq.studentAlt")}

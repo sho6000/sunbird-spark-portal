@@ -116,7 +116,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ activeNav }) => {
 
   return (
     <nav
-      className="sticky top-[4.5rem] z-30 bg-background border-b border-border/50 px-7 py-2 flex items-center gap-1"
+      className="sticky top-[4.5rem] z-30 bg-nav/85 backdrop-blur-md text-nav-foreground border-b border-border/40 px-7 py-2 flex items-center gap-1"
       aria-label="Primary navigation"
     >
       {visible.map((item) => renderItem(item))}

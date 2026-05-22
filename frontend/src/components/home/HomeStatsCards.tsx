@@ -45,7 +45,7 @@ const HomeStatsCards = () => {
     const { data: enrolledCollections, isLoading: enrollmentsLoading } = useUserEnrolledCollections();
     const { data: certificatesData, isLoading: certificatesLoading } = useUserCertificates();
     const courses = enrolledCollections?.data?.courses || [];
-    
+
     const isLoading = enrollmentsLoading || certificatesLoading;
 
     // Course-level stats using course status (1 = in progress, 2 = completed)

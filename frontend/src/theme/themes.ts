@@ -1,3 +1,11 @@
+/**
+ * Theme configuration.
+ *
+ * To add a new colour, font, template or layout, append an entry to the
+ * relevant array below. To add a new theme, reference an existing
+ * `colorId` (from COLOR_PALETTES) and `fontId` (from FONTS).
+ */
+
 export interface ThemeSeeds {
   primaryH: number;
   primaryS: string;
@@ -7,7 +15,7 @@ export interface ThemeSeeds {
   iconH: number;
 }
 
-export interface Theme {
+export interface ColorPalette {
   id: string;
   name: string;
   seeds: ThemeSeeds;
@@ -19,10 +27,21 @@ export interface FontOption {
   value: string;
 }
 
+export interface Theme {
+  id: string;
+  name: string;
+  colorId: string;
+  fontId: string;
+}
+
 export interface TemplateOption {
   id: 'classic' | 'modern';
   name: string;
   description: string;
+  /** Theme auto-applied when this template is selected. */
+  presetThemeId: string;
+  /** Font auto-applied when this template is selected. */
+  presetFontId: string;
 }
 
 export type LayoutId = 'sidebar-left' | 'sidebar-right' | 'top' | 'bottom';
@@ -32,48 +51,52 @@ export interface LayoutOption {
   name: string;
 }
 
-export const THEMES: Theme[] = [
+// ─── Colour palettes ─────────────────────────────────────────────────────────
+
+export const COLOR_PALETTES: ColorPalette[] = [
   {
     id: 'terracotta',
-    name: 'Sunbird Spark',
+    name: 'Terracotta',
     seeds: { primaryH: 12, primaryS: '50%', primaryL: '45%', chipH: 45, chipS: '100%', iconH: 28 },
   },
   {
     id: 'blue',
-    name: 'Professional',
+    name: 'Professional Blue',
     seeds: { primaryH: 217, primaryS: '71%', primaryL: '46%', chipH: 217, chipS: '71%', iconH: 200 },
   },
   {
     id: 'teal',
-    name: 'Nature',
+    name: 'Nature Teal',
     seeds: { primaryH: 180, primaryS: '38%', primaryL: '38%', chipH: 180, chipS: '38%', iconH: 170 },
   },
   {
     id: 'purple',
-    name: 'Royal',
+    name: 'Royal Purple',
     seeds: { primaryH: 265, primaryS: '50%', primaryL: '45%', chipH: 265, chipS: '50%', iconH: 255 },
   },
   {
     id: 'green',
-    name: 'Forest',
+    name: 'Forest Green',
     seeds: { primaryH: 145, primaryS: '45%', primaryL: '35%', chipH: 145, chipS: '45%', iconH: 155 },
   },
   {
     id: 'indigo',
-    name: 'Ocean',
+    name: 'Ocean Indigo',
     seeds: { primaryH: 235, primaryS: '65%', primaryL: '48%', chipH: 235, chipS: '65%', iconH: 220 },
   },
   {
     id: 'rose',
-    name: 'Blossom',
+    name: 'Blossom Rose',
     seeds: { primaryH: 345, primaryS: '60%', primaryL: '45%', chipH: 345, chipS: '60%', iconH: 335 },
   },
   {
     id: 'amber',
-    name: 'Sunrise',
+    name: 'Sunrise Amber',
     seeds: { primaryH: 35, primaryS: '80%', primaryL: '45%', chipH: 35, chipS: '80%', iconH: 25 },
   },
 ];
+
+// ─── Fonts ───────────────────────────────────────────────────────────────────
 
 export const FONTS: FontOption[] = [
   { id: 'poppins', name: 'Poppins', value: "'Poppins', sans-serif" },
@@ -82,26 +105,59 @@ export const FONTS: FontOption[] = [
   { id: 'satisfy', name: 'Satisfy', value: "'Satisfy', cursive" },
 ];
 
+// ─── Themes (compose colour + font) ──────────────────────────────────────────
+
+export const THEMES: Theme[] = [
+  { id: 'terracotta', name: 'Sunbird Spark', colorId: 'terracotta', fontId: 'rubik' },
+  { id: 'blue',       name: 'Professional', colorId: 'blue',        fontId: 'inter' },
+  { id: 'teal',       name: 'Nature',       colorId: 'teal',        fontId: 'poppins' },
+  { id: 'purple',     name: 'Royal',        colorId: 'purple',      fontId: 'poppins' },
+  { id: 'green',      name: 'Forest',       colorId: 'green',       fontId: 'rubik' },
+  { id: 'indigo',     name: 'Ocean',        colorId: 'indigo',      fontId: 'inter' },
+  { id: 'rose',       name: 'Blossom',      colorId: 'rose',        fontId: 'poppins' },
+  { id: 'amber',      name: 'Sunrise',      colorId: 'amber',       fontId: 'rubik' },
+];
+
+// ─── Templates / layouts ─────────────────────────────────────────────────────
+
+export const TEMPLATES: TemplateOption[] = [
+  { id: 'classic', name: 'Classic', description: 'Warm, rounded', presetThemeId: 'terracotta', presetFontId: 'rubik' },
+  { id: 'modern',  name: 'Modern',  description: 'Sharp, bold',   presetThemeId: 'blue',       presetFontId: 'inter' },
+];
+
+export const LAYOUTS: LayoutOption[] = [
+  { id: 'sidebar-left',  name: 'Left Sidebar' },
+  { id: 'sidebar-right', name: 'Right Sidebar' },
+  { id: 'top',           name: 'Top Nav' },
+  { id: 'bottom',        name: 'Bottom Nav' },
+];
+
+// ─── Defaults ────────────────────────────────────────────────────────────────
+
 export const DEFAULT_THEME_ID = 'terracotta';
 export const DEFAULT_FONT_ID = 'poppins';
 export const DEFAULT_TEMPLATE_ID: TemplateOption['id'] = 'classic';
 export const DEFAULT_LAYOUT_ID: LayoutId = 'sidebar-left';
 
-export const TEMPLATES: TemplateOption[] = [
-  { id: 'classic', name: 'Classic', description: 'Warm, rounded' },
-  { id: 'modern', name: 'Modern', description: 'Sharp, bold' },
-];
+// ─── Resolvers ───────────────────────────────────────────────────────────────
 
-export const LAYOUTS: LayoutOption[] = [
-  { id: 'sidebar-left', name: 'Left Sidebar' },
-  { id: 'sidebar-right', name: 'Right Sidebar' },
-  { id: 'top', name: 'Top Nav' },
-  { id: 'bottom', name: 'Bottom Nav' },
-];
+export function getColorPalette(colorId: string): ColorPalette {
+  return COLOR_PALETTES.find((c) => c.id === colorId) ?? COLOR_PALETTES[0]!;
+}
+
+export function getFont(fontId: string): FontOption {
+  return FONTS.find((f) => f.id === fontId) ?? FONTS.find((f) => f.id === DEFAULT_FONT_ID)!;
+}
+
+export function getThemeSeeds(theme: Theme): ThemeSeeds {
+  return getColorPalette(theme.colorId).seeds;
+}
+
+// ─── Appliers (write to DOM) ─────────────────────────────────────────────────
 
 export function applyTheme(theme: Theme): void {
   const root = document.documentElement;
-  const { seeds } = theme;
+  const seeds = getThemeSeeds(theme);
   root.style.setProperty('--sunbird-spark-theme-primary-h', String(seeds.primaryH));
   root.style.setProperty('--sunbird-spark-theme-primary-s', seeds.primaryS);
   root.style.setProperty('--sunbird-spark-theme-primary-l', seeds.primaryL);
@@ -123,6 +179,6 @@ export function applyLayout(id: LayoutId): void {
 }
 
 export function themePreviewColor(theme: Theme): string {
-  const { primaryH, primaryS, primaryL } = theme.seeds;
+  const { primaryH, primaryS, primaryL } = getThemeSeeds(theme);
   return `hsl(${primaryH} ${primaryS} ${primaryL})`;
 }
