@@ -100,37 +100,37 @@ export const COLOR_PALETTES: ColorPalette[] = [
 
 export const FONTS: FontOption[] = [
   { id: 'poppins', name: 'Poppins', value: "'Poppins', sans-serif" },
-  { id: 'rubik',   name: 'Rubik',   value: "'Rubik', sans-serif" },
-  { id: 'inter',   name: 'Inter',   value: "'Inter', sans-serif" },
+  { id: 'rubik', name: 'Rubik', value: "'Rubik', sans-serif" },
+  { id: 'inter', name: 'Inter', value: "'Inter', sans-serif" },
   { id: 'satisfy', name: 'Satisfy', value: "'Satisfy', cursive" },
-  { id: 'lora',    name: 'Lora',    value: "'Lora', serif" },
+  { id: 'lora', name: 'Lora', value: "'Lora', serif" },
 ];
 
 // ─── Themes (compose colour + font) ──────────────────────────────────────────
 
 export const THEMES: Theme[] = [
   { id: 'terracotta', name: 'Sunbird Spark', colorId: 'terracotta', fontId: 'rubik' },
-  { id: 'blue',       name: 'Professional', colorId: 'blue',        fontId: 'inter' },
-  { id: 'teal',       name: 'Nature',       colorId: 'teal',        fontId: 'poppins' },
-  { id: 'purple',     name: 'Royal',        colorId: 'purple',      fontId: 'poppins' },
-  { id: 'green',      name: 'Forest',       colorId: 'green',       fontId: 'rubik' },
-  { id: 'indigo',     name: 'Ocean',        colorId: 'indigo',      fontId: 'inter' },
-  { id: 'rose',       name: 'Blossom',      colorId: 'rose',        fontId: 'poppins' },
-  { id: 'amber',      name: 'Sunrise',      colorId: 'amber',       fontId: 'rubik' },
+  { id: 'blue', name: 'Professional', colorId: 'blue', fontId: 'inter' },
+  { id: 'teal', name: 'Nature', colorId: 'teal', fontId: 'poppins' },
+  { id: 'purple', name: 'Royal', colorId: 'purple', fontId: 'poppins' },
+  { id: 'green', name: 'Forest', colorId: 'green', fontId: 'rubik' },
+  { id: 'indigo', name: 'Ocean', colorId: 'indigo', fontId: 'inter' },
+  { id: 'rose', name: 'Blossom', colorId: 'rose', fontId: 'poppins' },
+  { id: 'amber', name: 'Sunrise', colorId: 'amber', fontId: 'rubik' },
 ];
 
 // ─── Templates / layouts ─────────────────────────────────────────────────────
 
 export const TEMPLATES: TemplateOption[] = [
   { id: 'classic', name: 'Classic', description: 'Warm, rounded', presetThemeId: 'terracotta', presetFontId: 'rubik' },
-  { id: 'modern',  name: 'Modern',  description: 'Sharp, bold',   presetThemeId: 'blue',       presetFontId: 'inter' },
+  { id: 'modern', name: 'Modern', description: 'Sharp, bold', presetThemeId: 'blue', presetFontId: 'inter' },
 ];
 
 export const LAYOUTS: LayoutOption[] = [
-  { id: 'sidebar-left',  name: 'Left Sidebar' },
+  { id: 'sidebar-left', name: 'Left Sidebar' },
   { id: 'sidebar-right', name: 'Right Sidebar' },
-  { id: 'top',           name: 'Top Nav' },
-  { id: 'bottom',        name: 'Bottom Nav' },
+  { id: 'top', name: 'Top Nav' },
+  { id: 'bottom', name: 'Bottom Nav' },
 ];
 
 // ─── Defaults ────────────────────────────────────────────────────────────────

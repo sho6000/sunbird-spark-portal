@@ -9,7 +9,6 @@ import {
   DEFAULT_TEMPLATE_ID,
   DEFAULT_LAYOUT_ID,
   applyTheme,
-  applyFont,
   applyTemplate,
   applyLayout,
   persistThemeSeeds,
@@ -18,6 +17,7 @@ import {
   type TemplateOption,
   type LayoutOption,
 } from '@/theme/themes';
+import { useAppI18n } from '@/hooks/useAppI18n';
 
 const THEME_STORAGE_KEY = 'sunbird-theme';
 const FONT_STORAGE_KEY = 'sunbird-font';
@@ -62,13 +62,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return LAYOUTS.find((l) => l.id === saved) ?? LAYOUTS.find((l) => l.id === DEFAULT_LAYOUT_ID)!;
   });
 
+  const { currentLanguage } = useAppI18n();
+
   useEffect(() => {
     applyTheme(activeTheme);
   }, [activeTheme]);
 
+  // Single source of truth for `--app-font-family` (mirrors mobile-app
+  // ThemeContext). Watches both the user-picked font AND the active
+  // language. Script-locked languages (Arabic etc. via `forceFont`)
+  // override the theme font; otherwise honour the picker.
   useEffect(() => {
-    applyFont(activeFont);
-  }, [activeFont]);
+    const value = currentLanguage.forceFont ? currentLanguage.font : activeFont.value;
+    document.documentElement.style.setProperty('--app-font-family', value);
+  }, [activeFont, currentLanguage]);
 
   useEffect(() => {
     applyTemplate(activeTemplate.id);
@@ -94,7 +101,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // always overlap (mobile has Pink/Mint/Lora; portal has Green/Inter/etc).
   //
   //   ?seeds=ph:N,ps:N%,pl:N%,ch:N,cs:N%,ih:N    — applied as CSS vars
-  //   ?fontFamily=<css family value>             — applied to --app-font-family
   //   ?template=classic|modern|...               — applied as data-template
   //   ?theme=<id>                                — fallback for portal-known ids
   //   ?font=<id>                                 — fallback for portal-known ids
@@ -102,7 +108,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const seedsParam = params.get('seeds');
-    const fontFamilyParam = params.get('fontFamily');
     const templateParam = params.get('template');
     const themeParam = params.get('theme');
     const fontParam = params.get('font');
@@ -141,14 +146,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (matchedTheme) setActiveTheme(matchedTheme);
     }
 
-    // Font — raw family value wins.
-    if (fontFamilyParam) {
-      root.style.setProperty('--app-font-family', fontFamilyParam);
-    }
+    // Font — look up by id in portal's FONTS catalog. If unknown,
+    // fall back to portal default (do nothing — activeFont stays as is).
+    // Route through `setActiveFont` so the language-aware font effect
+    // honours forceFont rules for the active language.
     if (fontParam) {
-      localStorage.setItem(FONT_STORAGE_KEY, fontParam);
       const matchedFont = FONTS.find((f) => f.id === fontParam);
-      if (matchedFont) setActiveFont(matchedFont);
+      if (matchedFont) {
+        localStorage.setItem(FONT_STORAGE_KEY, fontParam);
+        setActiveFont(matchedFont);
+      }
     }
   }, []);
 
