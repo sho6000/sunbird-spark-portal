@@ -12,6 +12,7 @@ import {
   applyFont,
   applyTemplate,
   applyLayout,
+  persistThemeSeeds,
   type Theme,
   type FontOption,
   type TemplateOption,
@@ -76,6 +77,80 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     applyLayout(activeLayout.id);
   }, [activeLayout]);
+
+  // Hand off pre-computed seeds to Keycloak login pages via localStorage
+  // (same-origin, same flow as language). The Sunbird Keycloak FTL template
+  // reads `sunbird-theme-seeds` + `sunbird-font` + `sunbird-template` from
+  // localStorage on first paint. Font/template ids are already persisted on
+  // setFont/setTemplate above; only the encoded seed string needs an extra
+  // write whenever the active theme changes.
+  useEffect(() => {
+    persistThemeSeeds(activeTheme);
+  }, [activeTheme]);
+
+  // On first mount, honour theme/font/template hand-off from the mobile
+  // InAppBrowser (see AuthWebviewService). The hand-off prefers raw values
+  // over ids because the mobile and portal palette/font catalogs do not
+  // always overlap (mobile has Pink/Mint/Lora; portal has Green/Inter/etc).
+  //
+  //   ?seeds=ph:N,ps:N%,pl:N%,ch:N,cs:N%,ih:N    — applied as CSS vars
+  //   ?fontFamily=<css family value>             — applied to --app-font-family
+  //   ?template=classic|modern|...               — applied as data-template
+  //   ?theme=<id>                                — fallback for portal-known ids
+  //   ?font=<id>                                 — fallback for portal-known ids
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const seedsParam = params.get('seeds');
+    const fontFamilyParam = params.get('fontFamily');
+    const templateParam = params.get('template');
+    const themeParam = params.get('theme');
+    const fontParam = params.get('font');
+
+    const root = document.documentElement;
+
+    // Template — apply attr + persist (Keycloak reads `sunbird-template`).
+    if (templateParam) {
+      root.setAttribute('data-template', templateParam);
+      localStorage.setItem(TEMPLATE_STORAGE_KEY, templateParam);
+      const matchedTemplate = TEMPLATES.find((t) => t.id === templateParam);
+      if (matchedTemplate) setActiveTemplate(matchedTemplate);
+    }
+
+    // Theme — raw seeds win over id lookup.
+    if (seedsParam) {
+      const SEED_RE = /^(ph|ps|pl|ch|cs|ih):(\d{1,3}%?)$/;
+      const seedToVar: Record<string, string> = {
+        ph: '--sunbird-spark-theme-primary-h',
+        ps: '--sunbird-spark-theme-primary-s',
+        pl: '--sunbird-spark-theme-primary-l',
+        ch: '--sunbird-spark-theme-chip-h',
+        cs: '--sunbird-spark-theme-chip-s',
+        ih: '--sunbird-spark-theme-icon-h',
+      };
+      seedsParam.split(',').forEach((kv) => {
+        const m = SEED_RE.exec(kv.trim());
+        if (m) root.style.setProperty(seedToVar[m[1]!]!, m[2]!);
+      });
+      // Persist for Keycloak FTL — same key the FTL reads.
+      localStorage.setItem('sunbird-theme-seeds', seedsParam);
+    }
+    if (themeParam) {
+      localStorage.setItem(THEME_STORAGE_KEY, themeParam);
+      const matchedTheme = THEMES.find((t) => t.id === themeParam);
+      if (matchedTheme) setActiveTheme(matchedTheme);
+    }
+
+    // Font — raw family value wins.
+    if (fontFamilyParam) {
+      root.style.setProperty('--app-font-family', fontFamilyParam);
+    }
+    if (fontParam) {
+      localStorage.setItem(FONT_STORAGE_KEY, fontParam);
+      const matchedFont = FONTS.find((f) => f.id === fontParam);
+      if (matchedFont) setActiveFont(matchedFont);
+    }
+  }, []);
 
   const setTheme = (id: string) => {
     const theme = THEMES.find((t) => t.id === id);

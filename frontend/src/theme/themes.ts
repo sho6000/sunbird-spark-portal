@@ -100,9 +100,10 @@ export const COLOR_PALETTES: ColorPalette[] = [
 
 export const FONTS: FontOption[] = [
   { id: 'poppins', name: 'Poppins', value: "'Poppins', sans-serif" },
-  { id: 'rubik', name: 'Rubik', value: "'Rubik', sans-serif" },
-  { id: 'inter', name: 'Inter', value: "'Inter', sans-serif" },
+  { id: 'rubik',   name: 'Rubik',   value: "'Rubik', sans-serif" },
+  { id: 'inter',   name: 'Inter',   value: "'Inter', sans-serif" },
   { id: 'satisfy', name: 'Satisfy', value: "'Satisfy', cursive" },
+  { id: 'lora',    name: 'Lora',    value: "'Lora', serif" },
 ];
 
 // ─── Themes (compose colour + font) ──────────────────────────────────────────
@@ -181,4 +182,40 @@ export function applyLayout(id: LayoutId): void {
 export function themePreviewColor(theme: Theme): string {
   const { primaryH, primaryS, primaryL } = getThemeSeeds(theme);
   return `hsl(${primaryH} ${primaryS} ${primaryL})`;
+}
+
+// ─── Keycloak hand-off (localStorage, mirrors language flow) ─────────────────
+
+/**
+ * Keycloak login pages share the portal's origin, so they can read the
+ * portal's `localStorage` directly. We persist a pre-computed seed string
+ * here under `sunbird-theme-seeds`; the sunbird Keycloak FTL template reads
+ * it on first paint and writes the matching CSS variables.
+ *
+ * Format:
+ *   sunbird-theme-seeds   "ph:12,ps:50%,pl:45%,ch:45,cs:100%,ih:28"
+ *
+ * Font + template ids are already persisted by ThemeProvider under
+ * `sunbird-font` and `sunbird-template` — Keycloak reads those directly.
+ */
+export const KEYCLOAK_SEEDS_STORAGE_KEY = 'sunbird-theme-seeds';
+
+export function encodeThemeSeeds(seeds: ThemeSeeds): string {
+  return [
+    `ph:${seeds.primaryH}`,
+    `ps:${seeds.primaryS}`,
+    `pl:${seeds.primaryL}`,
+    `ch:${seeds.chipH}`,
+    `cs:${seeds.chipS}`,
+    `ih:${seeds.iconH}`,
+  ].join(',');
+}
+
+export function persistThemeSeeds(theme: Theme): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(KEYCLOAK_SEEDS_STORAGE_KEY, encodeThemeSeeds(getThemeSeeds(theme)));
+  } catch {
+    // localStorage unavailable — silently skip.
+  }
 }

@@ -1,87 +1,127 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import I18nDirectionProvider from './I18nDirectionProvider';
 import { useAppI18n } from '../hooks/useAppI18n';
+import { useTheme } from './ThemeProvider';
 
-// Mock the hook
 vi.mock('../hooks/useAppI18n', () => ({
   useAppI18n: vi.fn(),
 }));
 
+vi.mock('./ThemeProvider', () => ({
+  useTheme: vi.fn(),
+}));
+
+const mockTheme = (fontValue: string) => {
+  (useTheme as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+    activeFont: { id: 'mock', name: 'Mock', value: fontValue },
+  });
+};
+
 describe('I18nDirectionProvider', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Reset document attributes before each test
     document.documentElement.dir = '';
     document.body.dir = '';
     document.documentElement.lang = '';
     document.documentElement.style.removeProperty('--app-font-family');
   });
 
-  it('updates document and body attributes based on initial i18n settings', () => {
-    (useAppI18n as any).mockReturnValue({
+  it('forces Arabic font when current language is RTL, ignoring theme font', () => {
+    (useAppI18n as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
       dir: 'rtl',
       currentCode: 'ar',
-      currentLanguage: { font: 'Amiri, serif' },
+      currentLanguage: { font: "'Noto Sans Arabic', sans-serif", forceFont: true },
     });
+    mockTheme("'Satisfy', cursive");
 
     render(
       <I18nDirectionProvider>
-        <div data-testid="child">Test Child</div>
+        <div>child</div>
       </I18nDirectionProvider>
     );
 
     expect(document.documentElement.dir).toBe('rtl');
     expect(document.body.dir).toBe('rtl');
     expect(document.documentElement.lang).toBe('ar');
-    expect(document.documentElement.style.getPropertyValue('--app-font-family')).toBe('Amiri, serif');
+    expect(document.documentElement.style.getPropertyValue('--app-font-family'))
+      .toBe("'Noto Sans Arabic', sans-serif");
   });
 
-  it('updates attributes correctly when switching from LTR to RTL', () => {
-    // Start with LTR (English)
-    (useAppI18n as any).mockReturnValue({
+  it('uses the active theme font for LTR languages', () => {
+    (useAppI18n as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
       dir: 'ltr',
       currentCode: 'en',
-      currentLanguage: { font: 'Inter, sans-serif' },
+      currentLanguage: { font: "'Rubik', sans-serif" },
     });
+    mockTheme("'Satisfy', cursive");
+
+    render(
+      <I18nDirectionProvider>
+        <div>child</div>
+      </I18nDirectionProvider>
+    );
+
+    expect(document.documentElement.style.getPropertyValue('--app-font-family'))
+      .toBe("'Satisfy', cursive");
+  });
+
+  it('preserves the user theme font across LTR → RTL → LTR switches', () => {
+    // Start LTR with Satisfy
+    (useAppI18n as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      dir: 'ltr',
+      currentCode: 'en',
+      currentLanguage: { font: "'Rubik', sans-serif" },
+    });
+    mockTheme("'Satisfy', cursive");
 
     const { rerender } = render(
       <I18nDirectionProvider>
-        <div>Test Child</div>
+        <div>child</div>
       </I18nDirectionProvider>
     );
 
-    expect(document.documentElement.dir).toBe('ltr');
-    expect(document.documentElement.lang).toBe('en');
-    expect(document.documentElement.style.getPropertyValue('--app-font-family')).toBe('Inter, sans-serif');
+    expect(document.documentElement.style.getPropertyValue('--app-font-family'))
+      .toBe("'Satisfy', cursive");
 
-    // Mock language change to Arabic (RTL)
-    (useAppI18n as any).mockReturnValue({
+    // Switch to Arabic — forced Noto Sans Arabic
+    (useAppI18n as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
       dir: 'rtl',
       currentCode: 'ar',
-      currentLanguage: { font: 'Amiri, serif' },
+      currentLanguage: { font: "'Noto Sans Arabic', sans-serif", forceFont: true },
     });
-
-    // Re-render to trigger useEffect with new values
     rerender(
       <I18nDirectionProvider>
-        <div>Test Child</div>
+        <div>child</div>
       </I18nDirectionProvider>
     );
 
-    expect(document.documentElement.dir).toBe('rtl');
-    expect(document.body.dir).toBe('rtl');
-    expect(document.documentElement.lang).toBe('ar');
-    expect(document.documentElement.style.getPropertyValue('--app-font-family')).toBe('Amiri, serif');
+    expect(document.documentElement.style.getPropertyValue('--app-font-family'))
+      .toBe("'Noto Sans Arabic', sans-serif");
+
+    // Switch back to English — theme's Satisfy must be restored
+    (useAppI18n as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      dir: 'ltr',
+      currentCode: 'en',
+      currentLanguage: { font: "'Rubik', sans-serif" },
+    });
+    rerender(
+      <I18nDirectionProvider>
+        <div>child</div>
+      </I18nDirectionProvider>
+    );
+
+    expect(document.documentElement.style.getPropertyValue('--app-font-family'))
+      .toBe("'Satisfy', cursive");
   });
 
   it('renders children correctly', () => {
-    (useAppI18n as any).mockReturnValue({
+    (useAppI18n as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
       dir: 'ltr',
       currentCode: 'en',
-      currentLanguage: { font: 'Inter' },
+      currentLanguage: { font: "'Rubik', sans-serif" },
     });
+    mockTheme("'Rubik', sans-serif");
 
     const { getByText } = render(
       <I18nDirectionProvider>
