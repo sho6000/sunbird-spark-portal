@@ -33,7 +33,10 @@ const SignUp: React.FC = () => {
     const telemetry = useTelemetry();
     const { setTheme, setFont, setTemplate } = useTheme();
 
-    // Persist mobile context, language, and theme prefs on mount
+    // Persist mobile context + language on mount. Theme / font / template
+    // URL params are consumed by ThemeProvider using direct state setters
+    // (no cascade). Don't duplicate here with setTheme/setFont/setTemplate
+    // wrappers — their cascades override mobile's actual selection.
     useEffect(() => {
         if (isMobileApp()) {
             persistMobileContext();
@@ -44,12 +47,6 @@ const SignUp: React.FC = () => {
             try { localStorage.setItem(LANGUAGE_STORAGE_KEY, lang); } catch { /* storage unavailable */ }
             void i18n.changeLanguage(lang).catch((err) => { console.error('Failed to change language to', lang, err); });
         }
-        const theme = params.get('theme');
-        if (theme) setTheme(theme);
-        const font = params.get('font');
-        if (font) setFont(font);
-        const template = params.get('template');
-        if (template) setTemplate(template as TemplateOption['id']);
     }, []);
 
     const [step, setStep] = useState<1 | 2 | 3>(1);

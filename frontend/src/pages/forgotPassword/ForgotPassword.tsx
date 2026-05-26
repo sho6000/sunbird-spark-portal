@@ -37,12 +37,8 @@ const ForgotPassword: React.FC = () => {
       try { localStorage.setItem(LANGUAGE_STORAGE_KEY, lang); } catch { /* storage unavailable */ }
       void i18n.changeLanguage(lang).catch((err) => { console.error('Failed to change language to', lang, err); });
     }
-    const theme = params.get('theme');
-    if (theme) setTheme(theme);
-    const font = params.get('font');
-    if (font) setFont(font);
-    const template = params.get('template');
-    if (template) setTemplate(template as TemplateOption['id']);
+    // Theme / font / template are consumed by ThemeProvider with direct
+    // state setters (no cascade). Don't duplicate here.
   }, []);
 
   const [step, setStep] = useState<Step>(1);
