@@ -164,6 +164,16 @@ export default {
         'sunbird-sm': 'var(--sunbird-shadow-sm)',
         'sunbird-md': 'var(--sunbird-shadow-md)',
         'sunbird-lg': 'var(--sunbird-shadow-lg)',
+        // Route Tailwind's default shadow utilities through the Sunbird tokens
+        // so .shadow-sm/.shadow/.shadow-md/... follow the active template
+        // (classic :root defaults, modern overrides) with zero per-element
+        // selectors. New components using shadow-* are template-aware for free.
+        sm: 'var(--sunbird-shadow-sm)',
+        DEFAULT: 'var(--sunbird-shadow-md)',
+        md: 'var(--sunbird-shadow-md)',
+        lg: 'var(--sunbird-shadow-lg)',
+        xl: 'var(--sunbird-shadow-lg)',
+        '2xl': 'var(--sunbird-shadow-lg)',
       },
       dropShadow: {
         'sunbird-sm': '0 0.125rem 0.625rem rgba(0, 0, 0, 0.05)',

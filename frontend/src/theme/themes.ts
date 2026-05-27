@@ -35,7 +35,7 @@ export interface Theme {
 }
 
 export interface TemplateOption {
-  id: 'classic' | 'modern' | 'royal';
+  id: 'classic' | 'modern';
   name: string;
   description: string;
   /** Theme auto-applied when this template is selected. */
@@ -123,8 +123,7 @@ export const THEMES: Theme[] = [
 
 export const TEMPLATES: TemplateOption[] = [
   { id: 'classic', name: 'Classic', description: 'Warm, rounded', presetThemeId: 'terracotta', presetFontId: 'rubik' },
-  { id: 'modern', name: 'Modern', description: 'Sharp, bold', presetThemeId: 'blue', presetFontId: 'inter' },
-  { id: 'royal', name: 'Royal', description: 'Regal serif', presetThemeId: 'purple', presetFontId: 'lora' },
+  { id: 'modern', name: 'Modern', description: 'Sharp, bold', presetThemeId: 'rose', presetFontId: 'inter' },
 ];
 
 export const LAYOUTS: LayoutOption[] = [

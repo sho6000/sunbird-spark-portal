@@ -1,4 +1,5 @@
 @layer base {
+
   /* Radius tokens — initialized to Classic values so existing CSS is unaffected. */
   :root {
     --r-sm: 0.5rem;
@@ -8,6 +9,10 @@
     --r-xs: 0.625rem;
     --r-xxs: 0.25rem;
     --r-pill: 9999px;
+    /* Auth split-screen panel radius (login / signup / forgot-pwd / reset).
+       AuthLayout consumes these, so template overrides flow automatically. */
+    --r-auth-frame: 4rem;
+    --r-auth-panel: 3.5rem;
   }
 
   /* Modern template — applied when <html data-template="modern"> */
@@ -21,6 +26,9 @@
     --r-xxs: 0.125rem;
     --r-pill: 0.5rem;
     --radius: 0.375rem;
+    /* Sharp auth panels — match the Keycloak login page. */
+    --r-auth-frame: 8px;
+    --r-auth-panel: 8px;
 
     /* Surfaces — neutral page background (NOT theme-tinted, so workspace
        category thumbnails keep their own colours). Cards remain white and
@@ -55,6 +63,8 @@
     --r-xxs: 0.25rem;
     --r-pill: 9999px;
     --radius: 1rem;
+    --r-auth-frame: 4rem;
+    --r-auth-panel: 3.5rem;
 
     --background: 48 23% 91%;
     --card: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 97%;
@@ -82,21 +92,4 @@
     font-weight: 700;
     letter-spacing: -0.02em;
   }
-}
-
-/* Modern: route Tailwind's default shadow-sm/md/lg utilities through the
-   Sunbird shadow tokens so depth is visible portal-wide. Outside @layer so
-   the increased specificity (html[data-template="modern"] .shadow-*) wins
-   over Tailwind's utility output, with no need for !important. */
-html[data-template="modern"] .shadow-sm {
-  box-shadow: var(--sunbird-shadow-sm);
-}
-html[data-template="modern"] .shadow,
-html[data-template="modern"] .shadow-md {
-  box-shadow: var(--sunbird-shadow-md);
-}
-html[data-template="modern"] .shadow-lg,
-html[data-template="modern"] .shadow-xl,
-html[data-template="modern"] .shadow-2xl {
-  box-shadow: var(--sunbird-shadow-lg);
 }
