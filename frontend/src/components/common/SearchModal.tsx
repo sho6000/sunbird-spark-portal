@@ -137,9 +137,11 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
         {/* Results section — scrolls independently within the panel */}
         <div className="overflow-y-auto flex-1 container mx-auto px-4 lg:px-[3.75rem] pb-4 md:pb-6">
-          <h2 className="font-rubik font-semibold text-[1.25rem] md:text-[1.5rem] leading-[2rem] text-foreground mb-4">
-            {sectionTitle}
-          </h2>
+          {!(searchMode === 'semantic' && !debouncedQuery.trim()) && (
+            <h2 className="font-rubik font-semibold text-[1.25rem] md:text-[1.5rem] leading-[2rem] text-foreground mb-4">
+              {sectionTitle}
+            </h2>
+          )}
 
           {searchMode === 'semantic' && !debouncedQuery.trim() ? (
             <SemanticSuggestions onSelect={(suggestion) => { setQuery(suggestion); inputRef.current?.focus(); }} />
