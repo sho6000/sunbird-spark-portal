@@ -16,10 +16,12 @@ import SemanticSuggestions from "../common/SemanticSuggestions";
 
 const COLLECTION_MIME_TYPE = "application/vnd.ekstep.content-collection";
 
+type SortByValue = { lastUpdatedOn: 'asc' | 'desc' };
+
 interface ExploreGridProps {
     filters: FilterState;
     query: string;
-    sortBy: any;
+    sortBy: SortByValue;
     searchMode?: SearchMode;
     onQueryChange?: (query: string) => void;
 }

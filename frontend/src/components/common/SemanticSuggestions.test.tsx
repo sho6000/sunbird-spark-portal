@@ -2,9 +2,19 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import SemanticSuggestions from './SemanticSuggestions';
 
+const MOCK_SUGGESTIONS = [
+  "How to teach fractions to beginners?",
+  "Creative writing activities for students",
+  "Science experiments for kids at home",
+  "Learn programming basics step by step",
+  "History of ancient civilizations",
+  "Mathematics problem solving strategies",
+];
+
 vi.mock('@/hooks/useAppI18n', () => ({
   useAppI18n: () => ({
-    t: (key: string) => {
+    t: (key: string, opts?: { returnObjects?: boolean }) => {
+      if (key === 'search.suggestions' && opts?.returnObjects) return MOCK_SUGGESTIONS;
       const map: Record<string, string> = {
         'search.semanticSuggestTitle': 'Try Semantic Search',
         'search.semanticSuggestSubtitle': 'Ask in natural language — or pick a suggestion below',

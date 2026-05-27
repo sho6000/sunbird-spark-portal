@@ -94,9 +94,10 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
   const handleViewMore = () => {
     onClose();
-    let url = `/explore?q=${encodeURIComponent(query)}`;
-    if (searchMode === "semantic") url += "&mode=semantic";
-    navigate(url);
+    const params = new URLSearchParams();
+    params.set('q', query);
+    if (searchMode === 'semantic') params.set('mode', 'semantic');
+    navigate(`/explore?${params.toString()}`);
   };
 
   const sectionTitle = debouncedQuery.trim()

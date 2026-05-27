@@ -3,8 +3,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useQuery } from '@tanstack/react-query';
 import { useContentSearch, useContentRead } from './useContent';
 
-const { mockContentSearch, mockContentRead } = vi.hoisted(() => ({
+const { mockContentSearch, mockSemanticSearch, mockContentRead } = vi.hoisted(() => ({
   mockContentSearch: vi.fn(),
+  mockSemanticSearch: vi.fn(),
   mockContentRead: vi.fn(),
 }));
 
@@ -15,6 +16,7 @@ vi.mock('@tanstack/react-query', () => ({
 vi.mock('../services/ContentService', () => ({
   ContentService: class {
     contentSearch = mockContentSearch;
+    semanticSearch = mockSemanticSearch;
     contentRead = mockContentRead;
   },
 }));
@@ -109,6 +111,56 @@ describe('useContentSearch', () => {
     const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
     // Should not throw
     expect(call.queryKey[0]).toBe('content-search');
+  });
+
+  // ── Semantic mode ───────────────────────────────────────────────────────────
+
+  it('calls semanticSearch (not contentSearch) when searchMode is semantic', () => {
+    mockSemanticSearch.mockResolvedValue({ data: {} });
+    renderHook(() =>
+      useContentSearch({ request: { query: 'fractions', limit: 10, offset: 0 }, searchMode: 'semantic' })
+    );
+    const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
+    (call.queryFn as () => void)();
+    expect(mockSemanticSearch).toHaveBeenCalled();
+    expect(mockContentSearch).not.toHaveBeenCalled();
+  });
+
+  it('is disabled (semanticBlocked) when searchMode is semantic and query is blank', () => {
+    renderHook(() =>
+      useContentSearch({ request: { query: '', limit: 10, offset: 0 }, searchMode: 'semantic' })
+    );
+    const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
+    expect(call.enabled).toBe(false);
+  });
+
+  it('is enabled when searchMode is semantic and query is non-empty', () => {
+    renderHook(() =>
+      useContentSearch({ request: { query: 'science', limit: 10, offset: 0 }, searchMode: 'semantic' })
+    );
+    const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
+    expect(call.enabled).toBe(true);
+  });
+
+  it('does NOT inject DEFAULT_PRIMARY_CATEGORIES when searchMode is semantic', () => {
+    renderHook(() =>
+      useContentSearch({
+        request: { query: 'maths', limit: 10, offset: 0, filters: { status: ['Live'] } },
+        searchMode: 'semantic',
+      })
+    );
+    const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
+    const filtersStr = call.queryKey[6] as string;
+    const parsed = JSON.parse(filtersStr);
+    expect(parsed.primaryCategory).toBeUndefined();
+  });
+
+  it('includes searchMode in the queryKey', () => {
+    renderHook(() =>
+      useContentSearch({ request: { query: 'test', limit: 5, offset: 0 }, searchMode: 'semantic' })
+    );
+    const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
+    expect(call.queryKey[1]).toBe('semantic');
   });
 });
 

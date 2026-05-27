@@ -116,9 +116,17 @@
   "search": {
     "keywordMode": "Keyword",
     "semanticMode": "Semantic",
-    "semanticEmptyPrompt": "Type something to search with Semantic",
+    "modeToggleLabel": "Search mode",
     "semanticSuggestTitle": "Try Semantic Search",
-    "semanticSuggestSubtitle": "Ask in natural language — or pick a suggestion below"
+    "semanticSuggestSubtitle": "Ask in natural language — or pick a suggestion below",
+    "suggestions": [
+      "How to teach fractions to beginners?",
+      "Creative writing activities for students",
+      "Science experiments for kids at home",
+      "Learn programming basics step by step",
+      "History of ancient civilizations",
+      "Mathematics problem solving strategies"
+    ]
   },
   "recommended": "Recommended",
   "results_for": "Results for \"{{query}}\"",

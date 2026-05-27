@@ -110,14 +110,6 @@ const Explore = () => {
     if (searchQuery) {
       next.set('q', searchQuery);
     }
-    if (debouncedSearchQuery) {
-      interact({
-        id: 'explore-search',
-        type: 'search',
-        pageid: 'explore-page',
-        cdata: [{ type: 'Query', id: debouncedSearchQuery }],
-      });
-    }
     Object.entries(filters).forEach(([code, values]) => {
       values.forEach((value) => next.append(code, value));
     });
@@ -128,7 +120,17 @@ const Explore = () => {
       next.set('mode', 'semantic');
     }
     setSearchParamsRef.current(next, { replace: true });
-  }, [filters, searchQuery, debouncedSearchQuery, sortLabelKey, searchMode]);
+  }, [filters, searchQuery, sortLabelKey, searchMode]);
+
+  useEffect(() => {
+    if (!debouncedSearchQuery) return;
+    interact({
+      id: 'explore-search',
+      type: 'search',
+      pageid: 'explore-page',
+      cdata: [{ type: 'Query', id: debouncedSearchQuery }],
+    });
+  }, [debouncedSearchQuery]);
 
   return (
     <main className="flex-1 bg-white relative md:h-[calc(100vh-4.5rem)] overflow-hidden">

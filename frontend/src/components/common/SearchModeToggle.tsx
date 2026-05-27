@@ -1,7 +1,8 @@
-import { useRef, forwardRef, type RefObject } from "react";
+import { useRef, forwardRef, useImperativeHandle } from "react";
 import { FiX, FiSearch } from "react-icons/fi";
 import { SearchMode } from "@/types/workspaceTypes";
 import { useAppI18n } from "@/hooks/useAppI18n";
+import SparkleIcon from "./SparkleIcon";
 
 interface SearchModeToggleProps {
   query: string;
@@ -12,22 +13,11 @@ interface SearchModeToggleProps {
   className?: string;
 }
 
-const SparkleIcon = ({ className }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-    aria-hidden="true"
-  >
-    <path d="M12 2 L13.5 9 L20 12 L13.5 15 L12 22 L10.5 15 L4 12 L10.5 9 Z" />
-  </svg>
-);
-
 const SearchModeToggle = forwardRef<HTMLInputElement, SearchModeToggleProps>(
   ({ query, onQueryChange, searchMode, onModeChange, placeholder, className = "" }, ref) => {
     const { t } = useAppI18n();
     const localRef = useRef<HTMLInputElement>(null);
-    const inputRef = (ref as RefObject<HTMLInputElement>) ?? localRef;
+    useImperativeHandle(ref, () => localRef.current!);
 
     const isSemantic = searchMode === "semantic";
 
@@ -43,7 +33,7 @@ const SearchModeToggle = forwardRef<HTMLInputElement, SearchModeToggleProps>(
 
         {/* Search input */}
         <input
-          ref={inputRef}
+          ref={localRef}
           type="text"
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
@@ -57,7 +47,7 @@ const SearchModeToggle = forwardRef<HTMLInputElement, SearchModeToggleProps>(
             type="button"
             onClick={() => {
               onQueryChange("");
-              inputRef.current?.focus();
+              localRef.current?.focus();
             }}
             className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
             aria-label={t("clear_search")}
@@ -67,7 +57,11 @@ const SearchModeToggle = forwardRef<HTMLInputElement, SearchModeToggleProps>(
         )}
 
         {/* Mode toggle pills */}
-        <div className="flex-shrink-0 flex items-center gap-1.5">
+        <div
+          role="group"
+          aria-label={t("search.modeToggleLabel")}
+          className="flex-shrink-0 flex items-center gap-1.5"
+        >
           <button
             type="button"
             onClick={() => onModeChange("keyword")}
