@@ -113,6 +113,13 @@
   "signup": "S'inscrire",
   "searchPlaceholder": "Rechercher des cours...",
   "search_for_content_placeholder": "Rechercher du contenu...",
+  "search": {
+    "keywordMode": "Mot-clé",
+    "semanticMode": "Sémantique",
+    "semanticEmptyPrompt": "Tapez quelque chose pour rechercher avec l'Sémantique",
+    "semanticSuggestTitle": "Essayez la recherche Sémantique",
+    "semanticSuggestSubtitle": "Posez une question en langage naturel — ou choisissez une suggestion"
+  },
   "recommended": "Recommandé",
   "results_for": "Résultats pour \"{{query}}\"",
   "view_all_results": "Voir tous les résultats",

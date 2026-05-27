@@ -32,6 +32,25 @@ export class ContentService {
     });
   }
 
+  public async semanticSearch(
+    request: ContentSearchRequest = {}
+  ): Promise<ApiResponse<ContentSearchResponse>> {
+    return getClient().post<ContentSearchResponse>('/composite/v1/search', {
+      request: {
+        query: request.query ?? '',
+        filters: request.filters ?? {},
+        fields: request.fields ?? [
+          'identifier', 'name', 'description', 'subject',
+          'primaryCategory', 'objectType', 'mimeType', 'appIcon',
+          'creator', 'lastUpdatedOn',
+        ],
+        limit: request.limit ?? 20,
+        search_mode: 'semantic',
+        semantic: { k: 50, min_score: 0.6 },
+      },
+    });
+  }
+
   public async contentRead(contentId: string, fields?: string[], mode?: string): Promise<ApiResponse<ContentApiResponse>> {
     const resolvedFields = fields ?? DEFAULT_CONTENT_FIELDS;
     const params = new URLSearchParams();

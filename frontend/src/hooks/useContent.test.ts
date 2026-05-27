@@ -46,8 +46,8 @@ describe('useContentSearch', () => {
   it('includes request query and limit in queryKey', () => {
     renderHook(() => useContentSearch({ request: { query: 'maths', limit: 20, offset: 5 } }));
     const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
-    expect(call.queryKey[1]).toBe('maths');
-    expect(call.queryKey[3]).toBe(20);
+    expect(call.queryKey[2]).toBe('maths');
+    expect(call.queryKey[4]).toBe(20);
   });
 
   it('injects DEFAULT_PRIMARY_CATEGORIES when primaryCategory filter is empty', () => {
@@ -55,7 +55,7 @@ describe('useContentSearch', () => {
       useContentSearch({ request: { query: '', limit: 10, offset: 0, filters: { status: ['Live'] } } })
     );
     const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
-    const filtersStr = call.queryKey[5] as string;
+    const filtersStr = call.queryKey[6] as string;
     expect(filtersStr).toContain('Collection');
     expect(filtersStr).toContain('Course');
   });
@@ -72,7 +72,7 @@ describe('useContentSearch', () => {
       })
     );
     const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
-    const filtersStr = call.queryKey[5] as string;
+    const filtersStr = call.queryKey[6] as string;
     const parsed = JSON.parse(filtersStr);
     expect(parsed.primaryCategory).toEqual(['Resource']);
     // Should NOT have been expanded to the default list
@@ -91,7 +91,7 @@ describe('useContentSearch', () => {
       })
     );
     const call = vi.mocked(useQuery).mock.calls[0]?.[0] as Parameters<typeof useQuery>[0];
-    const filtersStr = call.queryKey[5] as string;
+    const filtersStr = call.queryKey[6] as string;
     const parsed = JSON.parse(filtersStr);
     expect(parsed.primaryCategory).toBe('Course');
   });

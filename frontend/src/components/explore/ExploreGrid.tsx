@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useAppI18n } from "../../hooks/useAppI18n";
 import { FilterState } from "../../pages/Explore";
 import { useContentSearch } from "../../hooks/useContent";
+import { SearchMode } from "../../types/workspaceTypes";
 import { FiSearch } from "react-icons/fi";
 import CollectionCard from "../content/CollectionCard";
 import ResourceCard from "../content/ResourceCard";
@@ -11,6 +12,7 @@ import PageLoader from "../common/PageLoader";
 
 // Components
 import EmptyState from "../workspace/EmptyState";
+import SemanticSuggestions from "../common/SemanticSuggestions";
 
 const COLLECTION_MIME_TYPE = "application/vnd.ekstep.content-collection";
 
@@ -18,9 +20,11 @@ interface ExploreGridProps {
     filters: FilterState;
     query: string;
     sortBy: any;
+    searchMode?: SearchMode;
+    onQueryChange?: (query: string) => void;
 }
 
-const ExploreGrid = ({ filters, query, sortBy }: ExploreGridProps) => {
+const ExploreGrid = ({ filters, query, sortBy, searchMode = 'keyword', onQueryChange }: ExploreGridProps) => {
     const { t } = useAppI18n();
     const location = useLocation();
     const linkState = useMemo(
@@ -45,12 +49,12 @@ const ExploreGrid = ({ filters, query, sortBy }: ExploreGridProps) => {
         };
     }, [filters]);
 
-    // Reset when search parameters change
+    // Reset when search parameters or mode changes
     useEffect(() => {
         setOffset(0);
         setDisplayItems([]);
         setHasMore(true);
-    }, [query, activeFilters, sortBy]);
+    }, [query, activeFilters, sortBy, searchMode]);
 
     const { data, isLoading: isQueryLoading, error: queryError } = useContentSearch({
         request: {
@@ -59,7 +63,8 @@ const ExploreGrid = ({ filters, query, sortBy }: ExploreGridProps) => {
             query,
             sort_by: sortBy,
             filters: activeFilters
-        }
+        },
+        searchMode,
     });
 
     // Refs so the IntersectionObserver callback always reads the latest state
@@ -137,6 +142,12 @@ const ExploreGrid = ({ filters, query, sortBy }: ExploreGridProps) => {
 
     const isLoading = isQueryLoading && offset === 0;
     const isFetchingMore = isQueryLoading && offset > 0;
+    const semanticAwaitingQuery = searchMode === 'semantic' && !query.trim();
+
+    // Semantic mode with no query — show suggestion cards
+    if (semanticAwaitingQuery) {
+        return <SemanticSuggestions onSelect={(suggestion) => onQueryChange?.(suggestion)} />;
+    }
 
     // Show PageLoader for initial load
     if (isLoading) {

@@ -113,6 +113,13 @@
   "signup": "Cadastrar",
   "searchPlaceholder": "Buscar cursos...",
   "search_for_content_placeholder": "Buscar conteúdo...",
+  "search": {
+    "keywordMode": "Palavra-chave",
+    "semanticMode": "Semântica",
+    "semanticEmptyPrompt": "Digite algo para pesquisar com Semântica",
+    "semanticSuggestTitle": "Experimente a Pesquisa de Semântica",
+    "semanticSuggestSubtitle": "Pergunte em linguagem natural — ou escolha uma sugestão abaixo"
+  },
   "recommended": "Recomendado",
   "results_for": "Resultados para \"{{query}}\"",
   "view_all_results": "Ver todos os resultados",

@@ -113,6 +113,13 @@
   "signup": "Sign Up",
   "searchPlaceholder": "Search courses...",
   "search_for_content_placeholder": "Search for content...",
+  "search": {
+    "keywordMode": "Keyword",
+    "semanticMode": "Semantic",
+    "semanticEmptyPrompt": "Type something to search with Semantic",
+    "semanticSuggestTitle": "Try Semantic Search",
+    "semanticSuggestSubtitle": "Ask in natural language — or pick a suggestion below"
+  },
   "recommended": "Recommended",
   "results_for": "Results for \"{{query}}\"",
   "view_all_results": "View All Results",
