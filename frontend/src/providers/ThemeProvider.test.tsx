@@ -42,9 +42,9 @@ describe('ThemeProvider — font + language interaction', () => {
         <Harness onReady={() => {}} />
       </ThemeProvider>
     );
-    // Default font (DEFAULT_FONT_ID) is Poppins
+    // Default font (DEFAULT_FONT_ID) is Rubik
     expect(document.documentElement.style.getPropertyValue('--app-font-family'))
-      .toContain('Poppins');
+      .toContain('Rubik');
   });
 
   it('forces language font for Arabic regardless of activeFont', () => {

@@ -35,7 +35,7 @@ export interface Theme {
 }
 
 export interface TemplateOption {
-  id: 'classic' | 'modern';
+  id: 'classic' | 'modern' | 'royal';
   name: string;
   description: string;
   /** Theme auto-applied when this template is selected. */
@@ -72,7 +72,7 @@ export const COLOR_PALETTES: ColorPalette[] = [
   {
     id: 'purple',
     name: 'Royal Purple',
-    seeds: { primaryH: 265, primaryS: '50%', primaryL: '45%', chipH: 265, chipS: '50%', iconH: 255 },
+    seeds: { primaryH: 270, primaryS: '55%', primaryL: '45%', chipH: 270, chipS: '55%', iconH: 280 },
   },
   {
     id: 'green',
@@ -124,6 +124,7 @@ export const THEMES: Theme[] = [
 export const TEMPLATES: TemplateOption[] = [
   { id: 'classic', name: 'Classic', description: 'Warm, rounded', presetThemeId: 'terracotta', presetFontId: 'rubik' },
   { id: 'modern', name: 'Modern', description: 'Sharp, bold', presetThemeId: 'blue', presetFontId: 'inter' },
+  { id: 'royal', name: 'Royal', description: 'Regal serif', presetThemeId: 'purple', presetFontId: 'lora' },
 ];
 
 export const LAYOUTS: LayoutOption[] = [
@@ -136,7 +137,7 @@ export const LAYOUTS: LayoutOption[] = [
 // ─── Defaults ────────────────────────────────────────────────────────────────
 
 export const DEFAULT_THEME_ID = 'terracotta';
-export const DEFAULT_FONT_ID = 'poppins';
+export const DEFAULT_FONT_ID = 'rubik';
 export const DEFAULT_TEMPLATE_ID: TemplateOption['id'] = 'classic';
 export const DEFAULT_LAYOUT_ID: LayoutId = 'sidebar-left';
 
@@ -184,38 +185,15 @@ export function themePreviewColor(theme: Theme): string {
   return `hsl(${primaryH} ${primaryS} ${primaryL})`;
 }
 
-// ─── Keycloak hand-off (localStorage, mirrors language flow) ─────────────────
-
-/**
- * Keycloak login pages share the portal's origin, so they can read the
- * portal's `localStorage` directly. We persist a pre-computed seed string
- * here under `sunbird-theme-seeds`; the sunbird Keycloak FTL template reads
- * it on first paint and writes the matching CSS variables.
- *
- * Format:
- *   sunbird-theme-seeds   "ph:12,ps:50%,pl:45%,ch:45,cs:100%,ih:28"
- *
- * Font + template ids are already persisted by ThemeProvider under
- * `sunbird-font` and `sunbird-template` — Keycloak reads those directly.
- */
-export const KEYCLOAK_SEEDS_STORAGE_KEY = 'sunbird-theme-seeds';
-
-export function encodeThemeSeeds(seeds: ThemeSeeds): string {
-  return [
-    `ph:${seeds.primaryH}`,
-    `ps:${seeds.primaryS}`,
-    `pl:${seeds.primaryL}`,
-    `ch:${seeds.chipH}`,
-    `cs:${seeds.chipS}`,
-    `ih:${seeds.iconH}`,
-  ].join(',');
-}
-
-export function persistThemeSeeds(theme: Theme): void {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.setItem(KEYCLOAK_SEEDS_STORAGE_KEY, encodeThemeSeeds(getThemeSeeds(theme)));
-  } catch {
-    // localStorage unavailable — silently skip.
-  }
-}
+// ─── Keycloak hand-off (id-based, same-origin localStorage) ─────────────────
+//
+// Keycloak login pages share the portal's origin, so they read the portal's
+// localStorage directly. Portal persists three id keys on user selection:
+//
+//   sunbird-theme       "terracotta" | "blue" | ... (id from THEMES)
+//   sunbird-font        "rubik" | "poppins" | ...   (id from FONTS)
+//   sunbird-template    "classic" | "modern"        (id from TEMPLATES)
+//
+// The Keycloak FTL template (template.ftl) carries its own THEME_MAP /
+// FONT_MAP (mirrors THEMES + FONTS here). Adding a new theme/font/template
+// requires updating ALL THREE apps: portal (this file), mobile, Keycloak.

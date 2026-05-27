@@ -11,7 +11,6 @@ import {
   applyTheme,
   applyTemplate,
   applyLayout,
-  persistThemeSeeds,
   type Theme,
   type FontOption,
   type TemplateOption,
@@ -85,71 +84,35 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     applyLayout(activeLayout.id);
   }, [activeLayout]);
 
-  // Hand off pre-computed seeds to Keycloak login pages via localStorage
-  // (same-origin, same flow as language). The Sunbird Keycloak FTL template
-  // reads `sunbird-theme-seeds` + `sunbird-font` + `sunbird-template` from
-  // localStorage on first paint. Font/template ids are already persisted on
-  // setFont/setTemplate above; only the encoded seed string needs an extra
-  // write whenever the active theme changes.
-  useEffect(() => {
-    persistThemeSeeds(activeTheme);
-  }, [activeTheme]);
-
   // On first mount, honour theme/font/template hand-off from the mobile
-  // InAppBrowser (see AuthWebviewService). The hand-off prefers raw values
-  // over ids because the mobile and portal palette/font catalogs do not
-  // always overlap (mobile has Pink/Mint/Lora; portal has Green/Inter/etc).
+  // InAppBrowser (see AuthWebviewService). All three are id-based — portal
+  // looks each id up in its own catalog and silently ignores unknown ids
+  // (CSS :root defaults take over).
   //
-  //   ?seeds=ph:N,ps:N%,pl:N%,ch:N,cs:N%,ih:N    — applied as CSS vars
-  //   ?template=classic|modern|...               — applied as data-template
-  //   ?theme=<id>                                — fallback for portal-known ids
-  //   ?font=<id>                                 — fallback for portal-known ids
+  //   ?theme=<id>     — looked up in THEMES, applied as full theme
+  //   ?font=<id>      — looked up in FONTS, applied as active font
+  //   ?template=<id>  — looked up in TEMPLATES, applied as data-template
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
-    const seedsParam = params.get('seeds');
     const templateParam = params.get('template');
     const themeParam = params.get('theme');
     const fontParam = params.get('font');
 
-    const root = document.documentElement;
-
-    // Template — apply attr + persist (Keycloak reads `sunbird-template`).
     if (templateParam) {
-      root.setAttribute('data-template', templateParam);
-      localStorage.setItem(TEMPLATE_STORAGE_KEY, templateParam);
       const matchedTemplate = TEMPLATES.find((t) => t.id === templateParam);
-      if (matchedTemplate) setActiveTemplate(matchedTemplate);
-    }
-
-    // Theme — raw seeds win over id lookup.
-    if (seedsParam) {
-      const SEED_RE = /^(ph|ps|pl|ch|cs|ih):(\d{1,3}%?)$/;
-      const seedToVar: Record<string, string> = {
-        ph: '--sunbird-spark-theme-primary-h',
-        ps: '--sunbird-spark-theme-primary-s',
-        pl: '--sunbird-spark-theme-primary-l',
-        ch: '--sunbird-spark-theme-chip-h',
-        cs: '--sunbird-spark-theme-chip-s',
-        ih: '--sunbird-spark-theme-icon-h',
-      };
-      seedsParam.split(',').forEach((kv) => {
-        const m = SEED_RE.exec(kv.trim());
-        if (m) root.style.setProperty(seedToVar[m[1]!]!, m[2]!);
-      });
-      // Persist for Keycloak FTL — same key the FTL reads.
-      localStorage.setItem('sunbird-theme-seeds', seedsParam);
+      if (matchedTemplate) {
+        localStorage.setItem(TEMPLATE_STORAGE_KEY, templateParam);
+        setActiveTemplate(matchedTemplate);
+      }
     }
     if (themeParam) {
-      localStorage.setItem(THEME_STORAGE_KEY, themeParam);
       const matchedTheme = THEMES.find((t) => t.id === themeParam);
-      if (matchedTheme) setActiveTheme(matchedTheme);
+      if (matchedTheme) {
+        localStorage.setItem(THEME_STORAGE_KEY, themeParam);
+        setActiveTheme(matchedTheme);
+      }
     }
-
-    // Font — look up by id in portal's FONTS catalog. If unknown,
-    // fall back to portal default (do nothing — activeFont stays as is).
-    // Route through `setActiveFont` so the language-aware font effect
-    // honours forceFont rules for the active language.
     if (fontParam) {
       const matchedFont = FONTS.find((f) => f.id === fontParam);
       if (matchedFont) {
@@ -162,15 +125,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const setTheme = (id: string) => {
     const theme = THEMES.find((t) => t.id === id);
     if (!theme) return;
+    // Colour-only — independent of font (mobile-app parity). Picking a colour
+    // never changes the active font. Only a template preset binds both
+    // (see setTemplate). `theme.fontId` is used solely as the template preset
+    // source, not applied on colour selection.
     localStorage.setItem(THEME_STORAGE_KEY, id);
     setActiveTheme(theme);
-    // Theme defines a recommended fontId — switch font to match unless the
-    // user has explicitly chosen one already in this session.
-    const themeFont = FONTS.find((f) => f.id === theme.fontId);
-    if (themeFont) {
-      localStorage.setItem(FONT_STORAGE_KEY, themeFont.id);
-      setActiveFont(themeFont);
-    }
   };
 
   const setFont = (id: string) => {
