@@ -8,10 +8,6 @@ on:
 env:
   BUILD_DOCKER_IMAGE: ${{ vars.BUILD_DOCKER_IMAGE || 'true' }}
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   docker-build-push:
     runs-on: ubuntu-latest
@@ -59,9 +55,9 @@ jobs:
             REGISTRY_URL="docker.io"
             ;;
           *)
-            OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+            REPO_NAME_LOWERCASE=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            REGISTRY_URL="ghcr.io/$OWNER_LOWERCASE"
+            REGISTRY_URL="ghcr.io/$REPO_NAME_LOWERCASE"
             ;;
           esac
           echo "REGISTRY_URL=${REGISTRY_URL}" >> $GITHUB_ENV
