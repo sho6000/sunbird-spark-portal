@@ -7,7 +7,6 @@ import { useContentRead, useContentSearch } from "@/hooks/useContent";
 import { useQumlContent } from "@/hooks/useQumlContent";
 import { useCollectionDetailPlayer } from "@/hooks/useCollectionDetailPlayer";
 import { mapSearchContentToRelatedContentItems } from "@/services/collection";
-import { useIsContentCreator } from "@/hooks/useUser";
 import { useCollectionDetailSelfAssess } from "@/hooks/useCollectionDetailSelfAssess";
 import defaultCollectionImage from "@/assets/resource-robot-hand.svg";
 import userAuthInfoService from "@/services/userAuthInfoService/userAuthInfoService";
@@ -29,7 +28,6 @@ const CollectionDetailPage = () => {
   useImpression({ type: 'view', pageid: 'collection-detail', env: 'course', object: { id: collectionId || '', type: 'Course' } });
   const backTo = useCollectionBackNavigation(collectionId);
   const { isAuthenticated } = usePermissions();
-  const isContentCreator = useIsContentCreator();
   const [certificatePreviewOpen, setCertificatePreviewOpen] = useState(false);
   const [certificatePreviewUrl, setCertificatePreviewUrl] = useState("");
 
@@ -71,7 +69,10 @@ const CollectionDetailPage = () => {
     !!currentUserId &&
     collectionData.createdBy === currentUserId;
   const isMentorOfCourse = isMentorOfAnyBatchInCourse;
-  const contentCreatorPrivilege = isCreatorViewingOwnCollection || !!isContentCreator || isMentorOfCourse;
+  // Privilege to preview without enrolling is granted only to the course's own creator
+  // or a batch mentor — NOT to anyone merely holding the CONTENT_CREATOR role, so content
+  // creators are treated as normal learners on courses created by others.
+  const contentCreatorPrivilege = isCreatorViewingOwnCollection || isMentorOfCourse;
 
   useAuthRefreshOnce(isAuthenticated);
 
