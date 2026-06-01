@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from "react";
-import { FiSearch, FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useAppI18n } from "@/hooks/useAppI18n";
 import useDebounce from "@/hooks/useDebounce";
 import { useContentSearch } from "@/hooks/useContent";
-import { ContentSearchItem } from "@/types/workspaceTypes";
+import { ContentSearchItem, SearchMode } from "@/types/workspaceTypes";
 import CollectionCard from "@/components/content/CollectionCard";
 import ResourceCard from "@/components/content/ResourceCard";
 import PageLoader from "@/components/common/PageLoader";
+import SearchModeToggle from "@/components/common/SearchModeToggle";
+import SemanticSuggestions from "@/components/common/SemanticSuggestions";
 
 const COLLECTION_MIME_TYPE = "application/vnd.ekstep.content-collection";
 
@@ -18,6 +19,7 @@ interface SearchModalProps {
 
 const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   const [query, setQuery] = useState("");
+  const [searchMode, setSearchMode] = useState<SearchMode>("keyword");
   const debouncedQuery = useDebounce(query, 600);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -28,10 +30,11 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   const { data, isLoading, error, refetch } = useContentSearch({
     request: {
       limit: 3,
-      query: debouncedQuery || "", // Empty string to fetch default results
+      query: debouncedQuery || "",
       filters: { objectType: ["Content", "QuestionSet"] },
     },
     enabled: isOpen,
+    searchMode,
   });
 
   const results: ContentSearchItem[] = [
@@ -46,6 +49,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
       inputRef.current?.focus();
     } else {
       setQuery("");
+      setSearchMode("keyword");
       previousActiveElement.current?.focus();
     }
   }, [isOpen]);
@@ -60,7 +64,6 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         return;
       }
 
-      // Focus trap: keep focus within the dialog
       if (e.key === "Tab") {
         const focusableElements = dialogRef.current?.querySelectorAll<HTMLElement>(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -91,7 +94,10 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
   const handleViewMore = () => {
     onClose();
-    navigate(`/explore?q=${encodeURIComponent(query)}`);
+    const params = new URLSearchParams();
+    params.set('q', query);
+    if (searchMode === 'semantic') params.set('mode', 'semantic');
+    navigate(`/explore?${params.toString()}`);
   };
 
   const sectionTitle = debouncedQuery.trim()
@@ -112,28 +118,14 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           {/* Search bar row */}
           <div className="flex items-center gap-4">
             <div className="flex-1 flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
-              <FiSearch className="w-5 h-5 text-sunbird-brick flex-shrink-0" />
-              <div className="w-px h-5 bg-gray-300" />
-              <input
+              <SearchModeToggle
                 ref={inputRef}
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                query={query}
+                onQueryChange={setQuery}
+                searchMode={searchMode}
+                onModeChange={setSearchMode}
                 placeholder={t("search_for_content_placeholder")}
-                className="flex-1 outline-none font-rubik text-base text-gray-700 placeholder-gray-400 bg-transparent"
               />
-              {query && (
-                <button
-                  onClick={() => {
-                    setQuery("");
-                    inputRef.current?.focus();
-                  }}
-                  className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0"
-                  aria-label={t("clear_search")}
-                >
-                  <FiX className="w-4 h-4" />
-                </button>
-              )}
             </div>
             <button
               onClick={onClose}
@@ -146,11 +138,15 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
         {/* Results section — scrolls independently within the panel */}
         <div className="overflow-y-auto flex-1 container mx-auto px-4 lg:px-[3.75rem] pb-4 md:pb-6">
-          <h2 className="font-rubik font-semibold text-[1.25rem] md:text-[1.5rem] leading-[2rem] text-foreground mb-4">
-            {sectionTitle}
-          </h2>
+          {!(searchMode === 'semantic' && !debouncedQuery.trim()) && (
+            <h2 className="font-rubik font-semibold text-[1.25rem] md:text-[1.5rem] leading-[2rem] text-foreground mb-4">
+              {sectionTitle}
+            </h2>
+          )}
 
-          {isLoading ? (
+          {searchMode === 'semantic' && !debouncedQuery.trim() ? (
+            <SemanticSuggestions onSelect={(suggestion) => { setQuery(suggestion); inputRef.current?.focus(); }} />
+          ) : isLoading ? (
             <div className="min-h-[8rem]">
               <PageLoader message={t("loading")} fullPage={false} />
             </div>

@@ -113,6 +113,21 @@
   "signup": "S'inscrire",
   "searchPlaceholder": "Rechercher des cours...",
   "search_for_content_placeholder": "Rechercher du contenu...",
+  "search": {
+    "keywordMode": "Mot-clé",
+    "semanticMode": "Sémantique",
+    "modeToggleLabel": "Mode de recherche",
+    "semanticSuggestTitle": "Essayez la recherche Sémantique",
+    "semanticSuggestSubtitle": "Posez une question en langage naturel — ou choisissez une suggestion",
+    "suggestions": [
+      "Comment enseigner les fractions aux débutants ?",
+      "Activités d'écriture créative pour les élèves",
+      "Expériences scientifiques pour enfants à la maison",
+      "Apprendre les bases de la programmation étape par étape",
+      "Histoire des civilisations anciennes",
+      "Stratégies de résolution de problèmes mathématiques"
+    ]
+  },
   "recommended": "Recommandé",
   "results_for": "Résultats pour \"{{query}}\"",
   "view_all_results": "Voir tous les résultats",

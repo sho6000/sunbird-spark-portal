@@ -113,6 +113,21 @@
   "signup": "Cadastrar",
   "searchPlaceholder": "Buscar cursos...",
   "search_for_content_placeholder": "Buscar conteúdo...",
+  "search": {
+    "keywordMode": "Palavra-chave",
+    "semanticMode": "Semântica",
+    "modeToggleLabel": "Modo de pesquisa",
+    "semanticSuggestTitle": "Experimente a Pesquisa de Semântica",
+    "semanticSuggestSubtitle": "Pergunte em linguagem natural — ou escolha uma sugestão abaixo",
+    "suggestions": [
+      "Como ensinar frações para iniciantes?",
+      "Atividades de escrita criativa para alunos",
+      "Experimentos científicos para crianças em casa",
+      "Aprenda noções básicas de programação passo a passo",
+      "História das civilizações antigas",
+      "Estratégias de resolução de problemas matemáticos"
+    ]
+  },
   "recommended": "Recomendado",
   "results_for": "Resultados para \"{{query}}\"",
   "view_all_results": "Ver todos os resultados",
