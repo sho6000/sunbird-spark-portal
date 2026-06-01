@@ -11,8 +11,8 @@ import {
 import { formatBatchDisplayDate } from "@/services/collection/enrollmentMapper";
 
 export interface CourseUpdatedBannerProps {
-  /** ISO timestamp of the course's most recent publish. */
-  lastPublishedOn: string;
+  /** ISO timestamp of the course's most recent publish. May be undefined if the API didn't return it. */
+  lastPublishedOn: string | undefined;
   /** Course identifier — scopes "already shown" tracking so navigating between courses re-opens the dialog. */
   collectionId?: string;
 }
@@ -44,8 +44,8 @@ export default function CourseUpdatedBanner({
   // We don't persist this — refreshing the page or remounting the component will pop the dialog again.
   const shownForKeysRef = useRef<Set<string>>(new Set());
 
-  const formattedDate = formatBatchDisplayDate(lastPublishedOn);
-  const dialogKey = collectionId ? `${collectionId}:${lastPublishedOn}` : null;
+  const formattedDate = lastPublishedOn ? formatBatchDisplayDate(lastPublishedOn) : "";
+  const dialogKey = collectionId && lastPublishedOn ? `${collectionId}:${lastPublishedOn}` : null;
 
   useEffect(() => {
     if (!dialogKey || !formattedDate || formattedDate === "-") return;
