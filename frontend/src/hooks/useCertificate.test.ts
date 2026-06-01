@@ -65,14 +65,23 @@ describe('useCertificate hooks test', () => {
   });
 
   describe('useMyImages', () => {
-    it('sets up myImages query correctly', () => {
+    it('sets up myImages query correctly with a per-user query key', () => {
+      vi.mocked(userAuthInfoService.getUserId).mockReturnValue('user_123');
       (useQuery as import('vitest').Mock).mockImplementation((opts) => opts);
       const queryParams = useMyImages();
 
       expect(useQuery).toHaveBeenCalled();
-      expect((queryParams as any).queryKey).toEqual(['myImages']);
+      expect((queryParams as any).queryKey).toEqual(['myImages', 'user_123']);
       expect((queryParams as any).staleTime).toBe(2 * 60 * 1000);
       expect((queryParams as any).enabled).toBe(true);
+    });
+
+    it('falls back to a null userId in the query key when none is resolved', () => {
+      vi.mocked(userAuthInfoService.getUserId).mockReturnValue(null);
+      (useQuery as import('vitest').Mock).mockImplementation((opts) => opts);
+      const queryParams = useMyImages();
+
+      expect((queryParams as any).queryKey).toEqual(['myImages', null]);
     });
 
     it('respects enabled: false option', () => {

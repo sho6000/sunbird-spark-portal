@@ -77,13 +77,16 @@ export interface ImageQueryOptions {
 export const useMyImages = (
   options: ImageQueryOptions = {}
 ): UseQueryResult<ImageAsset[], Error> => {
+  // Key the cache per-user so a session that switches accounts (SSO edge case)
+  // doesn't serve the previous user's images from cache.
+  const userId = userAuthInfoService.getUserId() ?? null;
   return useQuery({
-    queryKey: ['myImages'],
+    queryKey: ['myImages', userId],
     queryFn: async () => {
-      const userId = await resolveUserId();
-      if (!userId) return [];
+      const resolvedUserId = await resolveUserId();
+      if (!resolvedUserId) return [];
 
-      const response = await certificateService.searchLogos(userId);
+      const response = await certificateService.searchLogos(resolvedUserId);
       const content: any[] = response?.data?.content ?? [];
       return content.map((item) => ({
         identifier: item.identifier ?? '',
