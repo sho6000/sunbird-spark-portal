@@ -31,8 +31,12 @@ export function ImagePickerDialog({ label, required, value, onChange }: ImagePic
   const [uploadCreator, setUploadCreator] = useState("");
   const [dragging, setDragging] = useState(false);
 
-  const { data: myImages = [], isLoading: loadingMy } = useMyImages();
-  const { data: allImages = [], isLoading: loadingAll } = useAllImages();
+  const { data: myImages = [], isLoading: loadingMy } = useMyImages({
+    enabled: open && tab === "myImages",
+  });
+  const { data: allImages = [], isLoading: loadingAll } = useAllImages({
+    enabled: open && tab === "allImages",
+  });
 
   /* ── Resolve creator name once when upload tab opens ── */
   const initUploadTab = async () => {
