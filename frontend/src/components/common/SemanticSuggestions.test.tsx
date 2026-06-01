@@ -16,7 +16,7 @@ vi.mock('@/hooks/useAppI18n', () => ({
     t: (key: string, opts?: { returnObjects?: boolean }) => {
       if (key === 'search.suggestions' && opts?.returnObjects) return MOCK_SUGGESTIONS;
       const map: Record<string, string> = {
-        'search.semanticSuggestTitle': 'Try Semantic Search',
+        'search.semanticSuggestTitle': 'Try AI Search',
         'search.semanticSuggestSubtitle': 'Ask in natural language — or pick a suggestion below',
       };
       return map[key] ?? key;
@@ -33,7 +33,7 @@ describe('SemanticSuggestions', () => {
 
   it('renders the title and subtitle', () => {
     render(<SemanticSuggestions onSelect={onSelect} />);
-    expect(screen.getByText('Try Semantic Search')).toBeInTheDocument();
+    expect(screen.getByText('Try AI Search')).toBeInTheDocument();
     expect(screen.getByText('Ask in natural language — or pick a suggestion below')).toBeInTheDocument();
   });
 

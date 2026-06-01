@@ -121,9 +121,9 @@
   "clear_search": "مسح البحث",
   "search": {
     "keywordMode": "كلمة مفتاحية",
-    "semanticMode": "دلالي",
+    "semanticMode": "بحث ذكاء اصطناعي",
     "modeToggleLabel": "وضع البحث",
-    "semanticSuggestTitle": "جرّب البحث الدلالي",
+    "semanticSuggestTitle": "جرّب بحث الذكاء الاصطناعي",
     "semanticSuggestSubtitle": "اسأل بلغة طبيعية — أو اختر اقتراحاً أدناه",
     "suggestions": [
       "كيف تعلّم الكسور للمبتدئين؟",

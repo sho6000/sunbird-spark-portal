@@ -10,7 +10,7 @@ vi.mock('@/hooks/useAppI18n', () => ({
         'search_for_content_placeholder': 'Search for content...',
         'clear_search': 'Clear search',
         'search.keywordMode': 'Keyword',
-        'search.semanticMode': 'Semantic',
+        'search.semanticMode': 'AI Search',
       };
       return map[key] ?? key;
     },
@@ -75,21 +75,21 @@ describe('SearchModeToggle', () => {
 
   // ── Mode pills ──────────────────────────────────────────────────────────────
 
-  it('renders Keyword and Semantic mode buttons', () => {
+  it('renders Keyword and AI Search mode buttons', () => {
     render(<SearchModeToggle {...defaultProps} />);
     expect(screen.getByRole('button', { name: /keyword/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /semantic/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /ai search/i })).toBeInTheDocument();
   });
 
   it('marks Keyword pill as pressed in keyword mode', () => {
     render(<SearchModeToggle {...defaultProps} searchMode="keyword" />);
     expect(screen.getByRole('button', { name: /keyword/i })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByRole('button', { name: /semantic/i })).toHaveAttribute('aria-pressed', 'false');
+    expect(screen.getByRole('button', { name: /ai search/i })).toHaveAttribute('aria-pressed', 'false');
   });
 
-  it('marks Semantic pill as pressed in semantic mode', () => {
+  it('marks AI Search pill as pressed in semantic mode', () => {
     render(<SearchModeToggle {...defaultProps} searchMode="semantic" />);
-    expect(screen.getByRole('button', { name: /semantic/i })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: /ai search/i })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: /keyword/i })).toHaveAttribute('aria-pressed', 'false');
   });
 
@@ -99,9 +99,9 @@ describe('SearchModeToggle', () => {
     expect(defaultProps.onModeChange).toHaveBeenCalledWith('keyword');
   });
 
-  it('calls onModeChange("semantic") when Semantic pill is clicked', () => {
+  it('calls onModeChange("semantic") when AI Search pill is clicked', () => {
     render(<SearchModeToggle {...defaultProps} searchMode="keyword" />);
-    fireEvent.click(screen.getByRole('button', { name: /semantic/i }));
+    fireEvent.click(screen.getByRole('button', { name: /ai search/i }));
     expect(defaultProps.onModeChange).toHaveBeenCalledWith('semantic');
   });
 
@@ -115,7 +115,7 @@ describe('SearchModeToggle', () => {
     expect(iconSpan).toHaveClass('text-gray-400');
   });
 
-  it('renders a pulsing sparkle icon in semantic mode', () => {
+  it('renders a pulsing sparkle icon in AI Search mode', () => {
     const { container } = render(<SearchModeToggle {...defaultProps} searchMode="semantic" />);
     const iconSpan = container.querySelector('span.flex-shrink-0');
     expect(iconSpan).toHaveClass('text-sunbird-brick');

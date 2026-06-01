@@ -115,9 +115,9 @@
   "search_for_content_placeholder": "Search for content...",
   "search": {
     "keywordMode": "Keyword",
-    "semanticMode": "Semantic",
+    "semanticMode": "AI Search",
     "modeToggleLabel": "Search mode",
-    "semanticSuggestTitle": "Try Semantic Search",
+    "semanticSuggestTitle": "Try AI Search",
     "semanticSuggestSubtitle": "Ask in natural language — or pick a suggestion below",
     "suggestions": [
       "How to teach fractions to beginners?",
