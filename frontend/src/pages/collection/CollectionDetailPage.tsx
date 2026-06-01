@@ -207,7 +207,9 @@ const CollectionDetailPage = () => {
         cdata: collectionCdata, objectRollup: collectionObjectRollup,
         courseProgressProps, contentStatusMap, contentAttemptInfoMap, batches, selectedBatchId, setSelectedBatchId,
         handleJoinCourse, batchListLoading, joinLoading, batchListError, joinError, hasCertificate, firstCertPreviewUrl,
-        setCertificatePreviewUrl, setCertificatePreviewOpen, expandedModules, toggleModule, collectionId, batchIdParam,
+        setCertificatePreviewUrl, setCertificatePreviewOpen,
+        enrolledDate: enrollment.enrollmentForCollection?.enrolledDate,
+        expandedModules, toggleModule, collectionId, batchIdParam,
         isCreatorViewingOwnCollection, isMentorViewingCourse: isMentorOfCourse, contentCreatorPrivilege, userProfile: userProfile ?? undefined,
         currentUserId: currentUserId ?? undefined,
         backTo,
@@ -219,7 +221,8 @@ const CollectionDetailPage = () => {
       courseProgressProps, contentStatusMap,
       contentAttemptInfoMap, batches, selectedBatchId, setSelectedBatchId, handleJoinCourse, batchListLoading,
       joinLoading, batchListError, joinError, hasCertificate, firstCertPreviewUrl, expandedModules, toggleModule,
-      collectionId, batchIdParam, isCreatorViewingOwnCollection, isMentorOfCourse, contentCreatorPrivilege, userProfile, currentUserId, backTo
+      collectionId, batchIdParam, isCreatorViewingOwnCollection, isMentorOfCourse, contentCreatorPrivilege, userProfile, currentUserId, backTo,
+      enrollment.enrollmentForCollection?.enrolledDate,
     ]
   );
 

@@ -14,3 +14,16 @@ export function toRelativeTime(isoString: string, now: Date = new Date()): strin
   if (!past.isValid()) return '—';
   return past.from(dayjs(now));
 }
+
+/**
+ * Formats an ISO date string as `dd/MM/yyyy`. Returns "" for missing or invalid input.
+ */
+export function formatDayMonthYear(isoDate: string | undefined): string {
+  if (!isoDate) return "";
+  const d = new Date(isoDate);
+  if (Number.isNaN(d.getTime())) return "";
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}

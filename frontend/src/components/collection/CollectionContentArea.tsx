@@ -7,6 +7,7 @@ import { useForceSync } from "@/hooks/useForceSync";
 import type { CourseProgressCardProps } from "@/components/collection/CourseProgressCard";
 import CourseProgressSection from "@/components/collection/CourseProgressSection";
 import CollectionSidePanel from "@/components/collection/CollectionSidePanel";
+import CourseUpdatedBanner, { shouldShowCourseUpdatedBanner } from "@/components/collection/CourseUpdatedBanner";
 import type { CollectionContentAreaProps } from "@/types/collectionContentAreaTypes";
 
 
@@ -40,7 +41,7 @@ export default function CollectionContentArea({
     cdata,
     objectRollup,
   } = player;
-  const { courseProgressProps } = enrollment;
+  const { courseProgressProps, enrolledDate } = enrollment;
   const { collectionId, batchIdParam } = sidebar;
   const {
     isCreatorViewingOwnCollection = false,
@@ -69,6 +70,18 @@ export default function CollectionContentArea({
 
   const showCourseProgress =
     isTrackable && (!contentBlocked || upcomingBatchBlocked) && !contentCreatorPrivilege && hasBatchInRoute && isEnrolledInCurrentBatch && !!courseProgressProps;
+
+  const total = (courseProgressProps as CourseProgressCardProps | undefined)?.totalContentCount;
+  const completed = (courseProgressProps as CourseProgressCardProps | undefined)?.completedContentCount;
+  const isCourseFullyCompleted =
+    typeof total === "number" && total > 0 && (completed ?? 0) >= total;
+
+  const showCourseUpdatedBanner =
+    isTrackable &&
+    isEnrolledInCurrentBatch &&
+    !contentCreatorPrivilege &&
+    !isCourseFullyCompleted &&
+    shouldShowCourseUpdatedBanner(enrolledDate, collectionData?.lastPublishedOn);
 
   const showCertificateCard = hasBatchInRoute && isEnrolledInCurrentBatch;
   const showBottomSections =
@@ -175,6 +188,12 @@ export default function CollectionContentArea({
           backTo={backTo}
         />
       </div>
+      {showCourseUpdatedBanner && (
+        <CourseUpdatedBanner
+          lastPublishedOn={collectionData.lastPublishedOn}
+          collectionId={collectionId}
+        />
+      )}
     </>
   );
 }

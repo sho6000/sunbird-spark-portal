@@ -41,6 +41,8 @@ export interface CollectionContentAreaEnrollmentProps {
   firstCertPreviewUrl: string | undefined;
   setCertificatePreviewUrl: (url: string) => void;
   setCertificatePreviewOpen: (open: boolean) => void;
+  /** When the user enrolled in this course. Sunbird returns this as epoch ms or an ISO string. */
+  enrolledDate?: number | string;
 }
 
 /** Sidebar UI state and route identifiers. */

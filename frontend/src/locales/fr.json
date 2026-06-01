@@ -400,7 +400,9 @@
     "contentPlaylist": "Liste de lecture de contenu",
     "digitalTextbook": "Manuel numérique",
     "questionPaper": "Sujet d'examen",
-    "viewCourseDashboard": "Voir le tableau de bord du cours"
+    "viewCourseDashboard": "Voir le tableau de bord du cours",
+    "courseUpdatedTitle": "Cours mis à jour",
+    "courseUpdatedOnMessage": "Ce cours a été mis à jour le {{date}}. Votre progression a été recalculée en fonction du contenu le plus récent du cours."
   },
   "homePage": {
     "hiUser": "Bonjour {{name}}",

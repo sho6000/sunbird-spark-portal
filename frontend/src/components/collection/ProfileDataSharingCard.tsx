@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAppI18n } from "@/hooks/useAppI18n";
 import type { ConsentStatus } from "@/types/consentTypes";
+import { formatDayMonthYear } from "@/utils/dateUtils";
 import ProfileDataSharingModal from "./ProfileDataSharingModal";
 
 export interface ProfileDataSharingCardProps {
@@ -12,20 +13,6 @@ export interface ProfileDataSharingCardProps {
   isUpdating: boolean;
   /** User profile for the modal PII list. */
   userProfile: Record<string, unknown> | null | undefined;
-}
-
-function formatLastUpdated(isoDate: string | undefined): string {
-  if (!isoDate) return "";
-  try {
-    const d = new Date(isoDate);
-    if (Number.isNaN(d.getTime())) return "";
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-  } catch {
-    return "";
-  }
 }
 
 export default function ProfileDataSharingCard({
@@ -40,7 +27,7 @@ export default function ProfileDataSharingCard({
   const [modalOpen, setModalOpen] = useState(false);
 
   const isOn = status === "ACTIVE";
-  const lastUpdatedStr = formatLastUpdated(lastUpdatedOn);
+  const lastUpdatedStr = formatDayMonthYear(lastUpdatedOn);
 
   const handleUpdateClick = () => setModalOpen(true);
   const handleCloseModal = () => setModalOpen(false);

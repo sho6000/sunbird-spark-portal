@@ -432,4 +432,51 @@ describe('CollectionContentArea', () => {
       expect(screen.queryByTestId('profile-data-sharing-card')).not.toBeInTheDocument();
     });
   });
+
+  describe('Course updated banner', () => {
+    const enrolledEarly = new Date('2026-01-01T00:00:00Z').getTime();
+    const enrolledLate = new Date('2026-04-01T00:00:00Z').getTime();
+    const publishedMid = '2026-03-15T10:30:00.000Z';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const renderArea = (overrides: { access?: any; collectionData?: any; enrollment?: any }) =>
+      render(
+        <CollectionContentArea
+          {...learnerWithBatchProps}
+          access={{ ...learnerWithBatchProps.access, ...(overrides.access ?? {}) }}
+          collectionData={{ ...defaultProps.collectionData, ...(overrides.collectionData ?? {}) }}
+          enrollment={{ ...defaultEnrollment, ...(overrides.enrollment ?? {}) }}
+        />
+      );
+    const banner = () => screen.queryByText(/collection\.courseUpdatedTitle/);
+
+    it('renders when enrolled and course was republished after enrolment', () => {
+      renderArea({ collectionData: { lastPublishedOn: publishedMid }, enrollment: { enrolledDate: enrolledEarly } });
+      expect(banner()).toBeInTheDocument();
+    });
+
+    it('hides when learner enrolled after the most recent publish', () => {
+      renderArea({ collectionData: { lastPublishedOn: publishedMid }, enrollment: { enrolledDate: enrolledLate } });
+      expect(banner()).not.toBeInTheDocument();
+    });
+
+    it('hides when learner is not enrolled in the current batch', () => {
+      renderArea({ access: { isEnrolledInCurrentBatch: false }, collectionData: { lastPublishedOn: publishedMid }, enrollment: { enrolledDate: enrolledEarly } });
+      expect(banner()).not.toBeInTheDocument();
+    });
+
+    it('hides when lastPublishedOn is missing', () => {
+      renderArea({ enrollment: { enrolledDate: enrolledEarly } });
+      expect(banner()).not.toBeInTheDocument();
+    });
+
+    it('hides when learner has completed all content (completed >= total)', () => {
+      renderArea({ collectionData: { lastPublishedOn: publishedMid }, enrollment: { enrolledDate: enrolledEarly, courseProgressProps: { totalContentCount: 5, completedContentCount: 5 } } });
+      expect(banner()).not.toBeInTheDocument();
+    });
+
+    it('renders when learner is partially complete (completed < total)', () => {
+      renderArea({ collectionData: { lastPublishedOn: publishedMid }, enrollment: { enrolledDate: enrolledEarly, courseProgressProps: { totalContentCount: 5, completedContentCount: 4 } } });
+      expect(banner()).toBeInTheDocument();
+    });
+  });
 });
