@@ -115,9 +115,9 @@
   "search_for_content_placeholder": "Buscar conteúdo...",
   "search": {
     "keywordMode": "Palavra-chave",
-    "semanticMode": "Semântica",
+    "semanticMode": "Pesquisa IA",
     "modeToggleLabel": "Modo de pesquisa",
-    "semanticSuggestTitle": "Experimente a Pesquisa de Semântica",
+    "semanticSuggestTitle": "Experimente a Pesquisa IA",
     "semanticSuggestSubtitle": "Pergunte em linguagem natural — ou escolha uma sugestão abaixo",
     "suggestions": [
       "Como ensinar frações para iniciantes?",
