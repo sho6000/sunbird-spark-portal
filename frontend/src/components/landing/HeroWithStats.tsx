@@ -57,7 +57,7 @@ const HeroWithStats = () => {
                             <Link to="/explore" data-edataid="hero-explore-cta" data-pageid="landing">
                                 <Button
                                     size="lg"
-                                    className="font-rubik font-medium text-[1.125rem] leading-[100%] tracking-normal text-white w-auto lg:w-auto h-[3.75rem] px-6 rounded-[0.75rem] shadow-md hover:shadow-lg transition-all flex items-center justify-center bg-sunbird-theme-accent"
+                                    className="font-rubik font-medium text-[1.125rem] leading-[100%] tracking-normal text-white w-auto lg:w-auto h-[3.75rem] px-6 rounded-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center bg-sunbird-theme-accent"
                                 >
                                     {t("hero.cta")}
                                     {isRTL ? (

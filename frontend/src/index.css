@@ -220,6 +220,70 @@
     --sunbird-text-shadow-strong: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.55);
     --sunbird-text-shadow-light: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.45);
 
+    /* Top / Bottom navbar background — theme-reactive. Overridden per
+       template in template-overrides.css (Classic = soft chip tint, Modern =
+       deeper primary tint for stronger separation). */
+    --nav-bg: var(--sunbird-spark-theme-chip-h) 50% 95%;
+    --nav-fg: var(--sunbird-spark-theme-primary-h) var(--sunbird-spark-theme-primary-s) 22%;
+
+    /* Workspace thumbnail-pattern palettes — six hue offsets from primary.
+       Each PRIMARY_CATEGORY family maps to one of these, so a theme switch
+       cascades through every workspace card thumbnail. */
+    --ws-pat-1-h: var(--sunbird-spark-theme-primary-h);
+    --ws-pat-2-h: calc(var(--sunbird-spark-theme-primary-h) + 40);
+    --ws-pat-3-h: calc(var(--sunbird-spark-theme-primary-h) + 80);
+    --ws-pat-4-h: calc(var(--sunbird-spark-theme-primary-h) + 130);
+    --ws-pat-5-h: calc(var(--sunbird-spark-theme-primary-h) + 180);
+    --ws-pat-6-h: calc(var(--sunbird-spark-theme-primary-h) + 230);
+
+    --ws-pat-1-bg-light:    hsl(var(--ws-pat-1-h) 40% 94%);
+    --ws-pat-1-bg-lighter:  hsl(var(--ws-pat-1-h) 40% 97%);
+    --ws-pat-1-accent:      hsl(var(--ws-pat-1-h) 45% 58%);
+    --ws-pat-1-accent-dark: hsl(var(--ws-pat-1-h) 50% 32%);
+    --ws-pat-1-icon:        hsl(var(--ws-pat-1-h) 50% 32%);
+
+    --ws-pat-2-bg-light:    hsl(var(--ws-pat-2-h) 40% 94%);
+    --ws-pat-2-bg-lighter:  hsl(var(--ws-pat-2-h) 40% 97%);
+    --ws-pat-2-accent:      hsl(var(--ws-pat-2-h) 45% 58%);
+    --ws-pat-2-accent-dark: hsl(var(--ws-pat-2-h) 50% 32%);
+    --ws-pat-2-icon:        hsl(var(--ws-pat-2-h) 50% 32%);
+
+    --ws-pat-3-bg-light:    hsl(var(--ws-pat-3-h) 40% 94%);
+    --ws-pat-3-bg-lighter:  hsl(var(--ws-pat-3-h) 40% 97%);
+    --ws-pat-3-accent:      hsl(var(--ws-pat-3-h) 45% 58%);
+    --ws-pat-3-accent-dark: hsl(var(--ws-pat-3-h) 50% 32%);
+    --ws-pat-3-icon:        hsl(var(--ws-pat-3-h) 50% 32%);
+
+    --ws-pat-4-bg-light:    hsl(var(--ws-pat-4-h) 40% 94%);
+    --ws-pat-4-bg-lighter:  hsl(var(--ws-pat-4-h) 40% 97%);
+    --ws-pat-4-accent:      hsl(var(--ws-pat-4-h) 45% 58%);
+    --ws-pat-4-accent-dark: hsl(var(--ws-pat-4-h) 50% 32%);
+    --ws-pat-4-icon:        hsl(var(--ws-pat-4-h) 50% 32%);
+
+    --ws-pat-5-bg-light:    hsl(var(--ws-pat-5-h) 40% 94%);
+    --ws-pat-5-bg-lighter:  hsl(var(--ws-pat-5-h) 40% 97%);
+    --ws-pat-5-accent:      hsl(var(--ws-pat-5-h) 45% 58%);
+    --ws-pat-5-accent-dark: hsl(var(--ws-pat-5-h) 50% 32%);
+    --ws-pat-5-icon:        hsl(var(--ws-pat-5-h) 50% 32%);
+
+    --ws-pat-6-bg-light:    hsl(var(--ws-pat-6-h) 40% 94%);
+    --ws-pat-6-bg-lighter:  hsl(var(--ws-pat-6-h) 40% 97%);
+    --ws-pat-6-accent:      hsl(var(--ws-pat-6-h) 45% 58%);
+    --ws-pat-6-accent-dark: hsl(var(--ws-pat-6-h) 50% 32%);
+    --ws-pat-6-icon:        hsl(var(--ws-pat-6-h) 50% 32%);
+
+    /* Workspace content-card type badges — hue-derived from primary so they
+       shift with theme switch. Each type rotates around the colour wheel for
+       visual distinction. */
+    --ws-card-course-bg:     var(--sunbird-spark-theme-primary-h) 40% 95%;
+    --ws-card-course-text:   var(--sunbird-spark-theme-primary-h) 45% 32%;
+    --ws-card-content-bg:    calc(var(--sunbird-spark-theme-primary-h) + 40) 55% 95%;
+    --ws-card-content-text:  calc(var(--sunbird-spark-theme-primary-h) + 40) 50% 35%;
+    --ws-card-quiz-bg:       calc(var(--sunbird-spark-theme-primary-h) + 90) 45% 95%;
+    --ws-card-quiz-text:     calc(var(--sunbird-spark-theme-primary-h) + 90) 45% 35%;
+    --ws-card-collection-bg: calc(var(--sunbird-spark-theme-primary-h) + 150) 40% 95%;
+    --ws-card-collection-text: calc(var(--sunbird-spark-theme-primary-h) + 150) 45% 32%;
+
     /* Component Specific Colors */
     --sunbird-progress-bg: var(--sunbird-spark-theme-chip-h) var(--sunbird-spark-theme-chip-s) 88%;
     /* light brand tint — progress ring track background */

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { orderBy } from "lodash";
 import { Link, useLocation } from "react-router-dom";
 import { FiChevronDown, FiDownload } from "react-icons/fi";
 import { useUserEnrolledCollections } from "@/hooks/useUserEnrolledCollections";
@@ -86,13 +87,12 @@ const CourseRow = ({ course, downloadCertificate, hasCertificate, downloadingCou
                 {/* Status Badge */}
                 <div className="profile-learning-status">
                     <div
-                        className={`px-4 md:px-5 py-1.5 rounded-pill border ${
-                            status === "completed"
+                        className={`px-4 md:px-5 py-1.5 rounded-pill border ${status === "completed"
                                 ? "bg-sunbird-status-completed-bg border-sunbird-status-completed-border text-sunbird-status-completed-text"
                                 : status === "ongoing"
                                     ? "bg-[hsl(var(--sunbird-status-ongoing-bg))] border-[hsl(var(--sunbird-status-ongoing-border))] text-[hsl(var(--sunbird-brown-dark))]"
                                     : "bg-gray-100 border-gray-300 text-gray-500"
-                        }`}
+                            }`}
                     >
                         <span className="text-[0.875rem] font-medium leading-[1.125rem]">
                             {status === "completed"
@@ -141,10 +141,8 @@ const ProfileLearningList = () => {
 
     const { downloadCertificate, hasCertificate, downloadingCourseId } = useCertificateDownload();
 
-    const filteredCourses = courses.filter((course) => {
-        if (filter === "all") return true;
-        return getCompletionStatus(course.status, course.completionPercentage ?? 0) === filter;
-    });
+    const filtered = courses.filter((c) => filter === "all" || getCompletionStatus(c.status, c.completionPercentage ?? 0) === filter);
+    const filteredCourses = orderBy(filtered, [(c) => c.lastContentAccessTime ?? c.enrolledDate ?? 0], ["desc"]);
 
     const hasMore = filteredCourses.length > VIEW_LIMIT;
     const visibleCourses = hasMore && !showAll
@@ -236,8 +234,10 @@ const ProfileLearningList = () => {
                         <p className="text-sunbird-gray-75 text-sm">
                             {filter === "all"
                                 ? t('profileLearning.noCoursesEnrolled')
-                                : t('profileLearning.noFilteredCourses', { filter: filter === 'ongoing' ? t('status.ongoing')
-                                        : filter === 'not-started' ? t('status.notStarted') : t('status.completed') })}
+                                : t('profileLearning.noFilteredCourses', {
+                                    filter: filter === 'ongoing' ? t('status.ongoing')
+                                        : filter === 'not-started' ? t('status.notStarted') : t('status.completed')
+                                })}
                         </p>
                     </div>
                 ) : (

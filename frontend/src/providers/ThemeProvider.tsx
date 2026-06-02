@@ -82,6 +82,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (!theme) return;
     localStorage.setItem(THEME_STORAGE_KEY, id);
     setActiveTheme(theme);
+    // Theme defines a recommended fontId — switch font to match unless the
+    // user has explicitly chosen one already in this session.
+    const themeFont = FONTS.find((f) => f.id === theme.fontId);
+    if (themeFont) {
+      localStorage.setItem(FONT_STORAGE_KEY, themeFont.id);
+      setActiveFont(themeFont);
+    }
   };
 
   const setFont = (id: string) => {
@@ -96,6 +103,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (!template) return;
     localStorage.setItem(TEMPLATE_STORAGE_KEY, id);
     setActiveTemplate(template);
+    // Cascade: picking a template applies its preset theme + font (mobile-app
+    // parity). User can still override theme/font afterward.
+    const presetTheme = THEMES.find((t) => t.id === template.presetThemeId);
+    if (presetTheme) {
+      localStorage.setItem(THEME_STORAGE_KEY, presetTheme.id);
+      setActiveTheme(presetTheme);
+    }
+    const presetFont = FONTS.find((f) => f.id === template.presetFontId);
+    if (presetFont) {
+      localStorage.setItem(FONT_STORAGE_KEY, presetFont.id);
+      setActiveFont(presetFont);
+    }
   };
 
   const setLayout = (id: LayoutOption['id']) => {

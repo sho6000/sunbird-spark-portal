@@ -32,14 +32,17 @@ const CONTENT_TYPE_ICONS: Record<WorkspaceItem['type'], IconType> = {
  * Per-type colour pair used for badges and UI accents.
  * Single source of truth — `CONTENT_TYPE_COLORS` is derived from this.
  */
+// Theme-reactive: badge colours rotate around the wheel from the active
+// primary hue, so a theme switch shifts every workspace card colour together.
+// Tokens defined in index.css (--ws-card-*-bg / --ws-card-*-text).
 export const CONTENT_TYPE_CARD_COLORS: Record<
   WorkspaceItem['type'],
   { bg: string; text: string }
 > = {
-  course: { bg: 'bg-sunbird-wave/10', text: 'text-sunbird-ink' },
-  content: { bg: 'bg-sunbird-theme-accent-muted/10', text: 'text-sunbird-theme-accent' },
-  quiz: { bg: 'bg-sunbird-lavender/10', text: 'text-sunbird-lavender' },
-  collection: { bg: 'bg-sunbird-moss/10', text: 'text-sunbird-forest' },
+  course:     { bg: 'bg-ws-course-bg',     text: 'text-ws-course-fg' },
+  content:    { bg: 'bg-ws-content-bg',    text: 'text-ws-content-fg' },
+  quiz:       { bg: 'bg-ws-quiz-bg',       text: 'text-ws-quiz-fg' },
+  collection: { bg: 'bg-ws-collection-bg', text: 'text-ws-collection-fg' },
 };
 
 /** Flattened version of `CONTENT_TYPE_CARD_COLORS` ("text bg" string). */
@@ -166,53 +169,26 @@ export interface CardTheme {
 
 /* ── Shared base palettes (each family shares one set of colours) ── */
 
-const THEME_WAVE: Omit<CardTheme, 'id'> = {
-  bgLight: 'hsl(var(--theme-wave-bg-light))',
-  bgLighter: 'hsl(var(--theme-wave-bg-lighter))',
-  accent: 'hsl(var(--theme-wave-accent))',
-  accentDark: 'hsl(var(--theme-wave-accent-dark))',
-  iconColor: 'hsl(var(--theme-wave-icon))',
-};
+/**
+ * Each family palette is hue-derived from the active theme via `--ws-pat-N-h`
+ * (see index.css). Switching the global theme rotates every workspace card
+ * thumbnail together. Bg / accent / icon use fixed L/S so contrast stays
+ * predictable across hues.
+ */
+const makeHuePalette = (n: 1 | 2 | 3 | 4 | 5 | 6): Omit<CardTheme, 'id'> => ({
+  bgLight:    `var(--ws-pat-${n}-bg-light)`,
+  bgLighter:  `var(--ws-pat-${n}-bg-lighter)`,
+  accent:     `var(--ws-pat-${n}-accent)`,
+  accentDark: `var(--ws-pat-${n}-accent-dark)`,
+  iconColor:  `var(--ws-pat-${n}-icon)`,
+});
 
-const THEME_SUNFLOWER: Omit<CardTheme, 'id'> = {
-  bgLight: 'hsl(var(--theme-sunflower-bg-light))',
-  bgLighter: 'hsl(var(--theme-sunflower-bg-lighter))',
-  accent: 'hsl(var(--theme-sunflower-accent))',
-  accentDark: 'hsl(var(--theme-sunflower-accent-dark))',
-  iconColor: 'hsl(var(--theme-sunflower-icon))',
-};
-
-const THEME_GINGER: Omit<CardTheme, 'id'> = {
-  bgLight: 'hsl(var(--theme-ginger-bg-light))',
-  bgLighter: 'hsl(var(--theme-ginger-bg-lighter))',
-  accent: 'hsl(var(--theme-ginger-accent))',
-  accentDark: 'hsl(var(--theme-ginger-accent-dark))',
-  iconColor: 'hsl(var(--theme-ginger-icon))',
-};
-
-const THEME_FOREST: Omit<CardTheme, 'id'> = {
-  bgLight: 'hsl(var(--theme-forest-bg-light))',
-  bgLighter: 'hsl(var(--theme-forest-bg-lighter))',
-  accent: 'hsl(var(--theme-forest-accent))',
-  accentDark: 'hsl(var(--theme-forest-accent-dark))',
-  iconColor: 'hsl(var(--theme-forest-icon))',
-};
-
-const THEME_LAVENDER: Omit<CardTheme, 'id'> = {
-  bgLight: 'hsl(var(--sunbird-beige-light))',
-  bgLighter: 'hsl(var(--sunbird-gray-f3))',
-  accent: 'hsl(var(--sunbird-lavender))',
-  accentDark: 'hsl(var(--sunbird-jamun))',
-  iconColor: 'hsl(var(--sunbird-jamun))',
-};
-
-const THEME_LEAF: Omit<CardTheme, 'id'> = {
-  bgLight: 'hsl(var(--sunbird-gray-f1))',
-  bgLighter: 'hsl(var(--sunbird-gray-f3))',
-  accent: 'hsl(var(--sunbird-leaf))',
-  accentDark: 'hsl(var(--sunbird-forest))',
-  iconColor: 'hsl(var(--sunbird-moss))',
-};
+const THEME_WAVE      = makeHuePalette(1);
+const THEME_SUNFLOWER = makeHuePalette(2);
+const THEME_GINGER    = makeHuePalette(3);
+const THEME_FOREST    = makeHuePalette(4);
+const THEME_LAVENDER  = makeHuePalette(5);
+const THEME_LEAF      = makeHuePalette(6);
 
 /** Helper to stamp a unique `id` onto a shared base palette. */
 const withId = (id: string, base: Omit<CardTheme, 'id'>): CardTheme => ({ id, ...base });

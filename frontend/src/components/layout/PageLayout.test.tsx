@@ -99,6 +99,18 @@ vi.mock('@/hooks/useAppI18n', () => ({
   useAppI18n: () => ({ t: (key: string) => key }),
 }));
 
+vi.mock('@/hooks/usePermission', () => ({
+  usePermissions: () => ({
+    isAuthenticated: true,
+    isLoading: false,
+    roles: ['PUBLIC'],
+    error: null,
+    hasAnyRole: () => false,
+    canAccessFeature: () => false,
+    refetch: vi.fn(),
+  }),
+}));
+
 vi.mock('@/providers/ThemeProvider', () => ({
   useTheme: () => ({
     activeLayout: { id: 'sidebar-left', name: 'Left Sidebar' },
