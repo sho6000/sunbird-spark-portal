@@ -437,6 +437,7 @@ describe('CollectionContentArea', () => {
     const enrolledEarly = new Date('2026-01-01T00:00:00Z').getTime();
     const enrolledLate = new Date('2026-04-01T00:00:00Z').getTime();
     const publishedMid = '2026-03-15T10:30:00.000Z';
+    const partialProgress = { totalContentCount: 5, completedContentCount: 3 };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderArea = (overrides: { access?: any; collectionData?: any; enrollment?: any }) =>
       render(
@@ -444,7 +445,7 @@ describe('CollectionContentArea', () => {
           {...learnerWithBatchProps}
           access={{ ...learnerWithBatchProps.access, ...(overrides.access ?? {}) }}
           collectionData={{ ...defaultProps.collectionData, ...(overrides.collectionData ?? {}) }}
-          enrollment={{ ...defaultEnrollment, ...(overrides.enrollment ?? {}) }}
+          enrollment={{ ...defaultEnrollment, courseProgressProps: partialProgress, contentStateFetched: true, ...(overrides.enrollment ?? {}) }}
         />
       );
     const banner = () => screen.queryByText(/collection\.courseUpdatedTitle/);
@@ -469,14 +470,42 @@ describe('CollectionContentArea', () => {
       expect(banner()).not.toBeInTheDocument();
     });
 
-    it('hides when learner has completed all content (completed >= total)', () => {
+    it('still shows when the learner is fully complete — the banner explains the recalculation regardless of current %', () => {
+      // Banner shows whenever the course was republished after enrolment, even if the learner
+      // happens to be at 100% (e.g. deletion-causes-100% or re-completion after update). Hiding
+      // it only at 100% would silently leave deletion/re-completion cases unexplained.
       renderArea({ collectionData: { lastPublishedOn: publishedMid }, enrollment: { enrolledDate: enrolledEarly, courseProgressProps: { totalContentCount: 5, completedContentCount: 5 } } });
+      expect(banner()).toBeInTheDocument();
+    });
+
+    it('hides while completion data has not loaded yet (totalContentCount missing)', () => {
+      // Guards against the refresh flash: until the enrollment API returns totals, the
+      // gate cannot tell whether the user is complete, so the banner must stay hidden.
+      renderArea({ collectionData: { lastPublishedOn: publishedMid }, enrollment: { enrolledDate: enrolledEarly, courseProgressProps: { progress: 50 } } });
       expect(banner()).not.toBeInTheDocument();
     });
 
-    it('renders when learner is partially complete (completed < total)', () => {
-      renderArea({ collectionData: { lastPublishedOn: publishedMid }, enrollment: { enrolledDate: enrolledEarly, courseProgressProps: { totalContentCount: 5, completedContentCount: 4 } } });
+    it('still shows when the server reports completionPercentage === 100 (deletion-causes-100 case)', () => {
+      // After a content deletion that pushes the learner to 100%, the banner must still explain
+      // that progress was recalculated. Hiding it here would leave the silent jump unexplained.
+      renderArea({
+        collectionData: { lastPublishedOn: publishedMid },
+        enrollment: {
+          enrolledDate: enrolledEarly,
+          courseProgressProps: { totalContentCount: 12, completedContentCount: 12 },
+        },
+      });
       expect(banner()).toBeInTheDocument();
+    });
+
+    it('hides while content/state/read has not yet returned (avoids 1s flash on refresh)', () => {
+      // Before contentStateFetched is true, the client-side count derives from the stale
+      // enrollment.contentStatus map. We must hold the banner until /content/state/read returns.
+      renderArea({
+        collectionData: { lastPublishedOn: publishedMid },
+        enrollment: { enrolledDate: enrolledEarly, contentStateFetched: false },
+      });
+      expect(banner()).not.toBeInTheDocument();
     });
   });
 });

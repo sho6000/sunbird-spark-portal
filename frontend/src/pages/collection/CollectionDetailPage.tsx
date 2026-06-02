@@ -209,6 +209,9 @@ const CollectionDetailPage = () => {
         handleJoinCourse, batchListLoading, joinLoading, batchListError, joinError, hasCertificate, firstCertPreviewUrl,
         setCertificatePreviewUrl, setCertificatePreviewOpen,
         enrolledDate: enrollment.enrollmentForCollection?.enrolledDate,
+        enrollmentCompletionPercentage: enrollment.enrollmentForCollection?.completionPercentage,
+        enrollmentStatus: enrollment.enrollmentForCollection?.status,
+        contentStateFetched,
         expandedModules, toggleModule, collectionId, batchIdParam,
         isCreatorViewingOwnCollection, isMentorViewingCourse: isMentorOfCourse, contentCreatorPrivilege, userProfile: userProfile ?? undefined,
         currentUserId: currentUserId ?? undefined,
@@ -223,6 +226,9 @@ const CollectionDetailPage = () => {
       joinLoading, batchListError, joinError, hasCertificate, firstCertPreviewUrl, expandedModules, toggleModule,
       collectionId, batchIdParam, isCreatorViewingOwnCollection, isMentorOfCourse, contentCreatorPrivilege, userProfile, currentUserId, backTo,
       enrollment.enrollmentForCollection?.enrolledDate,
+      enrollment.enrollmentForCollection?.completionPercentage,
+      enrollment.enrollmentForCollection?.status,
+      contentStateFetched,
     ]
   );
 

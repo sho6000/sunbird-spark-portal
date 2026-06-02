@@ -41,7 +41,7 @@ export default function CollectionContentArea({
     cdata,
     objectRollup,
   } = player;
-  const { courseProgressProps, enrolledDate } = enrollment;
+  const { courseProgressProps, enrolledDate, contentStateFetched } = enrollment;
   const { collectionId, batchIdParam } = sidebar;
   const {
     isCreatorViewingOwnCollection = false,
@@ -72,15 +72,21 @@ export default function CollectionContentArea({
     isTrackable && (!contentBlocked || upcomingBatchBlocked) && !contentCreatorPrivilege && hasBatchInRoute && isEnrolledInCurrentBatch && !!courseProgressProps;
 
   const total = (courseProgressProps as CourseProgressCardProps | undefined)?.totalContentCount;
-  const completed = (courseProgressProps as CourseProgressCardProps | undefined)?.completedContentCount;
-  const isCourseFullyCompleted =
-    typeof total === "number" && total > 0 && (completed ?? 0) >= total;
+  // We must know the totals before deciding to show the banner — otherwise we'd briefly flash
+  // it on every refresh while the enrollment API is in flight and `total` is still undefined.
+  const hasCompletionData = typeof total === "number" && total > 0;
 
+  // We show the banner whenever the course was republished after the user enrolled — regardless
+  // of whether they are currently at 100% or partial. The banner's purpose is to explain
+  // "your progress was recalculated because the course changed" — that explanation is equally
+  // valid when content was added (drop in percentage) AND when content was deleted (jump to 100%).
+  // Suppressing it only at 100% would create inconsistent UX between those two scenarios.
   const showCourseUpdatedBanner =
     isTrackable &&
     isEnrolledInCurrentBatch &&
     !contentCreatorPrivilege &&
-    !isCourseFullyCompleted &&
+    contentStateFetched === true &&
+    hasCompletionData &&
     shouldShowCourseUpdatedBanner(enrolledDate, collectionData?.lastPublishedOn);
 
   const showCertificateCard = hasBatchInRoute && isEnrolledInCurrentBatch;
