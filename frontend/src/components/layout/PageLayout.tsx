@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '@/components/home/Header';
 import Footer from '@/components/home/Footer';
@@ -32,7 +32,11 @@ function getActiveNav(pathname: string): string {
   return 'home';
 }
 
-const PageLayout = () => {
+interface PageLayoutProps {
+  children?: ReactNode;
+}
+
+const PageLayout = ({ children }: PageLayoutProps = {}) => {
   const { t } = useAppI18n();
   const location = useLocation();
   const isMobile = useIsMobile();
@@ -69,74 +73,32 @@ const PageLayout = () => {
   const activeNav = getActiveNav(location.pathname);
   const layoutId = activeLayout.id;
 
-  // ---- MOBILE: all layouts collapse to drawer ----
-  if (isMobile) {
-    return (
-      <div className="flex flex-col min-h-screen bg-background">
-        <Header isSidebarOpen={isSidebarOpen} onToggleSidebar={() => setSidebarOpen(true, true)} />
-        <Sheet open={isSidebarOpen} onOpenChange={(open) => setSidebarOpen(open, true)}>
-          <SheetContent side="left" className="w-[17.5rem] px-0">
-            <SheetTitle className="sr-only">{t('navigationMenu')}</SheetTitle>
-            <HomeSidebar
-              activeNav={activeNav}
-              onNavChange={() => setSidebarOpen(false, true)}
-            />
-          </SheetContent>
-        </Sheet>
-        <div className="flex-1 flex">
-          <Outlet />
-        </div>
-        {layoutId === 'bottom' && <BottomNavBar activeNav={activeNav} />}
-        <Footer />
-      </div>
-    );
-  }
-
-  // ---- DESKTOP: TOP layout ----
-  if (layoutId === 'top') {
-    return (
-      <div className="flex flex-col min-h-screen bg-background">
-        <Header isSidebarOpen={false} onToggleSidebar={() => {}} />
-        <TopNavBar activeNav={activeNav} />
-        <div className="flex flex-1 relative">
-          <Outlet />
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  // ---- DESKTOP: BOTTOM layout ----
-  if (layoutId === 'bottom') {
-    return (
-      <div className="flex flex-col min-h-screen bg-background">
-        <Header isSidebarOpen={false} onToggleSidebar={() => {}} />
-        <div className="flex flex-1 relative">
-          <Outlet />
-        </div>
-        <BottomNavBar activeNav={activeNav} />
-        <Footer />
-      </div>
-    );
-  }
-
-  // ---- DESKTOP: SIDEBAR layouts (left = default, right = mirrored) ----
-  const isRight = layoutId === 'sidebar-right';
-
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header isSidebarOpen={isSidebarOpen} onToggleSidebar={() => setSidebarOpen(true, true)} />
 
-      <div className={`flex flex-1 relative transition-all ${isRight ? 'flex-row-reverse' : ''}`}>
-        <div className="relative shrink-0 sticky top-[4.5rem] self-start z-20">
-          <HomeSidebar
-            activeNav={activeNav}
-            onNavChange={() => {}}
-            collapsed={!isSidebarOpen}
-            onToggle={toggleSidebar}
-            isRight={isRight}
-          />
-        </div>
+      <div className="flex flex-1 relative transition-all">
+        {isMobile ? (
+          <Sheet open={isSidebarOpen} onOpenChange={(open) => setSidebarOpen(open, true)}>
+            <SheetContent side="left" className="w-[17.5rem] px-0">
+              <SheetTitle className="sr-only">{t('navigationMenu')}</SheetTitle>
+              <HomeSidebar
+                activeNav={activeNav}
+                onNavChange={() => setSidebarOpen(false, true)}
+              />
+            </SheetContent>
+          </Sheet>
+        ) : (
+          <div className="relative shrink-0 sticky top-[4.5rem] self-start z-20">
+            <HomeSidebar
+              activeNav={activeNav}
+              onNavChange={() => {}}
+              collapsed={!isSidebarOpen}
+              onToggle={toggleSidebar}
+            />
+          </div>
+        )}
+
         <Outlet />
       </div>
 
