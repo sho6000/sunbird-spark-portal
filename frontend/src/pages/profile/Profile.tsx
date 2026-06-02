@@ -37,11 +37,11 @@ const Profile = () => {
                     {/* Stats Cards Section */}
                     <ProfileStatsCards />
 
-                    {/* Account Management Section */}
-                    <AccountManagement />
-
                     {/* My Learning Section */}
                     <ProfileLearningList />
+
+                    {/* Account Management Section */}
+                    <AccountManagement />
                 </div>
             )}
         </main>
