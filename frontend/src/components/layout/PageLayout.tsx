@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '@/components/home/Header';
 import Footer from '@/components/home/Footer';
@@ -33,7 +33,11 @@ function getActiveNav(pathname: string): string {
   return 'home';
 }
 
-const PageLayout = () => {
+interface PageLayoutProps {
+  children?: ReactNode;
+}
+
+const PageLayout = ({ children }: PageLayoutProps = {}) => {
   const { t } = useAppI18n();
   const location = useLocation();
   const isMobile = useIsMobile();
@@ -142,7 +146,7 @@ const PageLayout = () => {
     <div className="flex flex-col min-h-screen bg-background">
       <Header isSidebarOpen={isSidebarOpen} onToggleSidebar={() => setSidebarOpen(true, true)} />
 
-      <div className={`flex flex-1 relative transition-all ${isRight ? 'flex-row-reverse' : ''}`}>
+      <div className={`flex flex-1 relative transition-all${isRight ? ' flex-row-reverse' : ''}`}>
         <div className="relative shrink-0 sticky top-[4.5rem] self-start z-20">
           <HomeSidebar
             activeNav={activeNav}
@@ -151,6 +155,7 @@ const PageLayout = () => {
             onToggle={toggleSidebar}
           />
         </div>
+
         <Outlet />
       </div>
 

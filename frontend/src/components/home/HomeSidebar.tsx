@@ -26,6 +26,7 @@ interface HomeSidebarProps {
     onNavChange: (nav: string) => void;
     collapsed?: boolean;
     onToggle?: () => void;
+    isRight?: boolean;
 }
 
 const NAV_ITEM_DEFS: { id: string; labelKey: string; icon: React.ElementType; path: string; feature?: Feature }[] = [
@@ -53,7 +54,7 @@ const FILLED_ICONS: Record<string, React.ElementType | undefined> = {
     help: HelpSupportIconFill,
 };
 
-const HomeSidebar = ({ activeNav, onNavChange, collapsed = false, onToggle }: HomeSidebarProps) => {
+const HomeSidebar = ({ activeNav, onNavChange, collapsed = false, onToggle, isRight = false }: HomeSidebarProps) => {
     const navigate = useNavigate();
     const location = useLocation();
     const isMobile = useIsMobile();
@@ -153,6 +154,7 @@ const HomeSidebar = ({ activeNav, onNavChange, collapsed = false, onToggle }: Ho
                 <SidebarCloseButton
                     onClick={onToggle}
                     collapsed={collapsed}
+                    isRight={isRight}
                 />
             )}
         </aside>
