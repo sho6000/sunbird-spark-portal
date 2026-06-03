@@ -15,6 +15,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAppI18n } from "@/hooks/useAppI18n";
 import SearchModal from "@/components/common/SearchModal";
 import { ThemeSelector } from "@/components/common/ThemeSelector";
+import { ENABLE_THEME_SELECTOR } from "@/configs/featureFlags";
 
 interface HeaderProps {
   isSidebarOpen?: boolean;
@@ -113,10 +114,12 @@ const Header = ({ isSidebarOpen = false, onToggleSidebar = defaultToggleSidebar,
 
 
                 {/* Theme Selector */}
-                <ThemeSelector
-                  buttonClassName="p-2.5 text-sunbird-theme-accent hover:bg-gray-50 rounded-lg transition-colors"
-                  iconClassName="w-[1.125rem] h-[1.125rem] stroke-[2]"
-                />
+                {ENABLE_THEME_SELECTOR && (
+                  <ThemeSelector
+                    buttonClassName="p-2.5 text-sunbird-theme-accent hover:bg-gray-50 rounded-lg transition-colors"
+                    iconClassName="w-[1.125rem] h-[1.125rem] stroke-[2]"
+                  />
+                )}
 
                 {/* Language Selector */}
                 <DropdownMenu>

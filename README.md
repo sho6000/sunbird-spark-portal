@@ -705,6 +705,42 @@ Cascade rules (mobile parity):
 | Tweak global radius scale for a template | Edit the matching `html[data-template="<id>"]` token block in `template-overrides.css` |
 | Add layout | `LAYOUTS` array + widen `LayoutId` union + branch in `components/layout/PageLayout.tsx` |
 | New component should be template-aware | Use `border-radius: var(--r-md)` and `box-shadow: var(--sunbird-shadow-md)` — no other changes needed |
+| Show or hide the Theme Selector dropdown | `ENABLE_THEME_SELECTOR` in `frontend/src/configs/featureFlags.ts` |
+
+---
+
+### Feature Flags
+
+Runtime UI features can be toggled without touching environment files. All flags live in one place:
+
+**`frontend/src/configs/featureFlags.ts`**
+
+```ts
+// Set to true to show the Theme Selector dropdown in the header.
+// Default: false (hidden).
+export const ENABLE_THEME_SELECTOR = false;
+```
+
+#### `ENABLE_THEME_SELECTOR`
+
+Controls the brush-icon dropdown in both the public header and the authenticated header. When `false` (the default), the dropdown is completely absent from the DOM — no hidden element, no dead click target.
+
+**To enable:**
+
+```ts
+// frontend/src/configs/featureFlags.ts
+export const ENABLE_THEME_SELECTOR = true;
+```
+
+Save the file. Vite hot-reloads instantly — no restart needed.
+
+**To disable:**
+
+```ts
+export const ENABLE_THEME_SELECTOR = false;
+```
+
+> **Note:** Disabling the selector only hides the picker UI. The `ThemeProvider` still reads any theme already persisted in `localStorage` and applies it on load — existing user selections are preserved. To reset a user's stored theme, clear the `sunbird-theme`, `sunbird-font`, `sunbird-template`, and `sunbird-layout` keys from `localStorage`.
 
 ---
 
@@ -822,7 +858,7 @@ sunbird-portal/
 │   │   │   ├── telemetry/          # Telemetry components
 │   │   │   ├── ui/                 # Base UI primitives (Radix wrappers)
 │   │   │   └── workspace/          # Workspace/content management
-│   │   ├── configs/                # App config (i18n, languages)
+│   │   ├── configs/                # App config (i18n, languages, feature flags)
 │   │   ├── data/                   # Static/mock data
 │   │   ├── hooks/                  # Custom React hooks
 │   │   ├── lib/                    # Shared libraries & HTTP client

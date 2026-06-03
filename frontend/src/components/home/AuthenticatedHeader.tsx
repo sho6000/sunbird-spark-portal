@@ -12,6 +12,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import SearchModal from "@/components/common/SearchModal";
 import { NotificationPopover } from "@/components/common/NotificationPopover";
 import { ThemeSelector } from "@/components/common/ThemeSelector";
+import { ENABLE_THEME_SELECTOR } from "@/configs/featureFlags";
 
 import sunbirdLogo from "@/assets/sunbird-logo.svg";
 import translationIcon from "@/assets/translation_icon.svg";
@@ -76,7 +77,7 @@ const AuthenticatedHeader = ({ isSidebarOpen, onToggleSidebar }: AuthenticatedHe
                     <NotificationPopover />
 
                     {/* Theme Selector */}
-                    <ThemeSelector />
+                    {ENABLE_THEME_SELECTOR && <ThemeSelector />}
 
                     {/* Language Dropdown */}
                     <DropdownMenu>
