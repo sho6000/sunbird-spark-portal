@@ -758,6 +758,24 @@ Restart dev server. Both **Sunrise** swatch and **Sky** template appear in the T
 
 ---
 
+### Cross-Repo Coupling — Portal ↔ Keycloak
+
+Portal theming (colour / font / template) is **tightly coupled** with the Keycloak login theme in **`sunbird-spark-installer`**. The Keycloak sign-in and set-new-password pages are a separate app that reads the portal's selection from same-origin `localStorage` (`sunbird-theme`, `sunbird-font`, `sunbird-template`) and applies it from its own catalog.
+
+**If you add a new colour, font, or template to the portal, you MUST mirror it in Keycloak — otherwise it will NOT reflect on the sign-in / new-password pages.** Where to edit:
+
+| Add to portal | Also add to Keycloak | File |
+|---|---|---|
+| `COLOR_PALETTES` (id + 6 seeds) | `THEME_MAP` (same id + same 6 seeds) | `scripts/keycloak-21.1.2/themes/sunbird/login/template.ftl` |
+| `FONTS` (id + family) | `FONT_MAP` (same id + family) + `@font-face`/`@import` the font | `…/login/template.ftl` + `…/login/resources/css/login.css` |
+| `TEMPLATES` (id) | `html[data-template="<id>"]` token block (radius/shadow), if it needs its own scale | `…/login/resources/css/login.css` |
+
+After editing Keycloak: bump `styles=css/login.css?v=…` in `…/login/theme.properties` (any new value busts cache), rebuild the Keycloak image, redeploy.
+
+**Unknown ids on Keycloak fall back to defaults** — Classic look, terracotta colour, Rubik font. So a portal-only addition won't break the login page; it just won't theme it.
+
+---
+
 ## Prerequisites
 
 - **Node.js**: 24.12.0

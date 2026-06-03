@@ -72,7 +72,7 @@ export const COLOR_PALETTES: ColorPalette[] = [
   {
     id: 'purple',
     name: 'Royal Purple',
-    seeds: { primaryH: 265, primaryS: '50%', primaryL: '45%', chipH: 265, chipS: '50%', iconH: 255 },
+    seeds: { primaryH: 270, primaryS: '55%', primaryL: '45%', chipH: 270, chipS: '55%', iconH: 280 },
   },
   {
     id: 'green',
@@ -103,39 +103,40 @@ export const FONTS: FontOption[] = [
   { id: 'rubik', name: 'Rubik', value: "'Rubik', sans-serif" },
   { id: 'inter', name: 'Inter', value: "'Inter', sans-serif" },
   { id: 'satisfy', name: 'Satisfy', value: "'Satisfy', cursive" },
+  { id: 'lora', name: 'Lora', value: "'Lora', serif" },
 ];
 
 // ─── Themes (compose colour + font) ──────────────────────────────────────────
 
 export const THEMES: Theme[] = [
   { id: 'terracotta', name: 'Sunbird Spark', colorId: 'terracotta', fontId: 'rubik' },
-  { id: 'blue',       name: 'Professional', colorId: 'blue',        fontId: 'inter' },
-  { id: 'teal',       name: 'Nature',       colorId: 'teal',        fontId: 'poppins' },
-  { id: 'purple',     name: 'Royal',        colorId: 'purple',      fontId: 'poppins' },
-  { id: 'green',      name: 'Forest',       colorId: 'green',       fontId: 'rubik' },
-  { id: 'indigo',     name: 'Ocean',        colorId: 'indigo',      fontId: 'inter' },
-  { id: 'rose',       name: 'Blossom',      colorId: 'rose',        fontId: 'poppins' },
-  { id: 'amber',      name: 'Sunrise',      colorId: 'amber',       fontId: 'rubik' },
+  { id: 'blue', name: 'Professional', colorId: 'blue', fontId: 'inter' },
+  { id: 'teal', name: 'Nature', colorId: 'teal', fontId: 'poppins' },
+  { id: 'purple', name: 'Royal', colorId: 'purple', fontId: 'poppins' },
+  { id: 'green', name: 'Forest', colorId: 'green', fontId: 'rubik' },
+  { id: 'indigo', name: 'Ocean', colorId: 'indigo', fontId: 'inter' },
+  { id: 'rose', name: 'Blossom', colorId: 'rose', fontId: 'poppins' },
+  { id: 'amber', name: 'Sunrise', colorId: 'amber', fontId: 'rubik' },
 ];
 
 // ─── Templates / layouts ─────────────────────────────────────────────────────
 
 export const TEMPLATES: TemplateOption[] = [
   { id: 'classic', name: 'Classic', description: 'Warm, rounded', presetThemeId: 'terracotta', presetFontId: 'rubik' },
-  { id: 'modern',  name: 'Modern',  description: 'Sharp, bold',   presetThemeId: 'blue',       presetFontId: 'inter' },
+  { id: 'modern', name: 'Modern', description: 'Sharp, bold', presetThemeId: 'rose', presetFontId: 'inter' },
 ];
 
 export const LAYOUTS: LayoutOption[] = [
-  { id: 'sidebar-left',  name: 'Left Sidebar' },
+  { id: 'sidebar-left', name: 'Left Sidebar' },
   { id: 'sidebar-right', name: 'Right Sidebar' },
-  { id: 'top',           name: 'Top Nav' },
-  { id: 'bottom',        name: 'Bottom Nav' },
+  { id: 'top', name: 'Top Nav' },
+  { id: 'bottom', name: 'Bottom Nav' },
 ];
 
 // ─── Defaults ────────────────────────────────────────────────────────────────
 
 export const DEFAULT_THEME_ID = 'terracotta';
-export const DEFAULT_FONT_ID = 'poppins';
+export const DEFAULT_FONT_ID = 'rubik';
 export const DEFAULT_TEMPLATE_ID: TemplateOption['id'] = 'classic';
 export const DEFAULT_LAYOUT_ID: LayoutId = 'sidebar-left';
 
@@ -182,3 +183,16 @@ export function themePreviewColor(theme: Theme): string {
   const { primaryH, primaryS, primaryL } = getThemeSeeds(theme);
   return `hsl(${primaryH} ${primaryS} ${primaryL})`;
 }
+
+// ─── Keycloak hand-off (id-based, same-origin localStorage) ─────────────────
+//
+// Keycloak login pages share the portal's origin, so they read the portal's
+// localStorage directly. Portal persists three id keys on user selection:
+//
+//   sunbird-theme       "terracotta" | "blue" | ... (id from THEMES)
+//   sunbird-font        "rubik" | "poppins" | ...   (id from FONTS)
+//   sunbird-template    "classic" | "modern"        (id from TEMPLATES)
+//
+// The Keycloak FTL template (template.ftl) carries its own THEME_MAP /
+// FONT_MAP (mirrors THEMES + FONTS here). Adding a new theme/font/template
+// requires updating ALL THREE apps: portal (this file), mobile, Keycloak.

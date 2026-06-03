@@ -9,7 +9,6 @@ import {
   DEFAULT_TEMPLATE_ID,
   DEFAULT_LAYOUT_ID,
   applyTheme,
-  applyFont,
   applyTemplate,
   applyLayout,
   type Theme,
@@ -17,6 +16,7 @@ import {
   type TemplateOption,
   type LayoutOption,
 } from '@/theme/themes';
+import { useAppI18n } from '@/hooks/useAppI18n';
 
 const THEME_STORAGE_KEY = 'sunbird-theme';
 const FONT_STORAGE_KEY = 'sunbird-font';
@@ -61,13 +61,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return LAYOUTS.find((l) => l.id === saved) ?? LAYOUTS.find((l) => l.id === DEFAULT_LAYOUT_ID)!;
   });
 
+  const { currentLanguage } = useAppI18n();
+
   useEffect(() => {
     applyTheme(activeTheme);
   }, [activeTheme]);
 
+  // Single source of truth for `--app-font-family` (mirrors mobile-app
+  // ThemeContext). Watches both the user-picked font AND the active
+  // language. Script-locked languages (Arabic etc. via `forceFont`)
+  // override the theme font; otherwise honour the picker.
   useEffect(() => {
-    applyFont(activeFont);
-  }, [activeFont]);
+    const value = currentLanguage.forceFont ? currentLanguage.font : activeFont.value;
+    document.documentElement.style.setProperty('--app-font-family', value);
+  }, [activeFont, currentLanguage]);
 
   useEffect(() => {
     applyTemplate(activeTemplate.id);
@@ -77,18 +84,53 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     applyLayout(activeLayout.id);
   }, [activeLayout]);
 
+  // On first mount, honour theme/font/template hand-off from the mobile
+  // InAppBrowser (see AuthWebviewService). All three are id-based — portal
+  // looks each id up in its own catalog and silently ignores unknown ids
+  // (CSS :root defaults take over).
+  //
+  //   ?theme=<id>     — looked up in THEMES, applied as full theme
+  //   ?font=<id>      — looked up in FONTS, applied as active font
+  //   ?template=<id>  — looked up in TEMPLATES, applied as data-template
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const templateParam = params.get('template');
+    const themeParam = params.get('theme');
+    const fontParam = params.get('font');
+
+    if (templateParam) {
+      const matchedTemplate = TEMPLATES.find((t) => t.id === templateParam);
+      if (matchedTemplate) {
+        localStorage.setItem(TEMPLATE_STORAGE_KEY, templateParam);
+        setActiveTemplate(matchedTemplate);
+      }
+    }
+    if (themeParam) {
+      const matchedTheme = THEMES.find((t) => t.id === themeParam);
+      if (matchedTheme) {
+        localStorage.setItem(THEME_STORAGE_KEY, themeParam);
+        setActiveTheme(matchedTheme);
+      }
+    }
+    if (fontParam) {
+      const matchedFont = FONTS.find((f) => f.id === fontParam);
+      if (matchedFont) {
+        localStorage.setItem(FONT_STORAGE_KEY, fontParam);
+        setActiveFont(matchedFont);
+      }
+    }
+  }, []);
+
   const setTheme = (id: string) => {
     const theme = THEMES.find((t) => t.id === id);
     if (!theme) return;
+    // Colour-only — independent of font (mobile-app parity). Picking a colour
+    // never changes the active font. Only a template preset binds both
+    // (see setTemplate). `theme.fontId` is used solely as the template preset
+    // source, not applied on colour selection.
     localStorage.setItem(THEME_STORAGE_KEY, id);
     setActiveTheme(theme);
-    // Theme defines a recommended fontId — switch font to match unless the
-    // user has explicitly chosen one already in this session.
-    const themeFont = FONTS.find((f) => f.id === theme.fontId);
-    if (themeFont) {
-      localStorage.setItem(FONT_STORAGE_KEY, themeFont.id);
-      setActiveFont(themeFont);
-    }
   };
 
   const setFont = (id: string) => {
