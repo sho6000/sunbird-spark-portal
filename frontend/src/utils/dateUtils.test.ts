@@ -29,7 +29,7 @@ describe('formatDayMonthYear', () => {
   });
 
   it('zero-pads single-digit days and months', () => {
-    expect(formatDayMonthYear('2026-01-05T00:00:00.000Z')).toBe('05/01/2026');
+    expect(formatDayMonthYear('2026-01-05T12:00:00.000Z')).toBe('05/01/2026');
   });
 
   it('returns "" for an invalid date string', () => {
