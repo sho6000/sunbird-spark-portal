@@ -45,7 +45,9 @@ export default function CourseUpdatedBanner({
   const shownForKeysRef = useRef<Set<string>>(new Set());
 
   const formattedDate = lastPublishedOn ? formatBatchDisplayDate(lastPublishedOn) : "";
-  const dialogKey = collectionId && lastPublishedOn ? `${collectionId}:${lastPublishedOn}` : null;
+  const dialogKey = lastPublishedOn
+    ? `${collectionId ?? "unknown"}:${lastPublishedOn}`
+    : null;
 
   useEffect(() => {
     if (!dialogKey || !formattedDate || formattedDate === "-") return;
