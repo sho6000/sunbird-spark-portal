@@ -507,5 +507,31 @@ describe('CollectionContentArea', () => {
       });
       expect(banner()).not.toBeInTheDocument();
     });
+
+    it('hides when hasBatchInRoute is false (transient state before auto-redirect)', () => {
+      // useCollectionEnrollment can briefly report isEnrolledInCurrentBatch=true while
+      // hasBatchInRoute=false (the batch-id redirect hasn't fired yet). Every sibling
+      // learner gate requires hasBatchInRoute — the banner must follow the same convention.
+      renderArea({
+        access: { hasBatchInRoute: false },
+        collectionData: { lastPublishedOn: publishedMid },
+        enrollment: { enrolledDate: enrolledEarly },
+      });
+      expect(banner()).not.toBeInTheDocument();
+    });
+
+    it('still renders when sidebar.collectionId is undefined', () => {
+      // collectionId is typed string | undefined; the banner's internal dialogKey must
+      // tolerate a missing id (falls back to "unknown:<date>") so the modal still opens.
+      render(
+        <CollectionContentArea
+          {...learnerWithBatchProps}
+          collectionData={{ ...defaultProps.collectionData, lastPublishedOn: publishedMid }}
+          enrollment={{ ...defaultEnrollment, courseProgressProps: partialProgress, contentStateFetched: true, enrolledDate: enrolledEarly }}
+          sidebar={{ ...defaultSidebar, collectionId: undefined }}
+        />
+      );
+      expect(banner()).toBeInTheDocument();
+    });
   });
 });

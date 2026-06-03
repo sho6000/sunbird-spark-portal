@@ -57,7 +57,7 @@ export default function CollectionContentArea({
     userId,
     collectionId,
     batchIdParam,
-    courseProgressProps as CourseProgressCardProps | null | undefined
+    courseProgressProps
   );
 
   const showProfileDataSharingCard =
@@ -71,7 +71,7 @@ export default function CollectionContentArea({
   const showCourseProgress =
     isTrackable && (!contentBlocked || upcomingBatchBlocked) && !contentCreatorPrivilege && hasBatchInRoute && isEnrolledInCurrentBatch && !!courseProgressProps;
 
-  const total = (courseProgressProps as CourseProgressCardProps | undefined)?.totalContentCount;
+  const total = courseProgressProps?.totalContentCount;
   // We must know the totals before deciding to show the banner — otherwise we'd briefly flash
   // it on every refresh while the enrollment API is in flight and `total` is still undefined.
   const hasCompletionData = typeof total === "number" && total > 0;
@@ -83,6 +83,7 @@ export default function CollectionContentArea({
   // Suppressing it only at 100% would create inconsistent UX between those two scenarios.
   const showCourseUpdatedBanner =
     isTrackable &&
+    hasBatchInRoute &&
     isEnrolledInCurrentBatch &&
     !contentCreatorPrivilege &&
     contentStateFetched === true &&
