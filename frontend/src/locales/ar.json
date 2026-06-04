@@ -119,6 +119,21 @@
   "no_results_found": "لا توجد نتائج.",
   "failed_to_search": "فشل البحث. يرجى المحاولة مرة أخرى.",
   "clear_search": "مسح البحث",
+  "search": {
+    "keywordMode": "كلمة مفتاحية",
+    "semanticMode": "بحث ذكاء اصطناعي",
+    "modeToggleLabel": "وضع البحث",
+    "semanticSuggestTitle": "جرّب بحث الذكاء الاصطناعي",
+    "semanticSuggestSubtitle": "اسأل بلغة طبيعية — أو اختر اقتراحاً أدناه",
+    "suggestions": [
+      "كيف تعلّم الكسور للمبتدئين؟",
+      "أنشطة الكتابة الإبداعية للطلاب",
+      "تجارب علمية للأطفال في المنزل",
+      "تعلم أساسيات البرمجة خطوة بخطوة",
+      "تاريخ الحضارات القديمة",
+      "استراتيجيات حل المسائل الرياضية"
+    ]
+  },
   "featuredCourses": "الدورات المميزة",
   "popularCourses": "الدورات الشائعة",
   "browseCategories": "تصفح حسب الفئة",
@@ -385,7 +400,9 @@
     "contentPlaylist": "قائمة تشغيل المحتوى",
     "digitalTextbook": "كتاب مدرسي رقمي",
     "questionPaper": "ورقة الأسئلة",
-    "viewCourseDashboard": "عرض لوحة تحكم الدورة"
+    "viewCourseDashboard": "عرض لوحة تحكم الدورة",
+    "courseUpdatedTitle": "تم تحديث الدورة",
+    "courseUpdatedOnMessage": "تم تحديث هذه الدورة في {{date}}. تمت إعادة احتساب تقدمك بناءً على أحدث محتوى للدورة."
   },
   "homePage": {
     "hiUser": "مرحباً {{name}}",

@@ -113,6 +113,21 @@
   "signup": "Sign Up",
   "searchPlaceholder": "Search courses...",
   "search_for_content_placeholder": "Search for content...",
+  "search": {
+    "keywordMode": "Keyword",
+    "semanticMode": "AI Search",
+    "modeToggleLabel": "Search mode",
+    "semanticSuggestTitle": "Try AI Search",
+    "semanticSuggestSubtitle": "Ask in natural language — or pick a suggestion below",
+    "suggestions": [
+      "How to teach fractions to beginners?",
+      "Creative writing activities for students",
+      "Science experiments for kids at home",
+      "Learn programming basics step by step",
+      "History of ancient civilizations",
+      "Mathematics problem solving strategies"
+    ]
+  },
   "recommended": "Recommended",
   "results_for": "Results for \"{{query}}\"",
   "view_all_results": "View All Results",
@@ -385,7 +400,9 @@
     "contentPlaylist": "Content Playlist",
     "digitalTextbook": "Digital Textbook",
     "questionPaper": "Question Paper",
-    "viewCourseDashboard": "View Course Dashboard"
+    "viewCourseDashboard": "View Course Dashboard",
+    "courseUpdatedTitle": "Course Updated",
+    "courseUpdatedOnMessage": "This course was updated on {{date}}. Your progress has been recalculated based on the latest course content."
   },
   "homePage": {
     "hiUser": "Hi {{name}}",

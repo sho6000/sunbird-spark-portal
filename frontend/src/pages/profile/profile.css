@@ -463,7 +463,7 @@ body .notification-popover-arrow {
 
 /* Account Management */
 .account-management-card {
-    @apply bg-white rounded-[1.25rem] p-6 mt-8 mb-8;
+    @apply bg-white rounded-[1.25rem] p-6 mt-8;
 }
 
 .account-management-header {
