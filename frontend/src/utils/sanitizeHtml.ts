@@ -8,7 +8,7 @@ import DOMPurify from 'dompurify';
  */
 export const sanitizeHtml = (html: string): string => {
   if (!html) return '';
-
+  
   // Use DOMPurify's default configuration which allows most HTML tags
   // but automatically removes dangerous elements like <script>, <iframe>, event handlers, etc.
   const sanitized = DOMPurify.sanitize(html);
