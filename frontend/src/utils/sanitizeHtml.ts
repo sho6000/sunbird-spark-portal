@@ -8,10 +8,15 @@ import DOMPurify from 'dompurify';
  */
 export const sanitizeHtml = (html: string): string => {
   if (!html) return '';
-  
-  // Use DOMPurify's default configuration which allows most HTML tags
-  // but automatically removes dangerous elements like <script>, <iframe>, event handlers, etc.
-  const sanitized = DOMPurify.sanitize(html);
 
-  return sanitized;
+  // Bind DOMPurify to the *current* window on every call instead of relying on the
+  // window captured when the module was first imported. In test environments
+  // (happy-dom) the window can be torn down between tests, leaving the import-time
+  // instance pointed at a destroyed document — which makes sanitize() silently strip
+  // all tags. Rebinding guarantees a live document; in the browser this is the same
+  // stable window. DOMPurify's default configuration allows most HTML tags but
+  // automatically removes dangerous elements like <script>, <iframe>, event handlers, etc.
+  const purifier = typeof window !== 'undefined' ? DOMPurify(window) : DOMPurify;
+
+  return purifier.sanitize(html);
 };

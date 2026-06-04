@@ -11,6 +11,25 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom',
+    // Disable happy-dom's real navigation. Several components assign `location.href`
+    // to redirect; without this, happy-dom kicks off real fetch-based navigations whose
+    // async tasks get aborted when the test window is torn down (the "AsyncTaskManager
+    // has been destroyed" errors). Those leaked tasks can corrupt the DOM state of later
+    // test files, which non-deterministically degrades DOMPurify (sanitizeHtml) into
+    // stripping safe tags — the root cause of the flaky CI failures in
+    // sanitizeHtml.test.ts and FAQSection.test.tsx. With `disableFallbackToSetURL` left
+    // false, `location.href` still updates, so redirect assertions keep working.
+    environmentOptions: {
+      happyDOM: {
+        settings: {
+          navigation: {
+            disableMainFrameNavigation: true,
+            disableChildFrameNavigation: true,
+            disableChildPageNavigation: true,
+          },
+        },
+      },
+    },
     setupFiles: './src/test/setup.ts',
     coverage: {
       provider: 'v8',
