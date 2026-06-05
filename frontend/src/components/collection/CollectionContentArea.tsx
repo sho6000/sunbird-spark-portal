@@ -121,7 +121,7 @@ export default function CollectionContentArea({
         <div className="min-w-0 pb-4">
           <button
             onClick={() => navigate(backTo)}
-            className="flex items-center gap-2 text-sunbird-brick text-sm font-medium mb-3 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-2 text-sunbird-theme-accent text-sm font-medium mb-3 hover:opacity-80 transition-opacity"
           >
             <FiArrowLeft className="w-4 h-4" />
             {t("button.goBack")}

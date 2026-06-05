@@ -35,7 +35,7 @@ export default function ProfileDataSharingCard({
   return (
     <>
       <div
-        className="font-rubik w-full rounded-[1.25rem] border border-sunbird-status-ongoing-border bg-white p-5 flex flex-col gap-4 shadow-sunbird-sm"
+        className="font-rubik w-full rounded-xl border border-sunbird-status-ongoing-border bg-white p-5 flex flex-col gap-4 shadow-sunbird-sm"
         data-testid="profile-data-sharing-card"
       >
         <h3 className="font-rubik font-medium text-[1.125rem] leading-[100%] text-foreground">
@@ -55,7 +55,7 @@ export default function ProfileDataSharingCard({
           <button
             type="button"
             onClick={handleUpdateClick}
-            className="font-rubik font-medium text-[0.8125rem] text-sunbird-brick hover:underline ml-auto"
+            className="font-rubik font-medium text-[0.8125rem] text-sunbird-theme-accent hover:underline ml-auto"
           >
             {t("profileDataSharing.update")}
           </button>

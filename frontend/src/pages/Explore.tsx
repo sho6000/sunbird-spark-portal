@@ -181,7 +181,7 @@ const Explore = () => {
                     <DropdownMenuTrigger asChild>
                       <button className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-md text-sm font-normal text-foreground hover:bg-gray-50 transition-colors min-w-[120px] justify-between">
                         {t(`sortOptions.${sortLabelKey}`)}
-                        <FiChevronDown className="w-4 h-4 text-sunbird-brick" />
+                        <FiChevronDown className="w-4 h-4 text-sunbird-theme-accent" />
                       </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[8.75rem] bg-white z-50">

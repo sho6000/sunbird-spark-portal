@@ -42,6 +42,12 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
     ...(data?.data?.QuestionSet ?? []),
   ];
 
+  // Hide TopNavBar while search is open (Top Layout)
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-search-open', isOpen);
+    return () => document.documentElement.removeAttribute('data-search-open');
+  }, [isOpen]);
+
   // Store the previously focused element and restore focus on close
   useEffect(() => {
     if (isOpen) {
@@ -129,7 +135,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
             </div>
             <button
               onClick={onClose}
-              className="text-sunbird-brick font-rubik font-medium text-base hover:text-sunbird-brick/80 transition-colors whitespace-nowrap"
+              className="text-sunbird-theme-accent font-rubik font-medium text-base hover:text-sunbird-theme-accent/80 transition-colors whitespace-nowrap"
             >
               {t("cancel")}
             </button>
@@ -175,7 +181,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               <div className="mt-6 flex justify-center">
                 <button
                   onClick={handleViewMore}
-                  className="flex items-center gap-2 font-rubik font-medium text-sunbird-brick hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-2 font-rubik font-medium text-sunbird-theme-accent hover:opacity-80 transition-opacity"
                 >
                   {t("view_all_results")}
                   <span aria-hidden="true">→</span>
