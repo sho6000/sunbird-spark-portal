@@ -18,8 +18,6 @@ import useDebounce from '@/hooks/useDebounce';
 
 import useImpression from '@/hooks/useImpression';
 import { useTelemetry } from '@/hooks/useTelemetry';
-import { useTheme } from '@/providers/ThemeProvider';
-import type { TemplateOption } from '@/theme/themes';
 import { LANGUAGE_STORAGE_KEY, LANGUAGE_MAP, type SupportedLanguage } from '@/configs/languages';
 import i18n from '@/configs/i18n';
 
@@ -31,7 +29,6 @@ const SignUp: React.FC = () => {
 
     useImpression({ type: 'view', pageid: 'signup' });
     const telemetry = useTelemetry();
-    const { setTheme, setFont, setTemplate } = useTheme();
 
     // Persist mobile context + language on mount. Theme / font / template
     // URL params are consumed by ThemeProvider using direct state setters

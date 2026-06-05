@@ -400,7 +400,9 @@
     "contentPlaylist": "Lista de reprodução de conteúdo",
     "digitalTextbook": "Livro didático digital",
     "questionPaper": "Prova de questões",
-    "viewCourseDashboard": "Ver painel do curso"
+    "viewCourseDashboard": "Ver painel do curso",
+    "courseUpdatedTitle": "Curso atualizado",
+    "courseUpdatedOnMessage": "Este curso foi atualizado em {{date}}. Seu progresso foi recalculado com base no conteúdo mais recente do curso."
   },
   "homePage": {
     "hiUser": "Olá {{name}}",
