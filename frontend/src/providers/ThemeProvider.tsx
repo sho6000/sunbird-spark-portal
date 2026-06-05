@@ -84,20 +84,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     applyLayout(activeLayout.id);
   }, [activeLayout]);
 
-  // On first mount, honour theme/font/template hand-off from the mobile
-  // InAppBrowser (see AuthWebviewService). All three are id-based — portal
-  // looks each id up in its own catalog and silently ignores unknown ids
-  // (CSS :root defaults take over).
+  // On first mount, honour theme/font/template/layout hand-off from the
+  // mobile InAppBrowser (see AuthWebviewService). All four are id-based —
+  // portal looks each id up in its own catalog and silently ignores unknown
+  // ids (CSS :root defaults take over).
   //
   //   ?theme=<id>     — looked up in THEMES, applied as full theme
   //   ?font=<id>      — looked up in FONTS, applied as active font
   //   ?template=<id>  — looked up in TEMPLATES, applied as data-template
+  //   ?layout=<id>    — looked up in LAYOUTS, applied as data-layout
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const templateParam = params.get('template');
     const themeParam = params.get('theme');
     const fontParam = params.get('font');
+    const layoutParam = params.get('layout');
 
     if (templateParam) {
       const matchedTemplate = TEMPLATES.find((t) => t.id === templateParam);
@@ -118,6 +120,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (matchedFont) {
         localStorage.setItem(FONT_STORAGE_KEY, fontParam);
         setActiveFont(matchedFont);
+      }
+    }
+    if (layoutParam) {
+      const matchedLayout = LAYOUTS.find((l) => l.id === layoutParam);
+      if (matchedLayout) {
+        localStorage.setItem(LAYOUT_STORAGE_KEY, layoutParam);
+        setActiveLayout(matchedLayout);
       }
     }
   }, []);

@@ -14,12 +14,12 @@ initializeApiClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <I18nDirectionProvider>
+    <I18nDirectionProvider>
+      <ThemeProvider>
         <TelemetryProvider>
           <App />
         </TelemetryProvider>
-      </I18nDirectionProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </I18nDirectionProvider>
   </React.StrictMode>,
 );

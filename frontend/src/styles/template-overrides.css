@@ -16,6 +16,7 @@
   }
 
   /* Modern template — applied when <html data-template="modern"> */
+  /* KEEP IN SYNC WITH classic block below — every property added here must be restored there */
   html[data-template="modern"] {
     /* Form — sharp corners */
     --r-sm: 2px;
@@ -54,6 +55,7 @@
   }
 
   /* Classic template — explicit restore of every property Modern overrides */
+  /* KEEP IN SYNC WITH modern block above — every property added there must be restored here */
   html[data-template="classic"] {
     --r-sm: 0.5rem;
     --r-md: 0.875rem;

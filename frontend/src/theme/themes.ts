@@ -34,8 +34,12 @@ export interface Theme {
   fontId: string;
 }
 
+// Append to this array to add a template — TemplateId updates automatically.
+export const TEMPLATE_IDS = ['classic', 'modern'] as const;
+export type TemplateId = (typeof TEMPLATE_IDS)[number];
+
 export interface TemplateOption {
-  id: 'classic' | 'modern';
+  id: TemplateId;
   name: string;
   description: string;
   /** Theme auto-applied when this template is selected. */

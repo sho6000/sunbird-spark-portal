@@ -1,18 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiMoreHorizontal, FiPieChart, FiLogOut } from 'react-icons/fi';
-import HomeSidebarIcons from '@/components/home/HomeSidebarIcons';
-import { usePermissions } from '@/hooks/usePermission';
-import { useAppI18n } from '@/hooks/useAppI18n';
-import { clearForceSyncUsed } from '@/services/forceSyncStorage';
-
-interface NavItem {
-  id: string;
-  label: string;
-  path: string;
-  icon: React.ReactNode;
-  isLogout?: boolean;
-}
+import { Link } from 'react-router-dom';
+import { FiMoreHorizontal } from 'react-icons/fi';
+import { useNavItems, type NavItem } from '@/hooks/useNavItems';
 
 interface BottomNavBarProps {
   activeNav: string;
@@ -21,33 +10,10 @@ interface BottomNavBarProps {
 const VISIBLE_COUNT = 4;
 
 const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeNav }) => {
-  const { hasAnyRole, canAccessFeature } = usePermissions();
-  const { t } = useAppI18n();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const isAdmin = hasAnyRole(['ORG_ADMIN']);
+  const { items, handleNavClick } = useNavItems();
 
   const [overflowOpen, setOverflowOpen] = useState(false);
   const overflowRef = useRef<HTMLDivElement>(null);
-
-  const items: NavItem[] = [
-    { id: 'home',        label: t('sidebar.home'),       path: '/home',        icon: <HomeSidebarIcons.Home /> },
-    { id: 'explore',     label: t('sidebar.explore'),    path: '/explore',     icon: <HomeSidebarIcons.Explore /> },
-    { id: 'learning',    label: t('sidebar.myLearning'), path: '/my-learning', icon: <HomeSidebarIcons.Learning /> },
-    ...(canAccessFeature('view_workspace')
-      ? [{ id: 'workspace', label: t('sidebar.workspace'), path: '/workspace', icon: <HomeSidebarIcons.Workspace /> }]
-      : []),
-    { id: 'profile',     label: t('sidebar.profile'),    path: '/profile',     icon: <HomeSidebarIcons.Profile /> },
-    { id: 'user-report', label: t('sidebar.userReport'), path: '/reports/user/me', icon: <FiPieChart /> },
-    ...(isAdmin
-      ? [
-          { id: 'user-management', label: t('sidebar.userManagement'), path: '/user-management', icon: <HomeSidebarIcons.Users /> },
-          { id: 'admin-reports',   label: t('sidebar.adminReports'),   path: '/reports/platform', icon: <HomeSidebarIcons.Reports /> },
-        ]
-      : []),
-    { id: 'help',   label: t('sidebar.helpAndSupport'), path: '/help-support',  icon: <HomeSidebarIcons.Help /> },
-    { id: 'logout', label: t('sidebar.logout'),         path: '/portal/logout', icon: <FiLogOut />, isLogout: true },
-  ];
 
   const visible = items.slice(0, VISIBLE_COUNT);
   const overflow = items.slice(VISIBLE_COUNT);
@@ -62,17 +28,6 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeNav }) => {
     document.addEventListener('mousedown', onDown);
     return () => document.removeEventListener('mousedown', onDown);
   }, [overflowOpen]);
-
-  const handleNavClick = (item: NavItem) => {
-    if (item.isLogout) {
-      clearForceSyncUsed();
-      window.location.href = item.path;
-      return;
-    }
-    if (location.pathname !== item.path) {
-      navigate(item.path);
-    }
-  };
 
   const itemClass = (id: string) =>
     `flex flex-col items-center gap-0.5 px-3 py-1 text-[11px] font-medium min-w-[64px] transition-colors ${
