@@ -66,14 +66,6 @@ app.use('/data/v1/form', formRoutes);
 app.use('/portal/user/v1/auth', sessionMiddleware, ...anonymousMiddlewares, oidcSession(), authRoutes);
 app.use('/google', googleRoutes);
 
-// Force text/html for SCORM content
-app.use((req, res, next) => {
-    if (req.url.includes('/scorm/') && req.url.endsWith('.html')) {
-        res.setHeader('Content-Type', 'text/html');
-    }
-    next();
-});
-
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 // Specific /action endpoints must always proxy to kong.
 app.use("/action", editorRoutes);
