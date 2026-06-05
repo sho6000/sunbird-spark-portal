@@ -2,19 +2,16 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAppI18n } from "@/hooks/useAppI18n";
 import { useCollectionPageData } from "@/hooks/useCollectionPageData";
-import { useUserRead } from "@/hooks/useUserRead";
 import { useContentRead, useContentSearch } from "@/hooks/useContent";
 import { useQumlContent } from "@/hooks/useQumlContent";
 import { useCollectionDetailPlayer } from "@/hooks/useCollectionDetailPlayer";
 import { mapSearchContentToRelatedContentItems } from "@/services/collection";
 import { useCollectionDetailSelfAssess } from "@/hooks/useCollectionDetailSelfAssess";
-import defaultCollectionImage from "@/assets/resource-robot-hand.svg";
 import userAuthInfoService from "@/services/userAuthInfoService/userAuthInfoService";
 import { usePermissions } from "@/hooks/usePermission";
 import { useInitialCollectionContentNavigation } from "@/hooks/useInitialCollectionContentNavigation";
 import useImpression from "@/hooks/useImpression";
-import { useCollectionPageUIState } from "@/hooks/useCollectionPageUIState";
-import { buildCollectionDetailContentArea } from "./buildCollectionDetailContentArea";
+import { useCollectionContentArea } from "@/hooks/useCollectionContentArea";
 import { buildCollectionCdata, buildObjectRollup } from "@/utils/collectionTelemetryContext";
 import { useCollectionBackNavigation, useAuthRefreshOnce } from "./useCollectionBackNavigation";
 import CollectionDetailLayout from "./CollectionDetailLayout";
@@ -198,30 +195,22 @@ const CollectionDetailPage = () => {
   const batchStartDateForOverview =
     courseProgressProps?.batchStartDate ?? batchStartDateFromRead ?? undefined;
 
-  const contentArea = useMemo(
-    () =>
-      buildCollectionDetailContentArea({
-        displayCollectionData, contentId, isTrackable, isAuthenticated, hasBatchInRoute, isEnrolledInCurrentBatch,
-        contentBlocked, upcomingBatchBlocked, isBatchEnded, batchStartDateForOverview, playerMetadata, playerIsLoading,
-        playerError: playerError ?? null, handlePlayerEvent, handleTelemetryEvent, maxAttemptsExceeded,
-        cdata: collectionCdata, objectRollup: collectionObjectRollup,
-        courseProgressProps, contentStatusMap, contentAttemptInfoMap, batches, selectedBatchId, setSelectedBatchId,
-        handleJoinCourse, batchListLoading, joinLoading, batchListError, joinError, hasCertificate, firstCertPreviewUrl,
-        setCertificatePreviewUrl, setCertificatePreviewOpen, expandedModules, toggleModule, collectionId, batchIdParam,
-        isCreatorViewingOwnCollection, isMentorViewingCourse: isMentorOfCourse, contentCreatorPrivilege, userProfile: userProfile ?? undefined,
-        currentUserId: currentUserId ?? undefined,
-        backTo,
-      }),
-    [
-      displayCollectionData, contentId, isTrackable, isAuthenticated, hasBatchInRoute, isEnrolledInCurrentBatch,
-      contentBlocked, upcomingBatchBlocked, isBatchEnded, batchStartDateForOverview, playerMetadata, playerIsLoading, playerError,
-      handlePlayerEvent, handleTelemetryEvent, maxAttemptsExceeded, collectionCdata, collectionObjectRollup,
-      courseProgressProps, contentStatusMap,
-      contentAttemptInfoMap, batches, selectedBatchId, setSelectedBatchId, handleJoinCourse, batchListLoading,
-      joinLoading, batchListError, joinError, hasCertificate, firstCertPreviewUrl, expandedModules, toggleModule,
-      collectionId, batchIdParam, isCreatorViewingOwnCollection, isMentorOfCourse, contentCreatorPrivilege, userProfile, currentUserId, backTo
-    ]
-  );
+  const contentArea = useCollectionContentArea({
+    displayCollectionData, contentId, isTrackable, isAuthenticated, hasBatchInRoute, isEnrolledInCurrentBatch,
+    contentBlocked, upcomingBatchBlocked, isBatchEnded, batchStartDateForOverview, playerMetadata, playerIsLoading,
+    playerError: playerError ?? null, handlePlayerEvent, handleTelemetryEvent, maxAttemptsExceeded,
+    cdata: collectionCdata, objectRollup: collectionObjectRollup,
+    courseProgressProps, contentStatusMap, contentAttemptInfoMap, batches, selectedBatchId, setSelectedBatchId,
+    handleJoinCourse, batchListLoading, joinLoading, batchListError, joinError, hasCertificate, firstCertPreviewUrl,
+    setCertificatePreviewUrl, setCertificatePreviewOpen,
+    enrolledDate: enrollment.enrollmentForCollection?.enrolledDate,
+    contentStateFetched,
+    expandedModules, toggleModule, collectionId, batchIdParam,
+    isCreatorViewingOwnCollection, isMentorViewingCourse: isMentorOfCourse, contentCreatorPrivilege,
+    userProfile: userProfile ?? undefined,
+    currentUserId: currentUserId ?? undefined,
+    backTo,
+  });
 
   return (
     <>

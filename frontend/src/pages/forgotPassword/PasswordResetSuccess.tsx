@@ -4,15 +4,12 @@ import { AuthLayout } from '@/components/auth/AuthLayout';
 import { Header, PrimaryButton } from './ForgotPasswordComponents';
 import { getSafeRedirectUrl, isMobileApp } from '@/utils/forgotPasswordUtils';
 import { useAppI18n } from '@/hooks/useAppI18n';
-import { useTheme } from '@/providers/ThemeProvider';
-import type { TemplateOption } from '@/theme/themes';
 import { LANGUAGE_STORAGE_KEY, LANGUAGE_MAP, type SupportedLanguage } from '@/configs/languages';
 import i18n from '@/configs/i18n';
 
 const PasswordResetSuccess: React.FC = () => {
     const { t } = useAppI18n();
     const isMobileRedirect = isMobileApp();
-    const { setTheme, setFont, setTemplate } = useTheme();
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
