@@ -13,8 +13,6 @@ import useImpression from '@/hooks/useImpression';
 import { useTelemetry } from '@/hooks/useTelemetry';
 import { LANGUAGE_STORAGE_KEY, LANGUAGE_MAP, type SupportedLanguage } from '@/configs/languages';
 import i18n from '@/configs/i18n';
-import { useTheme } from '@/providers/ThemeProvider';
-import type { TemplateOption } from '@/theme/themes';
 
 const ForgotPassword: React.FC = () => {
   const { mutateAsync: searchUser } = useLearnerFuzzySearch();
@@ -22,7 +20,6 @@ const ForgotPassword: React.FC = () => {
   const { mutateAsync: verifyOtp } = useVerifyOtp();
   const { mutateAsync: resetPassword } = useResetPassword();
   const telemetry = useTelemetry();
-  const { setTheme, setFont, setTemplate } = useTheme();
 
   useImpression({ type: 'view', pageid: 'forgot-password' });
 
