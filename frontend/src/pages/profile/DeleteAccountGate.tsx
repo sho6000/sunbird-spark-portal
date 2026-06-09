@@ -4,7 +4,6 @@ import PageLayout from "@/components/layout/PageLayout";
 import OnboardingGuard from "@/rbac/OnboardingGuard";
 import DeleteAccount from "./DeleteAccount";
 import DeleteAccountLanding from "./DeleteAccountLanding";
-import "./profile.css";
 
 const DeleteAccountGate = () => {
     const { isAuthenticated, isLoading } = useIsAuthenticated();
